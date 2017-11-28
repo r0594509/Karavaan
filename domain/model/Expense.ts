@@ -1,4 +1,4 @@
-var Money = require('js-money');
+import { Person } from "./Person";
 
 class Expense {
 
