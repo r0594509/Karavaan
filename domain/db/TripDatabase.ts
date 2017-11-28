@@ -2,7 +2,7 @@ import { Trip } from "../model/Trip";
 import { Person } from "../model/Person";
 import { Expense } from "../model/Expense";
 
-class TripDatabase {
+export class TripDatabase {
 
     trips: Array<Trip>;
 
