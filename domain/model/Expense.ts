@@ -1,6 +1,6 @@
 import { Person } from "./Person";
 
-class Expense {
+export class Expense {
 
     amount: number;
     person: Person;

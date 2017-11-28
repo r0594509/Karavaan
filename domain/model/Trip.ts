@@ -1,3 +1,5 @@
+import { Expense } from "./Expense";
+
 class Trip {
 
     expenses: Array<Expense>

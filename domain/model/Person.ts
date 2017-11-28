@@ -1,4 +1,6 @@
-class Person {
+import { Expense } from "./Expense";
+
+export class Person {
 
     name: string;
     expenses: Array<Expense>
