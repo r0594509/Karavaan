@@ -1,13 +1,17 @@
 import { Expense } from "./Expense";
 
-class Trip {
+export class Trip {
 
-    expenses: Array<Expense>
+    id: Number;
+    name: String;
+    expenses: Array<Expense>;
 
-    constructor() {
+    constructor(name: String) {
+        this.name = name;
+        this.id = Date.now();
     }
 
-    addExpense(expense:Expense) {
+    addExpense(expense: Expense) {
         this.expenses.push(expense);
     }
 }

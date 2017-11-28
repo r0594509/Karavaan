@@ -2,10 +2,10 @@ import { Expense } from "./Expense";
 
 export class Person {
 
-    name: string;
+    name: String;
     expenses: Array<Expense>
 
-    constructor(name: string) {
+    constructor(name: String) {
         this.name = name;
     }
 
