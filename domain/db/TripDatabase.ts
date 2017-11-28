@@ -11,6 +11,12 @@ class TripDatabase {
         return this.trips;
     }
 
+    getTripExpenses() {
+        this.trips.forEach(element => {
+            return element.expenses;
+        });
+    }
+
     getTrip(id: Number) {
         this.trips.forEach(element => {
             if (element.id == id)
