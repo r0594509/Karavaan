@@ -5,6 +5,7 @@ import {TabNavigator} from 'react-navigation'
 export class Persons extends React.Component {
     static navigationOptions = {
       tabBarLabel: 'Personen',
+      tabBarIcon: () => <Image source={'./img/people_white.png'}/>,
     };
   
     render() {
