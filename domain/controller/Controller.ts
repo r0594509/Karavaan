@@ -7,20 +7,24 @@ export class Controller {
 
     db: TripDatabase;
 
+    constructor() {
+      this.db = new TripDatabase();
+    }
+
     getTrips() {
-        this.db.getTrips();
+        return this.db.getTrips();
     }
 
     getTripExpenses() {
-        this.db.getTripExpenses();
+        return this.db.getTripExpenses();
     }
 
-    getTrip(id: Number) {
-        this.db.getTrip(id);
+    getTrip(id: number) {
+        return this.db.getTrip(id);
     }
 
-    gettripExpensesForPerson(trip: Trip, person: Person) {
-        this.db.getTripExpensesForPerson(trip, person);
+    getTripExpensesForPerson(tripId: number, personId: number) {
+        return this.db.getTripExpensesForPerson(tripId, personId);
     }
 
     addTrip(trip: Trip) {
