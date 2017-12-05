@@ -8,5 +8,5 @@ export default App = TabNavigator({
   TabA: {screen: Trips},
   TabB: {screen: Persons},
 }, {
-  tabBarPosition: 'top'
+  tabBarPosition: 'bottom'
 });
