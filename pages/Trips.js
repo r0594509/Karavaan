@@ -37,7 +37,6 @@ export class Trips extends React.Component {
           />
           </View>
 
-
           <Modal
             animationType="slide"
             transparent={false}
