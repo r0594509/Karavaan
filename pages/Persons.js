@@ -2,25 +2,39 @@ import React, { Component } from 'react';
 import { Platform, StatusBar } from 'react-native';
 import { ScrollView, StyleSheet, Text, View, Button, TouchableHighlight, Modal } from 'react-native';
 import { TabNavigator } from 'react-navigation'
-import { ControllerClass, Controller } from './../domain/controller/Controller';
+import { Controller } from './../domain/controller/Controller';
 
 export class Persons extends React.Component {
+  
+  controller: Controller;
+
   static navigationOptions = {
     tabBarLabel: 'Personen',
     tabBarIcon: () => <Image source={'./img/people_white.png'} />
   };
 
-  render() {
+  constructor(/*this is not typescript...Controller*/ c) {
+    super();
 
-    var ctrl = new Controller();
+    // kan dees niet gebruiken in de loop for some reason ..........
+    this.controller = c;
+  }
+
+  render() {
+    // w/ gebruikt in de render()
     var textLoop = [];
+
+    var tmp = new Controller();
+
+    console.log(tmp);
+    // elk element in een lus heeft blijkbaar een ID nodig
     var i = 1;
 
-    ctrl.getPersonsInTrip(-1 /*debug value*/).forEach(element => {
+    tmp.getPersonsInTrip(-1 /*debug value*/).forEach(element => {
       textLoop.push(
-          <TouchableHighlight onPress= {() => alert("clicked")} key = {i} /* Do not forget to add a key */>
+          <TouchableHighlight onPress= {() => alert("clicked on")} key = {i} /* Do not forget to add a key */>
             <View style={{ flexDirection: "row", height: 100, padding: 20, backgroundColor: "lightgrey"}}>
-              <Text>{i} + {element.name} + {element.id}</Text>
+              <Text>Name: {element.name}, Id: {element.id}</Text>
             </View>
           </TouchableHighlight>
       )
