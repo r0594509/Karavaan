@@ -8,6 +8,7 @@ export class Person {
 
     constructor(name: string) {
         this.name = name;
+        // need to rethink this one.......
         this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));
     }
 
