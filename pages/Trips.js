@@ -6,8 +6,8 @@ import { Trip } from './Trip';
 
 export class Trips extends React.Component {
   static navigationOptions = {
-    tabBarLabel: 'All Trips'
-  };
+    tabBarLabel: 'All Trips',
+    };
 
   state = {
     modalVisible: false,
@@ -19,7 +19,8 @@ export class Trips extends React.Component {
 
   goToTrip()
   {
-    this.props.navigation.navigate('Trip');
+    this.props.navigation.navigate('Trip', { user: 'Lucy' });
+    alert("i am here");
   }
 
   render() {
@@ -109,3 +110,4 @@ export class Trips extends React.Component {
     },
   });
 }
+
