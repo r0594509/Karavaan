@@ -7,7 +7,7 @@ import { Controller } from './domain/controller/Controller';
 
 export default App = TabNavigator({
   TabA: {screen: Trips},
-  TabB: {screen: props => <Persons c={new Controller()} />},
+  TabB: {screen: props => <Persons controller={new Controller()} />},
 }, {
   tabBarPosition: 'bottom'
 });
