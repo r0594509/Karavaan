@@ -6,27 +6,25 @@ import { Controller } from './../domain/controller/Controller';
 
 export class Persons extends React.Component {
   
-  controller: Controller;
-
   static navigationOptions = {
     tabBarLabel: 'Personen',
     tabBarIcon: () => <Image source={'./img/people_white.png'} />
   };
 
-  constructor(/*this is not typescript...Controller*/ c) {
-    super();
-
-    // kan dees niet gebruiken in de loop for some reason ..........
-    this.controller = c;
+  constructor(/*this is not typescript...Controller*/ props) {
+    super(props);
+    console.log(this.props/*.getPersonsInTrip(-1) */);
   }
 
   render() {
     // w/ gebruikt in de render()
     var textLoop = [];
 
+    console.log(this.controller);
+
     var tmp = new Controller();
 
-    console.log(tmp);
+    //console.log(tmp);
     // elk element in een lus heeft blijkbaar een ID nodig
     var i = 1;
 
