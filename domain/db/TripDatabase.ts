@@ -14,14 +14,14 @@ export class TripDatabase {
         return this.trips;
     }
 
-    getTripExpenses() {
+    getTripExpenses() : Expense {
         this.trips.forEach(element => {
             return element.expenses;
         });
         return null;
     }
 
-    getTrip(id: number) {        
+    getTrip(id: number) : Trip {        
         this.trips.forEach(element => {
             if (element.id == id)
                 return element;
@@ -29,7 +29,7 @@ export class TripDatabase {
         return null;
     }
 
-    getTripExpensesForPerson(tripId: number, personId: number) {
+    getTripExpensesForPerson(tripId: number, personId: number) : Expense[] {
 
         var tmp = Array<Expense>();
         this.getTrip(tripId).expenses.forEach(element => {
@@ -38,7 +38,12 @@ export class TripDatabase {
                     tmp.push(element);
                });
         });
-        return null;
+        return tmp;
+    }
+
+    getHardcodedPersons() {
+        var hardcoded = [ new Person("jeoff"), new Person("keviiin") ];
+        return hardcoded;
     }
 
     addTrip(trip: Trip) {

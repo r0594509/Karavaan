@@ -30,4 +30,8 @@ export class Controller {
     addTrip(trip: Trip) {
         this.db.addTrip(trip);
     }
+
+    getPersonsInTrip(tripId: number) {
+        return this.db.getHardcodedPersons();
+    }
 }
