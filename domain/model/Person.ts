@@ -2,14 +2,17 @@ import { Expense } from "./Expense";
 
 export class Person {
 
-    name: String;
+    id: number;
+    name: string;
     expenses: Array<Expense>
 
-    constructor(name: String) {
+    constructor(name: string) {
         this.name = name;
+        // need to rethink this one.......
+        this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));
     }
 
-    addExpense(expense:Expense) {
+    addExpense(expense: Expense) {
         this.expenses.push(expense);
     }
 }
