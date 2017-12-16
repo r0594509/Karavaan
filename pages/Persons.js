@@ -26,7 +26,7 @@ export class Persons extends React.Component {
 
     var tmp = new Controller();
 
-    console.log(tmp);
+    //console.log(tmp);
     // elk element in een lus heeft blijkbaar een ID nodig
     var i = 1;
 
