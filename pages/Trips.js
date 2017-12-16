@@ -1,36 +1,41 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation'
-import { Trip } from './Trip';
-
 
 export class Trips extends React.Component {
-  static navigationOptions = {
-    tabBarLabel: 'All Trips',
-    };
 
+  // Zet de title van de TabBar
+  static navigationOptions = {
+    tabBarLabel: 'My Trips',
+  };
+
+  //Initiele Status van de modal (pop-up venster)
   state = {
     modalVisible: false,
   }
 
+  //Zet de modal visible
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
 
-  goToTrip()
-  {
-    this.props.navigation.navigate('Trip', { user: 'Lucy' });
-    alert("i am here");
+  //Functie om te navigeren naar individuele Trip pagina
+  //Wordt later goToTrip(int id)
+  goToTrip() {
+    this.props.navigation.navigate('TripScreen', { user: 'Lucy' });
   }
 
+  //Rendert het venster
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.mainViewLayout}>
         <View style={{ flex: 1 }}>
 
+        {/* Zorgt voor een ScrollWheel wanneer het venster te klein wordt */}
           <ScrollView contentContainer={{ paddingVertical: 20 }}>
 
-            <TouchableHighlight style={{borderRadius: 20,}} onPress={() => this.goToTrip()}>
+          {/* Zijn de CARDS waarop gedrukt kan worden om venster te openen */}
+            <TouchableHighlight style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip()}>
               <View style={styles.cardLayout}>
                 <Text style={styles.titleText}>NameOfTrip</Text>
                 <Text>DescriptionOfTrip DescriptionOfTrip DescriptionOfTrip DescriptionOfTrip
@@ -39,7 +44,7 @@ export class Trips extends React.Component {
               </View>
             </TouchableHighlight>
 
-            <TouchableHighlight style={{borderRadius: 20,}} onPress={() => alert("clicked")}>
+            <TouchableHighlight style={{ borderRadius: 5, margin: 5, }} onPress={() => alert("clicked")}>
               <View style={styles.cardLayout}>
                 <Text style={styles.titleText}>NameOfTrip</Text>
                 <Text>DescriptionOfTrip DescriptionOfTrip DescriptionOfTrip DescriptionOfTrip
@@ -50,14 +55,18 @@ export class Trips extends React.Component {
 
           </ScrollView>
 
+          {/* Knop voor het formulier te openen om een Trip toe te voegen */}
           <View>
-            <Button
-              title='Uitgave Toevoegen'
-              color='#850886'
-              onPress={() => this.setModalVisible(true)}
-            />
+            <TouchableHighlight onPress={() => this.setModalVisible(true)} style={styles.ButtonLayoutMain}>
+              <View>
+                <Text style={styles.ButtonText}>Add Trip</Text>
+              </View>
+            </TouchableHighlight>
           </View>
 
+          {/* Formulier Venster voor een Trip aan te maken 
+          Toekomst te steken in een aparte .js file
+          */}
           <Modal
             animationType="slide"
             transparent={false}
@@ -80,17 +89,18 @@ export class Trips extends React.Component {
             </View>
           </Modal>
 
-
-
         </View>
       </View>
     );
   }
-
-  constru =  styles = StyleSheet.create({
+  
+  //Alle Styles voor CARDS, Buttons, Text ...
+  //Lijkt op CSS
+  //Toekomst in een aparte file
+  constru = styles = StyleSheet.create({
     baseText: {
       fontFamily: 'Cochin',
-      
+
     },
     titleText: {
       fontSize: 20,
@@ -98,16 +108,34 @@ export class Trips extends React.Component {
       textAlign: 'center',
     },
     cardLayout: {
-      borderRadius: 20,
+      borderRadius: 5,
       borderWidth: 0.5,
       borderColor: 'black',
-      flexDirection: "column", 
-      height: 100, 
-      padding: 20, 
+      flexDirection: "column",
+      height: 100,
+      padding: 20,
       margin: 5,
+      backgroundColor: "white",
+
+    },
+    mainViewLayout: {
+      flex: 1,
       backgroundColor: "lightgrey"
 
     },
+
+    ButtonLayoutMain: {
+      borderRadius: 5,
+      margin: 10,
+      padding: 6,
+      backgroundColor: "#1B94F1",
+    },
+
+    ButtonText: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: "white",
+    }
   });
 }
-

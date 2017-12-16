@@ -8,14 +8,9 @@ export class Trip extends React.Component {
     };
   
     render() {
-      const { goBack } = this.props.navigation;
       return (
         <View style={{flex: 1}}>
           <Text>Contents of trip</Text>
-          <Button
-          title="Go back"
-          onPress={() => goBack()}
-          />
         </View>
       );
     }

@@ -1,25 +1,44 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Button, StatusBar } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { Persons } from './pages/Persons';
 import { Trips } from './pages/Trips';
 import { Trip } from './pages/Trip';
 import { Controller } from './domain/controller/Controller';
 
+//Start Punt van de App
+//PLEAS DO NOT TOUCH!
 export default class App extends React.Component {
   render() {
-    return <MainNavigation />;
+    return <View style={{ flex: 1 }}>
+      {/* Werkt voorlopig niet, tracht de transparantie van de Status Bar weg te krijgen */}
+      <StatusBar backgroundColor="blue" barStyle="light-content" />
+      {/* Wordt als eerste ingeladen */}
+      <StackNavigation />
+    </View>;
   }
 }
+
+//Maakt de TabBar navigatie onderaan 
 const MainNavigation = TabNavigator({
-  TabA: {screen: Trips},
-  TabB: {screen: props => <Persons c={new Controller()} />},
+  TabA: { screen: Trips },
+  TabB: { screen: props => <Persons c={new Controller()} /> },
 }, {
-  tabBarPosition: 'bottom'
-});
+    tabBarPosition: 'bottom'
+  });
 
-const stackNavigatorTrip = StackNavigator ({
-  Home: { screen: MainNavigation },
-  Trip: { screen: Trip },
+//Maakt navigatie mogelijk tussen CARDs en Inhoud
+const StackNavigation = StackNavigator({
+  Home: {
+    //TabBar navigation => Parant of StackNavigation
+    screen: MainNavigation,
+    navigationOptions: {
+      //Title bovenaan
+      //Voorlopig Static
+      title: 'Vacation Planner',
+    },
+  },
+  //Inhouds Pagina TRIP
+  TripScreen: { screen: Trip },
+  //TripScreen: {screen: Person },
 });
-
