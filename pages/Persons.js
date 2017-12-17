@@ -5,38 +5,32 @@ import { TabNavigator } from 'react-navigation'
 import { Controller } from './../domain/controller/Controller';
 
 export class Persons extends React.Component {
-  
+
   static navigationOptions = {
     tabBarLabel: 'Personen',
     tabBarIcon: () => <Image source={'./img/people_white.png'} />
   };
 
-  constructor(/*this is not typescript...Controller*/ props) {
+  constructor(props) {
     super(props);
-    console.log(this.props/*.getPersonsInTrip(-1) */);
+
+    this.controller = props;
+    console.log(this.controller);
   }
 
   render() {
-    // w/ gebruikt in de render()
     var textLoop = [];
-
-    console.log(this.controller);
-
     var tmp = new Controller();
-
-    //console.log(tmp);
-    // elk element in een lus heeft blijkbaar een ID nodig
-    var i = 1;
 
     tmp.getPersonsInTrip(-1 /*debug value*/).forEach(element => {
       textLoop.push(
-          <TouchableHighlight onPress= {() => alert("clicked on")} key = {i} /* Do not forget to add a key */>
+        // elk element in een lus heeft blijkbaar een ID nodig
+          <TouchableHighlight onPress= {() => alert("clicked on " + this.c)} key = {element.id} /* Do not forget to add a key */>
             <View style={{ flexDirection: "row", height: 100, padding: 20, backgroundColor: "lightgrey"}}>
-              <Text>Name: {element.name}, Id: {element.id}</Text>
+              <Text>Name: {element.name}</Text>
             </View>
           </TouchableHighlight>
       )
-      i++;
     });
 
     return (

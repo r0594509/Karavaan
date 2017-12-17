@@ -9,6 +9,12 @@ import { Controller } from './domain/controller/Controller';
 //Start Punt van de App
 //PLEAS DO NOT TOUCH!
 export default class App extends React.Component {
+
+  constructor() {
+    super();
+    this.ctrl = new Controller();
+  }
+
   render() {
     return <View style={{ flex: 1 }}>
       {/* Werkt voorlopig niet, tracht de transparantie van de Status Bar weg te krijgen */}
@@ -22,7 +28,7 @@ export default class App extends React.Component {
 //Maakt de TabBar navigatie onderaan 
 const MainNavigation = TabNavigator({
   TabA: { screen: Trips },
-  TabB: { screen: props => <Persons c={new Controller()} /> },
+  TabB: { screen: props => <Persons c={ this.ctrl } /> },
 }, {
     tabBarPosition: 'bottom'
   });
