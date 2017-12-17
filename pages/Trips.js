@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput } from 'react-native';
-import { TabNavigator, StackNavigator } from 'react-navigation'
-import  styles  from '../styles/styles'
+import { TabNavigator, StackNavigator } from 'react-navigation';
+import  styles  from '../styles/styles';
 
 export class Trips extends React.Component {
 
@@ -99,7 +99,6 @@ export class Trips extends React.Component {
               />
 
               <View>
-
 
                 <TouchableHighlight onPress={() => this.setModalVisible(!this.state.modalVisible)} style={styles.ButtonLayoutMain}>
                   <View>
