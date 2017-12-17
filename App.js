@@ -12,7 +12,6 @@ export default class App extends React.Component {
 
   constructor() {
     super();
-    this.ctrl = new Controller();
   }
 
   render() {
@@ -25,13 +24,21 @@ export default class App extends React.Component {
   }
 }
 
+App.defaultProps = {
+  controller: new Controller()
+}
+
 //Maakt de TabBar navigatie onderaan 
 const MainNavigation = TabNavigator({
-  TabA: { screen: Trips },
-  TabB: { screen: props => <Persons c={ this.ctrl } /> },
+  TabA: { screen: () => <Trips c={App.defaultProps.controller} />},
+  TabB: { screen: twoplustwoisfourminusoneisthreequitmaths => <Persons c={App.defaultProps.controller} />},
+  // I can type wathever here for some reason??
+  //                      |
+  //                      v
+  //TabB: { screen:    wwdwdws   => <Persons c={ this.state } /> },
 }, {
     tabBarPosition: 'bottom'
-  });
+});
 
 //Maakt navigatie mogelijk tussen CARDs en Inhoud
 const StackNavigation = StackNavigator({

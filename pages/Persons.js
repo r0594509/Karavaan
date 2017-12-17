@@ -14,18 +14,18 @@ export class Persons extends React.Component {
   constructor(props) {
     super(props);
 
-    this.controller = props;
-    console.log(this.controller);
+    // Access controller like so
+    // this.props.c
   }
+
 
   render() {
     var textLoop = [];
-    var tmp = new Controller();
 
-    tmp.getPersonsInTrip(-1 /*debug value*/).forEach(element => {
+    this.props.c.getPersonsInTrip(-1 /*debug value*/).forEach(element => {
       textLoop.push(
         // elk element in een lus heeft blijkbaar een ID nodig
-          <TouchableHighlight onPress= {() => alert("clicked on " + this.c)} key = {element.id} /* Do not forget to add a key */>
+          <TouchableHighlight onPress= {() => alert("clicked on " + element.name)} key = {element.id} /* Do not forget to add a key */>
             <View style={{ flexDirection: "row", height: 100, padding: 20, backgroundColor: "lightgrey"}}>
               <Text>Name: {element.name}</Text>
             </View>
