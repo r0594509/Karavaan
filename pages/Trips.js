@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation'
 
 export class Trips extends React.Component {
@@ -31,10 +31,10 @@ export class Trips extends React.Component {
       <View style={styles.mainViewLayout}>
         <View style={{ flex: 1 }}>
 
-        {/* Zorgt voor een ScrollWheel wanneer het venster te klein wordt */}
+          {/* Zorgt voor een ScrollWheel wanneer het venster te klein wordt */}
           <ScrollView contentContainer={{ paddingVertical: 20 }}>
 
-          {/* Zijn de CARDS waarop gedrukt kan worden om venster te openen */}
+            {/* Zijn de CARDS waarop gedrukt kan worden om venster te openen */}
             <TouchableHighlight style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip()}>
               <View style={styles.cardLayout}>
                 <Text style={styles.titleText}>NameOfTrip</Text>
@@ -73,17 +73,38 @@ export class Trips extends React.Component {
             visible={this.state.modalVisible}
             onRequestClose={() => { alert("Modal has been closed.") }}
           >
-            <View style={{ marginTop: 22 }}>
-              <View>
-                <Text>Hello World!</Text>
+            {/* Formulier inhoud */}
+            <View style={{ marginTop: 22, flex: 1 }}>
 
-                <Button
-                  title='save'
-                  onPress={() => {
-                    this.setModalVisible(!this.state.modalVisible)
-                  }}>
-                  <Text>Hide Modal</Text>
-                </Button>
+              <Text>Trip Name</Text>
+              <TextInput
+                style={{ height: 40 }}
+                placeholder="Type the trip name here!"
+                onChangeText={(text) => this.setState({ text })}
+              />
+
+              <Text>Trip Descripiton</Text>
+              <TextInput
+                style={{ height: 40 }}
+                placeholder="Type the trip description here"
+                onChangeText={(text) => this.setState({ text })}
+              />
+
+              <Text>Friends</Text>
+              <TextInput
+                style={{ height: 40 }}
+                placeholder="example: 13_14_16"
+                onChangeText={(text) => this.setState({ text })}
+              />
+
+              <View>
+
+
+                <TouchableHighlight onPress={() => this.setModalVisible(!this.state.modalVisible)} style={styles.ButtonLayoutMain}>
+                  <View>
+                    <Text style={styles.ButtonText}>Save</Text>
+                  </View>
+                </TouchableHighlight>
 
               </View>
             </View>
@@ -93,7 +114,7 @@ export class Trips extends React.Component {
       </View>
     );
   }
-  
+
   //Alle Styles voor CARDS, Buttons, Text ...
   //Lijkt op CSS
   //Toekomst in een aparte file
@@ -136,6 +157,15 @@ export class Trips extends React.Component {
       fontWeight: 'bold',
       textAlign: 'center',
       color: "white",
-    }
+    },
+
+    FormText: {
+
+    },
+
+    FormInput: {
+      
+    },
+
   });
 }
