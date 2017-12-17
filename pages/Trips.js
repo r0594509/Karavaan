@@ -76,23 +76,23 @@ export class Trips extends React.Component {
             {/* Formulier inhoud */}
             <View style={{ marginTop: 22, flex: 1 }}>
 
-              <Text>Trip Name</Text>
+              <Text style={styles.FormText}>TRIP NAME</Text>
               <TextInput
-                style={{ height: 40 }}
+                style={styles.FormInput}
                 placeholder="Type the trip name here!"
                 onChangeText={(text) => this.setState({ text })}
               />
 
-              <Text>Trip Descripiton</Text>
+              <Text style={styles.FormText}>TRIP DESCRIPTION</Text>
               <TextInput
-                style={{ height: 40 }}
+                style={styles.FormInput}
                 placeholder="Type the trip description here"
                 onChangeText={(text) => this.setState({ text })}
               />
 
-              <Text>Friends</Text>
+              <Text style={styles.FormText}>TRIP FRIENDS</Text>
               <TextInput
-                style={{ height: 40 }}
+                style={styles.FormInput}
                 placeholder="example: 13_14_16"
                 onChangeText={(text) => this.setState({ text })}
               />
@@ -160,11 +160,17 @@ export class Trips extends React.Component {
     },
 
     FormText: {
-
+      fontSize: 15,
+      fontWeight: "bold",
+      color: "black",
+      margin: 10,
     },
 
     FormInput: {
-      
+      fontSize: 15,
+      marginLeft: 10,
+      marginRight: 10,
+      height: 40,
     },
 
   });
