@@ -2,17 +2,18 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import styles from '../styles/styles';
+import c from '../domain/controller/Controller';
 
 export class Trip extends React.Component {
-  static navigationOptions = {
-    title: 'Trip',
-  };
+  static navigationOptions = ({ navigation }) => ({
+    title: `Trip: ${navigation.state.params.id}`,
+  });
 
   //Initiele Status van de modal (pop-up venster)
   state = {
     modalVisible: false,
   }
-
+  
   //Zet de modal visible
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
@@ -20,6 +21,7 @@ export class Trip extends React.Component {
 
   //Rendert het venster
   render() {
+    const { params } = this.props.navigation.state;
     return (
       <View style={styles.mainViewLayout}>
         <View style={{ flex: 1 }}>
@@ -30,24 +32,10 @@ export class Trip extends React.Component {
             {/* Zijn de CARDS waarop gedrukt kan worden om venster te openen */}
             <TouchableHighlight style={{ borderRadius: 5, margin: 5, }} onPress={() => alert("clicked")}>
               <View style={styles.cardLayout}>
-                <Text style={styles.titleText}>NameOfExpense</Text>
+                <Text style={styles.titleText}>{params.id}</Text>
                 <Text>Simple Expense toString ex: Person1: amount - Person2: amount -
                   Total: amount
               </Text>
-              </View>
-            </TouchableHighlight>
-
-            <TouchableHighlight style={{ borderRadius: 5, margin: 5, }} onPress={() => alert("clicked")}>
-              <View style={styles.cardLayout}>
-                <Text style={styles.titleText}>NameOfExpense</Text>
-                <Text>Simple Expense toString ex: Person1: amount - Person2: amount </Text>
-              </View>
-            </TouchableHighlight>
-
-            <TouchableHighlight style={{ borderRadius: 5, margin: 5, }} onPress={() => alert("clicked")}>
-              <View style={styles.cardLayout}>
-                <Text style={styles.titleText}>NameOfExpense</Text>
-                <Text>Simple Expense toString ex: Person1: amount - Person2: amount </Text>
               </View>
             </TouchableHighlight>
 

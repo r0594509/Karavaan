@@ -28,9 +28,10 @@ export class Trips extends React.Component {
   //Functie om te navigeren naar individuele Trip pagina
   //Wordt later goToTrip(int id)
   goToTrip(id) {
-    //this.props.navigation.navigate('TripScreen', { user: 'Lucy' });
-    this.props.navigation.navigate('TripScreen');
-    alert(id);
+    alert(c.getTrip(id)); // WAAROM GEEFT DIT NULL
+    //name: string = c.getTrip(id).name;
+    this.props.navigation.navigate('TripScreen', {id: id});
+    //alert(id); 
     //this.alert(this.props.c.getTrips(-1));
   }
  
