@@ -7,7 +7,7 @@ export class TripDatabase {
     trips: Array<Trip>;
 
     constructor() {
-
+        this.trips = new Array<Trip>(50);
     }
 
     getTrips() {

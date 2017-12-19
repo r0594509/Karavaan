@@ -3,6 +3,7 @@ exports.__esModule = true;
 var Person_1 = require("../model/Person");
 var TripDatabase = /** @class */ (function () {
     function TripDatabase() {
+        this.trips = new Array(50);
     }
     TripDatabase.prototype.getTrips = function () {
         return this.trips;

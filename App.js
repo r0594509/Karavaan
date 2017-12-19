@@ -30,7 +30,7 @@ App.defaultProps = {
 
 //Maakt de TabBar navigatie onderaan 
 const MainNavigation = TabNavigator({
-  //TabA: { screen: () => <Trips c={App.defaultProps.controller} />}, <-- fuckt de navigatie
+  //TabA: { screen: test => <Trips c={App.defaultProps.controller} />}, 
   TabA: { screen: Trips},
   TabB: { screen: twoplustwoisfourminusoneisthreequitmaths => <Persons c={App.defaultProps.controller} />},
   // I can type wathever here for some reason??

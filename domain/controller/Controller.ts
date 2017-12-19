@@ -9,6 +9,9 @@ export class Controller {
 
     constructor() {
       this.db = new TripDatabase();
+      //hardcoded Trips
+      this.db.addTrip(new Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen '));
+      this.db.addTrip(new Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen'));
     }
 
     getTrips() {
@@ -35,3 +38,7 @@ export class Controller {
         return this.db.getHardcodedPersons();
     }
 }
+
+let c = new Controller();
+
+export default c;

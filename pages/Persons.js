@@ -21,7 +21,7 @@ export class Persons extends React.Component {
 
   render() {
     var textLoop = [];
-
+    
     this.props.c.getPersonsInTrip(-1 /*debug value*/).forEach(element => {
       textLoop.push(
         // elk element in een lus heeft blijkbaar een ID nodig

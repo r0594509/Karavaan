@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import  styles  from '../styles/styles';
+import c from '../domain/controller/Controller';
 
 export class Trips extends React.Component {
 
@@ -10,11 +11,15 @@ export class Trips extends React.Component {
     tabBarLabel: 'My Trips',
   };
 
+  constructor(props) {
+    super(props);
+  }
+
   //Initiele Status van de modal (pop-up venster)
   state = {
     modalVisible: false,
   }
-
+ 
   //Zet de modal visible
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
@@ -22,38 +27,37 @@ export class Trips extends React.Component {
 
   //Functie om te navigeren naar individuele Trip pagina
   //Wordt later goToTrip(int id)
-  goToTrip() {
-    this.props.navigation.navigate('TripScreen', { user: 'Lucy' });
+  goToTrip(id) {
+    //this.props.navigation.navigate('TripScreen', { user: 'Lucy' });
+    this.props.navigation.navigate('TripScreen');
+    alert(id);
+    //this.alert(this.props.c.getTrips(-1));
   }
-
+ 
   //Rendert het venster
   render() {
+    var textLoop = [];
+    
+    c.getTrips(-1 /*debug value*/).forEach(element => {
+      textLoop.push(
+        // Zijn de CARDS waarop gedrukt kan worden om venster te openen 
+        <TouchableHighlight style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)}>
+        <View style={styles.cardLayout}>
+          <Text style={styles.titleText}>Name: {element.name}</Text>
+          <Text>Description: {element.description}
+          </Text>
+        </View>
+      </TouchableHighlight>
+      )
+    });
+
     return (
       <View style={styles.mainViewLayout}>
         <View style={{ flex: 1 }}>
 
           {/* Zorgt voor een ScrollWheel wanneer het venster te klein wordt */}
           <ScrollView contentContainer={{ paddingVertical: 20 }}>
-
-            {/* Zijn de CARDS waarop gedrukt kan worden om venster te openen */}
-            <TouchableHighlight style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip()}>
-              <View style={styles.cardLayout}>
-                <Text style={styles.titleText}>NameOfTrip</Text>
-                <Text>DescriptionOfTrip DescriptionOfTrip DescriptionOfTrip DescriptionOfTrip
-                DescriptionOfTrip DescriptionOfTrip.
-                </Text>
-              </View>
-            </TouchableHighlight>
-
-            <TouchableHighlight style={{ borderRadius: 5, margin: 5, }} onPress={() => alert("clicked")}>
-              <View style={styles.cardLayout}>
-                <Text style={styles.titleText}>NameOfTrip</Text>
-                <Text>DescriptionOfTrip DescriptionOfTrip DescriptionOfTrip DescriptionOfTrip
-                DescriptionOfTrip DescriptionOfTrip.
-                </Text>
-              </View>
-            </TouchableHighlight>
-
+              {textLoop}
           </ScrollView>
 
           {/* Knop voor het formulier te openen om een Trip toe te voegen */}
