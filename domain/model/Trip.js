@@ -2,6 +2,7 @@
 exports.__esModule = true;
 var Trip = /** @class */ (function () {
     function Trip(name, description, persons) {
+        if (persons === void 0) { persons = null; }
         this.name = name;
         this.description = description;
         this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));

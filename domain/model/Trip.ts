@@ -31,7 +31,7 @@ export class Trip {
         return true;
     }
 
-    constructor(name: string, description: string, persons : Array<Person>) {
+    constructor(name: string, description: string, persons : Array<Person> = null) {
         this.name = name;
         this.description = description;
         this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));
