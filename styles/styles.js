@@ -64,6 +64,11 @@ import { StyleSheet } from 'react-native';
       height: 40,
     },
 
+    FormCheckBoxInput: {
+      flex: 1, 
+      padding: 10,
+    } 
+
   });
 
   export default styles;
