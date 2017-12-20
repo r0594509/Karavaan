@@ -131,7 +131,7 @@ export class Trips extends React.Component {
           <Modal animationType="slide"
             transparent={false}
             visible={this.state.modalVisible}
-            onRequestClose={() => { alert("Modal has been closed.") }} 
+            onRequestClose={() => this.toggleModalVisible()}
           >
             <View style={{ marginTop: 22, flex: 1 }}>
               {formName}
