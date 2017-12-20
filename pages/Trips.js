@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
-//import { CheckBox } from 'react-native-elements';
-//import CheckBox from 'react-native-checkbox';
 import CheckBox from 'react-native-check-box';
+import Popup from 'react-native-popup';
 import { Trip } from '../domain/model/Trip';
 import styles from '../styles/styles';
 //global var c = controller instance
@@ -75,7 +74,32 @@ export class Trips extends React.Component {
   checkPerson(id) {
     alert(id);
   }
- 
+
+  removeItem(id) {
+    this.popup.confirm({
+      title: 'Remove',
+      content: ['Do you want to remove,', 'Trip: ' + c.getTrip(id).name],
+      ok: {
+        text: 'Yes',
+        style: {
+          color: 'red'
+        },
+        callback: () => {
+          this.popup.alert('Removing!');
+        },
+      },
+      cancel: {
+        text: 'No',
+        style: {
+          color: 'black'
+        },
+        callback: () => {
+          this.popup.alert(' Not removed');
+        },
+      },
+    });
+  }
+
 
   //Rendert het venster
   render() {
@@ -86,7 +110,7 @@ export class Trips extends React.Component {
       tripList.push(
         // Zijn de CARDS waarop gedrukt kan worden om venster te openen
         // N: iterations need a unique key
-        <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)}>
+        <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)} onLongPress={() => this.removeItem(element.id)}>
           <View style={styles.cardLayout}>
             <Text style={styles.titleText}>Name: {element.name}</Text>
             <Text>Description: {element.description}
@@ -98,14 +122,14 @@ export class Trips extends React.Component {
 
     c.getPersonsInTrip().forEach(element => {
       personList.push(
-        <CheckBox 
-          key={element.id} 
+        <CheckBox
+          key={element.id}
           leftText={element.name}
           //checked={this.state.checked}
           onClick={() => this.checkPerson(element.id)}
           isChecked={false}
           style={styles.FormCheckBoxInput}
-        /> 
+        />
       )
     });
 
@@ -185,8 +209,12 @@ export class Trips extends React.Component {
             </View>
           </Modal>
 
+          {/** Popup component */}
+          <Popup ref={popup => this.popup = popup} />
+          {/** or <Popup ref={popup => this.popup = popup } isOverlay={false} isOverlayClickClose={false}/> */}
+
         </View>
-      </View>
+      </View >
     );
   }
 }
