@@ -39,9 +39,6 @@ export class Trips extends React.Component {
   }
 
   saveNewTrip() {
-
-    console.log(this.state.personIdList);
-
     let name = this.state.tripName;
     let desc = this.state.tripDesc;
     let errors = 0;
@@ -61,7 +58,7 @@ export class Trips extends React.Component {
     }
 
     if (errors === 0) {
-      c.addTrip(new Trip(name, desc));
+      c.addTrip(new Trip(name, desc, this.processPersonIds(this.state.personIdList)));
       this.toggleModalVisible();
       // clear state for next form
       this.state.tripName = null;
@@ -70,6 +67,15 @@ export class Trips extends React.Component {
       this.state.personIdList = [];
     }
   }
+
+  processPersonIds(personIds) {
+    var personList = [];
+    personIds.forEach(element => {
+      personList.push(c.getPerson(element));
+    });
+    return personList;
+  }
+
   //Zet de modal visible
   toggleModalVisible() {
     this.setState({ modalVisible: !this.state.modalVisible });
@@ -134,8 +140,7 @@ export class Trips extends React.Component {
         <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)} onLongPress={() => this.removeItem(element.id)}>
           <View style={styles.cardLayout}>
             <Text style={styles.titleText}>Name: {element.name}</Text>
-            <Text>Description: {element.description}
-            </Text>
+            <Text>Description: {element.description}</Text>
           </View>
         </TouchableHighlight>
       )

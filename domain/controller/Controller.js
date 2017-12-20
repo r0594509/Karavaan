@@ -26,6 +26,9 @@ var Controller = /** @class */ (function () {
     Controller.prototype.addPerson = function (person) {
         this.db.addPerson(person);
     };
+    Controller.prototype.getPerson = function (personId) {
+        return this.db.getPerson(personId);
+    };
     return Controller;
 }());
 exports.Controller = Controller;

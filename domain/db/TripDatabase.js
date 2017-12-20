@@ -60,6 +60,14 @@ var TripDatabase = /** @class */ (function () {
     TripDatabase.prototype.addPerson = function (person) {
         this.persons.push(person);
     };
+    TripDatabase.prototype.getPerson = function (personId) {
+        for (var i = 0; i < this.getPersons().length; i++) {
+            if (this.getPersons()[i].id === personId) {
+                return this.getPersons()[i];
+            }
+        }
+        return null;
+    };
     /**
      * @param tripId is always a valid tripid in the triplist
      */

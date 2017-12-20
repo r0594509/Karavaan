@@ -39,6 +39,10 @@ export class Controller {
     public addPerson(person: Person) {
         this.db.addPerson(person);
     }
+
+    public getPerson(personId: number) {
+        return this.db.getPerson(personId);
+    }
 }
 
 var c = new Controller();

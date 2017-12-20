@@ -76,6 +76,15 @@ export class TripDatabase {
         this.persons.push(person);
     }
 
+    public getPerson(personId : number) : Person {
+        for (let i=0; i< this.getPersons().length; i++) {
+            if (this.getPersons()[i].id === personId) {
+                return this.getPersons()[i];
+            }
+        }
+        return null;
+    }
+
     /**
      * @param tripId is always a valid tripid in the triplist
      */

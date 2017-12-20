@@ -7,6 +7,7 @@ var Trip = /** @class */ (function () {
         this.description = description;
         this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));
         this.expenses = new Array();
+        this.persons = persons;
     }
     /**
      *
