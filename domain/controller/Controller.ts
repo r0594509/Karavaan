@@ -33,7 +33,11 @@ export class Controller {
     }
 
     public getPersonsInTrip(tripId: number) {
-        return this.db.getHardcodedPersons();
+        return this.db.getPersons();
+    }
+
+    public addPerson(person: Person) {
+        this.db.addPerson(person);
     }
 }
 

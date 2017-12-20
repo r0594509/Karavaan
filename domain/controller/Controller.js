@@ -21,7 +21,10 @@ var Controller = /** @class */ (function () {
         this.db.removeTrip(tripId);
     };
     Controller.prototype.getPersonsInTrip = function (tripId) {
-        return this.db.getHardcodedPersons();
+        return this.db.getPersons();
+    };
+    Controller.prototype.addPerson = function (person) {
+        this.db.addPerson(person);
     };
     return Controller;
 }());

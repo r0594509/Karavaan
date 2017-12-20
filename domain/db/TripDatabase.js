@@ -6,7 +6,9 @@ var Expense_1 = require("../model/Expense");
 var TripDatabase = /** @class */ (function () {
     function TripDatabase() {
         this.trips = new Array();
+        this.persons = new Array();
         this.addDebugTrips();
+        this.addDebugPersons();
     }
     TripDatabase.getInstance = function () {
         return this._instance || (this._instance = new this());
@@ -23,8 +25,15 @@ var TripDatabase = /** @class */ (function () {
         this.addTrip(trip_1);
         this.addTrip(trip_2);
     };
+    TripDatabase.prototype.addDebugPersons = function () {
+        this.addPerson(new Person_1.Person("jeoff"));
+        this.addPerson(new Person_1.Person("kevin"));
+    };
     TripDatabase.prototype.getTrips = function () {
         return this.trips;
+    };
+    TripDatabase.prototype.getPersons = function () {
+        return this.persons;
     };
     TripDatabase.prototype.getTrip = function (id) {
         // do not use foreach
@@ -51,6 +60,9 @@ var TripDatabase = /** @class */ (function () {
     };
     TripDatabase.prototype.addTrip = function (trip) {
         this.trips.push(trip);
+    };
+    TripDatabase.prototype.addPerson = function (person) {
+        this.persons.push(person);
     };
     /**
      * @param tripId is always a valid tripid in the triplist

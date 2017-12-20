@@ -6,6 +6,7 @@ export class TripDatabase {
 
 
     private trips: Trip[];
+    private persons: Person[];
     private static _instance: TripDatabase;
 
     public static getInstance() {
@@ -14,7 +15,9 @@ export class TripDatabase {
 
     constructor() {
         this.trips = new Array();
+        this.persons = new Array();
         this.addDebugTrips();
+        this.addDebugPersons();
     }
 
     private addDebugTrips() {
@@ -30,8 +33,17 @@ export class TripDatabase {
         this.addTrip(trip_2);  
     }
 
+    private addDebugPersons(){
+        this.addPerson(new Person("jeoff"));
+        this.addPerson( new Person("kevin"));
+    }
+
     getTrips() {
         return this.trips;
+    }
+
+    getPersons(){
+        return this.persons;
     }
 
     getTrip(id: number) : Trip {
@@ -63,6 +75,10 @@ export class TripDatabase {
 
     addTrip(trip: Trip) {
         this.trips.push(trip);
+    }
+
+    addPerson(person: Person){
+        this.persons.push(person);
     }
 
     /**

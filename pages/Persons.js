@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Platform, StatusBar } from 'react-native';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput } from 'react-native';
 import { TabNavigator } from 'react-navigation'
+import { Person } from '../domain/model/Person';
 import styles from '../styles/styles';
 //global var c = controller instance
 import c from '../domain/controller/Controller';
@@ -105,7 +106,7 @@ export class Persons extends React.Component {
               <TextInput
                 style={styles.FormInput}
                 placeholder="Type the contacts name here"
-                onChangeText={(contactName) => this.setState({ contactName })}
+                onChangeText={(personName) => this.setState({ personName })}
               />
 
             </View>
