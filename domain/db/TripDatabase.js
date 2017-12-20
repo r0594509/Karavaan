@@ -1,24 +1,29 @@
 "use strict";
 exports.__esModule = true;
+var Trip_1 = require("../model/Trip");
 var Person_1 = require("../model/Person");
 var TripDatabase = /** @class */ (function () {
     function TripDatabase() {
-        this.trips = new Array(50);
+        this.trips = new Array();
+        this.addDebugTrips();
     }
+    TripDatabase.getInstance = function () {
+        return this._instance || (this._instance = new this());
+    };
+    TripDatabase.prototype.addDebugTrips = function () {
+        this.addTrip(new Trip_1.Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen '));
+        this.addTrip(new Trip_1.Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen'));
+    };
     TripDatabase.prototype.getTrips = function () {
         return this.trips;
     };
-    TripDatabase.prototype.getTripExpenses = function () {
-        this.trips.forEach(function (element) {
-            return element.expenses;
-        });
-        return null;
-    };
     TripDatabase.prototype.getTrip = function (id) {
-        this.trips.forEach(function (element) {
-            if (element.id == id)
-                return element;
-        });
+        // do not use foreach
+        for (var i = 0; i < this.getTrips().length; i++) {
+            if (this.getTrips()[i].id === id) {
+                return this.getTrips()[i];
+            }
+        }
         return null;
     };
     TripDatabase.prototype.getTripExpensesForPerson = function (tripId, personId) {

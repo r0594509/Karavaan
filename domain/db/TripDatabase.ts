@@ -4,28 +4,35 @@ import { Expense } from "../model/Expense";
 
 export class TripDatabase {
 
-    trips: Array<Trip>;
+
+    private trips: Trip[];
+    private static _instance: TripDatabase;
+
+    public static getInstance() {
+        return this._instance || (this._instance = new this());
+    }
 
     constructor() {
-        this.trips = new Array<Trip>(50);
+        this.trips = new Array();
+        this.addDebugTrips();
+    }
+
+    private addDebugTrips() {
+        this.addTrip(new Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen '));
+        this.addTrip(new Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen'));  
     }
 
     getTrips() {
         return this.trips;
     }
 
-    getTripExpenses() : Expense {
-        this.trips.forEach(element => {
-            return element.expenses;
-        });
-        return null;
-    }
-
-    getTrip(id: number) : Trip {        
-        this.trips.forEach(element => {
-            if (element.id == id)
-                return element;
-        });
+    getTrip(id: number) : Trip {
+        // do not use foreach
+        for (let i = 0; i< this.getTrips().length; i++) {
+            if (this.getTrips()[i].id === id) {
+                return this.getTrips()[i];
+            }
+        }
         return null;
     }
 

@@ -1,6 +1,7 @@
 import { TripDatabase } from "../db/TripDatabase";
 import { Person } from "../model/Person";
 import { Trip } from "../model/Trip";
+import { Expense } from "../model/Expense";
 
 
 export class Controller {
@@ -8,21 +9,14 @@ export class Controller {
     db: TripDatabase;
 
     constructor() {
-      this.db = new TripDatabase();
-      //hardcoded Trips
-      this.db.addTrip(new Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen '));
-      this.db.addTrip(new Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen'));
+      this.db = TripDatabase.getInstance();
     }
 
-    getTrips() {
+    getTrips() : Trip[] {
         return this.db.getTrips();
     }
 
-    getTripExpenses() {
-        return this.db.getTripExpenses();
-    }
-
-    getTrip(id: number) {
+    getTrip(id: number) : Trip {
         return this.db.getTrip(id);
     }
 
@@ -39,6 +33,6 @@ export class Controller {
     }
 }
 
-let c = new Controller();
+var c = new Controller();
 
 export default c;

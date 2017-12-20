@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import  styles  from '../styles/styles';
+//global var c = controller instance
 import c from '../domain/controller/Controller';
 
 export class Trips extends React.Component {
@@ -28,21 +29,19 @@ export class Trips extends React.Component {
   //Functie om te navigeren naar individuele Trip pagina
   //Wordt later goToTrip(int id)
   goToTrip(id) {
-    alert(c.getTrip(id)); // WAAROM GEEFT DIT NULL
     //name: string = c.getTrip(id).name;
     this.props.navigation.navigate('TripScreen', {id: id});
-    //alert(id); 
-    //this.alert(this.props.c.getTrips(-1));
   }
  
   //Rendert het venster
   render() {
     var textLoop = [];
     
-    c.getTrips(-1 /*debug value*/).forEach(element => {
+    c.getTrips().forEach(element => {
       textLoop.push(
-        // Zijn de CARDS waarop gedrukt kan worden om venster te openen 
-        <TouchableHighlight style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)}>
+        // Zijn de CARDS waarop gedrukt kan worden om venster te openen
+        // N: iterations need a unique key
+        <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)}>
         <View style={styles.cardLayout}>
           <Text style={styles.titleText}>Name: {element.name}</Text>
           <Text>Description: {element.description}
