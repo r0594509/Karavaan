@@ -18,8 +18,16 @@ export class TripDatabase {
     }
 
     private addDebugTrips() {
-        this.addTrip(new Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen '));
-        this.addTrip(new Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen'));  
+        var trip_1 = new Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen ');
+        var trip_2 = new Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen');
+        var expense_1 = new Expense('Restaurant "La pizzaaa"', new Person('Jef'), new Date(2017, 8, 5, 0, 0), 87.99);
+        var expense_2 = new Expense('Cafe "Den Bozze"', new Person('Janick'), new Date(2017, 10, 5, 0, 0), 59.99);
+        trip_1.addExpense(expense_1);
+        trip_1.addExpense(expense_2);
+        trip_2.addExpense(expense_2);
+        trip_2.addExpense(expense_1);
+        this.addTrip(trip_1);
+        this.addTrip(trip_2);  
     }
 
     getTrips() {

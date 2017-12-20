@@ -6,7 +6,8 @@ import c from '../domain/controller/Controller';
 
 export class Trip extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: `Trip: ${navigation.state.params.id}`,
+    //title: `Trip: ${navigation.state.params.id}`,
+    title: 'Trip: ' + c.getTrip(navigation.state.params.id).name,
   });
 
   //Initiele Status van de modal (pop-up venster)
@@ -22,23 +23,29 @@ export class Trip extends React.Component {
   //Rendert het venster
   render() {
     const { params } = this.props.navigation.state;
+    var textLoop = [];
+    
+    c.getTrip(params.id).expenses.forEach(element => {
+      textLoop.push(
+        // Zijn de CARDS waarop gedrukt kan worden om venster te openen
+        // N: iterations need a unique key
+        <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)}>
+        <View style={styles.cardLayout}>
+          <Text style={styles.titleText}>Name: {element.description}</Text>
+          <Text>Description: {element.amount}
+          </Text>
+        </View>
+      </TouchableHighlight>
+      )
+    });
+
     return (
       <View style={styles.mainViewLayout}>
         <View style={{ flex: 1 }}>
 
           {/* Zorgt voor een ScrollWheel wanneer het venster te klein wordt */}
           <ScrollView contentContainer={{ paddingVertical: 20 }}>
-
-            {/* Zijn de CARDS waarop gedrukt kan worden om venster te openen */}
-            <TouchableHighlight style={{ borderRadius: 5, margin: 5, }} onPress={() => alert("clicked")}>
-              <View style={styles.cardLayout}>
-                <Text style={styles.titleText}>{params.id}</Text>
-                <Text>Simple Expense toString ex: Person1: amount - Person2: amount -
-                  Total: amount
-              </Text>
-              </View>
-            </TouchableHighlight>
-
+            {textLoop}
           </ScrollView>
 
           {/* Knop voor het formulier te openen om een Trip toe te voegen */}

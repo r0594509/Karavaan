@@ -2,6 +2,7 @@
 exports.__esModule = true;
 var Trip_1 = require("../model/Trip");
 var Person_1 = require("../model/Person");
+var Expense_1 = require("../model/Expense");
 var TripDatabase = /** @class */ (function () {
     function TripDatabase() {
         this.trips = new Array();
@@ -11,8 +12,16 @@ var TripDatabase = /** @class */ (function () {
         return this._instance || (this._instance = new this());
     };
     TripDatabase.prototype.addDebugTrips = function () {
-        this.addTrip(new Trip_1.Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen '));
-        this.addTrip(new Trip_1.Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen'));
+        var trip_1 = new Trip_1.Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen ');
+        var trip_2 = new Trip_1.Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen');
+        var expense_1 = new Expense_1.Expense('Restaurant "La pizzaaa"', new Person_1.Person('Jef'), new Date(2017, 8, 5, 0, 0), 87.99);
+        var expense_2 = new Expense_1.Expense('Cafe "Den Bozze"', new Person_1.Person('Janick'), new Date(2017, 10, 5, 0, 0), 59.99);
+        trip_1.addExpense(expense_1);
+        trip_1.addExpense(expense_2);
+        trip_2.addExpense(expense_2);
+        trip_2.addExpense(expense_1);
+        this.addTrip(trip_1);
+        this.addTrip(trip_2);
     };
     TripDatabase.prototype.getTrips = function () {
         return this.trips;
