@@ -24,6 +24,7 @@ export class Trips extends React.Component {
     modalVisible: false,
     formNameIsValid: true,
     formDescIsValid: true,
+    personIdList : []
   }
  
   handleOnSave_newTripForm() {
@@ -34,6 +35,7 @@ export class Trips extends React.Component {
     this.toggleModalVisible();
     this.setState({ formNameIsValid: true });
     this.setState({ formDescIsValid: true });
+    this.setState({ personIdList : [] });
   }
 
   saveNewTrip() {
@@ -63,6 +65,7 @@ export class Trips extends React.Component {
       this.state.tripName = null;
       this.state.tripDesc = null;
       this.state.tripPersons = null;
+      this.state.personIdList = [];
     }
   }
   //Zet de modal visible
@@ -77,8 +80,14 @@ export class Trips extends React.Component {
     this.props.navigation.navigate('TripScreen', { id: id });
   }
 
-  checkPerson(id) {
+  toggleSelectedPerson(id) {
     alert(id);
+    
+    this.setState({
+      personIdList: this.state.personIdList.concat([id])
+    });
+
+    console.log(this.state.personIdList);
   }
 
   removeItem(id) {
@@ -133,9 +142,9 @@ export class Trips extends React.Component {
       personList.push(
         <CheckBox
           key={element.id}
-          leftText={element.name}
+          leftText={element.name + "" + element.id}
           //checked={this.state.checked}
-          onClick={() => this.checkPerson(element.id)}
+          onClick={() => this.toggleSelectedPerson(element.id)}
           isChecked={false}
           style={styles.FormCheckBoxInput}
         />

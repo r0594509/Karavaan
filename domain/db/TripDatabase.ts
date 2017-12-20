@@ -73,7 +73,7 @@ export class TripDatabase {
         return hardcoded;
     }
 
-    addTrip(trip: Trip) {
+    public addTrip(trip: Trip) {
         this.trips.push(trip);
     }
 
