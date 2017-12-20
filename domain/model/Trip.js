@@ -12,7 +12,7 @@ var Trip = /** @class */ (function () {
      * @param name cannot be empty and should contain at least 5 characters
      */
     Trip.isValidTripName = function (name) {
-        if (name == null || name.length < 5) {
+        if (name == null || name === "" || name.length < 5) {
             return false;
         }
         return true;
@@ -22,7 +22,7 @@ var Trip = /** @class */ (function () {
      * @param description cannot be null
      */
     Trip.isValidTropDescription = function (description) {
-        if (description == null) {
+        if (description == null || description === "") {
             return false;
         }
         return true;
