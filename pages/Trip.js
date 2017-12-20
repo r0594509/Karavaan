@@ -64,7 +64,7 @@ export class Trip extends React.Component {
             animationType="slide"
             transparent={false}
             visible={this.state.modalVisible}
-            onRequestClose={() => { alert("Modal has been closed.") }}
+            onRequestClose={() => this.setModalVisible(!this.state.modalVisible)}
           >
             {/* Formulier inhoud */}
             <View style={{ marginTop: 22, flex: 1 }}>
@@ -74,7 +74,7 @@ export class Trip extends React.Component {
                 style={styles.FormInput}
                 placeholder="Type the expense name here!"
                 onChangeText={(text) => this.setState({ text })}
-              />
+              /> 
 
               <Text style={styles.FormText}>EXPENSE AMOUNT</Text>
               <TextInput
