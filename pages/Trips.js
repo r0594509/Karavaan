@@ -51,6 +51,10 @@ export class Trips extends React.Component {
     if (errors === 0) {
       c.addTrip(new Trip(name, desc));
       this.toggleModalVisible();
+      // clear state for next form
+      this.state.tripName = null;
+      this.state.tripDesc = null;
+      this.state.tripPersons = null;
     }
   }
   //Zet de modal visible
