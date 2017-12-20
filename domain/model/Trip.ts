@@ -12,7 +12,7 @@ export class Trip {
      * @param name cannot be empty and should contain at least 5 characters
      */
     public static isValidTripName(name: string) : boolean {
-        if (name == null || name.length < 5) {
+        if (name == null || name === "" ||name.length < 5) {
             return false;
         }
         return true;
@@ -23,7 +23,7 @@ export class Trip {
      * @param description cannot be null
      */
     public static isValidTropDescription(description: string) : boolean {
-        if (description == null) {
+        if (description == null || description === "") {
             return false;
         }
         return true;

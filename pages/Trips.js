@@ -25,9 +25,15 @@ export class Trips extends React.Component {
     formNameIsValid: true,
     formDescIsValid: true,
   }
-
-  handleOnClose_newTripForm() {
+ 
+  handleOnSave_newTripForm() {
     this.saveNewTrip();
+  }
+
+  handleOnCancel_newTripForm() {
+    this.toggleModalVisible();
+    this.setState({ formNameIsValid: true });
+    this.setState({ formDescIsValid: true });
   }
 
   saveNewTrip() {
@@ -167,7 +173,7 @@ export class Trips extends React.Component {
 
           {/* Knop voor het formulier te openen om een Trip toe te voegen */}
           <View>
-            <TouchableHighlight onPress={() => this.toggleModalVisible()} style={styles.ButtonLayoutMain}>
+            <TouchableHighlight onPress={() => this.handleOnCancel_newTripForm()} style={styles.ButtonLayoutMain}>
               <View>
                 <Text style={styles.ButtonText}>Add Trip</Text>
               </View>
@@ -201,12 +207,21 @@ export class Trips extends React.Component {
               </ScrollView>
             </View>
             <View>
+<<<<<<< HEAD
               <TouchableHighlight onPress={() => this.handleOnClose_newTripForm()} style={styles.ButtonLayoutMain}>
                 <View>
                   <Text style={styles.ButtonText}>Save</Text>
                 </View>
               </TouchableHighlight>
             </View>
+=======
+                <TouchableHighlight onPress={() => this.handleOnSave_newTripForm()} style={styles.ButtonLayoutMain}>
+                  <View>
+                    <Text style={styles.ButtonText}>Save</Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
+>>>>>>> Fixed bug where validation error message would persist after cancelling an invalid form
           </Modal>
 
           {/** Popup component */}
