@@ -64,4 +64,15 @@ export class TripDatabase {
     addTrip(trip: Trip) {
         this.trips.push(trip);
     }
+
+    /**
+     * @param tripId is always a valid tripid in the triplist
+     */
+    public removeTrip(tripId : number) {
+        for (let i = 0; i < this.getTrips().length; i++) {
+            if (this.getTrips()[i].id === tripId) {
+                this.getTrips().splice(i, 1);
+            }
+        }
+    }
 }

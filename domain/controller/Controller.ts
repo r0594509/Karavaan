@@ -12,23 +12,27 @@ export class Controller {
       this.db = TripDatabase.getInstance();
     }
 
-    getTrips() : Trip[] {
+    public getTrips() : Trip[] {
         return this.db.getTrips();
     }
 
-    getTrip(id: number) : Trip {
+    public getTrip(id: number) : Trip {
         return this.db.getTrip(id);
     }
 
-    getTripExpensesForPerson(tripId: number, personId: number) {
+    public getTripExpensesForPerson(tripId: number, personId: number) {
         return this.db.getTripExpensesForPerson(tripId, personId);
     }
 
-    addTrip(trip: Trip) {
+    public addTrip(trip: Trip) {
         this.db.addTrip(trip);
     }
 
-    getPersonsInTrip(tripId: number) {
+    public removeTrip(tripId: number) {
+        this.db.removeTrip(tripId);
+    }
+
+    public getPersonsInTrip(tripId: number) {
         return this.db.getHardcodedPersons();
     }
 }
