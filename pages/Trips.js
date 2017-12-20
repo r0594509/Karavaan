@@ -207,21 +207,12 @@ export class Trips extends React.Component {
               </ScrollView>
             </View>
             <View>
-<<<<<<< HEAD
-              <TouchableHighlight onPress={() => this.handleOnClose_newTripForm()} style={styles.ButtonLayoutMain}>
-                <View>
-                  <Text style={styles.ButtonText}>Save</Text>
-                </View>
-              </TouchableHighlight>
-            </View>
-=======
                 <TouchableHighlight onPress={() => this.handleOnSave_newTripForm()} style={styles.ButtonLayoutMain}>
                   <View>
                     <Text style={styles.ButtonText}>Save</Text>
                   </View>
                 </TouchableHighlight>
               </View>
->>>>>>> Fixed bug where validation error message would persist after cancelling an invalid form
           </Modal>
 
           {/** Popup component */}
