@@ -32,7 +32,7 @@ export class Controller {
         this.db.removeTrip(tripId);
     }
 
-    public getPersonsInTrip(tripId: number) {
+    public getPersons() {
         return this.db.getPersons();
     }
 

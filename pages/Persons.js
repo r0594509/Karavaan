@@ -56,7 +56,7 @@ export class Persons extends React.Component {
   render() {
     var personList = [];
 
-    c.getPersonsInTrip(-1 /*debug value*/).forEach(element => {
+    c.getPersons().forEach(element => {
       personList.push(
         // elk element in een lus heeft blijkbaar een ID nodig
         <TouchableHighlight onPress={() => alert("clicked on " + element.name)} key={element.id} style={{ borderRadius: 5, margin: 5, }}>

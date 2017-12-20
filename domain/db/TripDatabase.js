@@ -54,10 +54,6 @@ var TripDatabase = /** @class */ (function () {
         });
         return tmp;
     };
-    TripDatabase.prototype.getHardcodedPersons = function () {
-        var hardcoded = [new Person_1.Person("jeoff"), new Person_1.Person("keviiin")];
-        return hardcoded;
-    };
     TripDatabase.prototype.addTrip = function (trip) {
         this.trips.push(trip);
     };

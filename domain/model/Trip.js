@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var Trip = /** @class */ (function () {
-    function Trip(name, description) {
+    function Trip(name, description, persons) {
         this.name = name;
         this.description = description;
         this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));

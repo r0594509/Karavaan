@@ -68,11 +68,6 @@ export class TripDatabase {
         return tmp;
     }
 
-    getHardcodedPersons() {
-        var hardcoded = [ new Person("jeoff"), new Person("keviiin") ];
-        return hardcoded;
-    }
-
     public addTrip(trip: Trip) {
         this.trips.push(trip);
     }

@@ -20,7 +20,7 @@ var Controller = /** @class */ (function () {
     Controller.prototype.removeTrip = function (tripId) {
         this.db.removeTrip(tripId);
     };
-    Controller.prototype.getPersonsInTrip = function (tripId) {
+    Controller.prototype.getPersons = function () {
         return this.db.getPersons();
     };
     Controller.prototype.addPerson = function (person) {

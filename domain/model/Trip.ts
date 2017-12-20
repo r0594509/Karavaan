@@ -1,4 +1,5 @@
 import { Expense } from "./Expense";
+import { Person } from "./Person";
 
 export class Trip {
 
@@ -6,6 +7,7 @@ export class Trip {
     name: string;
     description: string;
     expenses: Array<Expense>;
+    persons: Array<Person>;
 
     /**
      * 
@@ -29,7 +31,7 @@ export class Trip {
         return true;
     }
 
-    constructor(name: string, description: string) {
+    constructor(name: string, description: string, persons : Array<Person>) {
         this.name = name;
         this.description = description;
         this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));

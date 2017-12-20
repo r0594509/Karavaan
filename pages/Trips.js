@@ -40,6 +40,8 @@ export class Trips extends React.Component {
 
   saveNewTrip() {
 
+    console.log(this.state.personIdList);
+
     let name = this.state.tripName;
     let desc = this.state.tripDesc;
     let errors = 0;
@@ -81,13 +83,15 @@ export class Trips extends React.Component {
   }
 
   toggleSelectedPerson(id) {
-    alert(id);
-    
-    this.setState({
-      personIdList: this.state.personIdList.concat([id])
-    });
-
-    console.log(this.state.personIdList);
+    if ( this.state.personIdList.indexOf(id) === -1 ) {
+      this.setState({
+        personIdList: this.state.personIdList.concat([id])
+      });
+    } else {
+      this.setState({
+        personIdList: this.state.personIdList.splice(this.state.personIdList.indexOf(id)+1, 1)
+      });
+    }
   }
 
   removeItem(id) {
@@ -118,7 +122,6 @@ export class Trips extends React.Component {
     });
   }
 
-
   //Rendert het venster
   render() {
     var tripList = [];
@@ -138,7 +141,7 @@ export class Trips extends React.Component {
       )
     });
 
-    c.getPersonsInTrip().forEach(element => {
+    c.getPersons().forEach(element => {
       personList.push(
         <CheckBox
           key={element.id}
