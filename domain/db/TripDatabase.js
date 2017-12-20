@@ -52,6 +52,16 @@ var TripDatabase = /** @class */ (function () {
     TripDatabase.prototype.addTrip = function (trip) {
         this.trips.push(trip);
     };
+    /**
+     * @param tripId is always a valid tripid in the triplist
+     */
+    TripDatabase.prototype.removeTrip = function (tripId) {
+        for (var i = 0; i < this.getTrips().length; i++) {
+            if (this.getTrips()[i].id === tripId) {
+                this.getTrips().splice(i, 1);
+            }
+        }
+    };
     return TripDatabase;
 }());
 exports.TripDatabase = TripDatabase;

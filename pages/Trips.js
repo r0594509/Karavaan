@@ -91,7 +91,10 @@ export class Trips extends React.Component {
           color: 'red'
         },
         callback: () => {
-          this.popup.alert('Removing!');
+          c.removeTrip(id);
+          this.popup.alert('The trip has been removed!');
+          // force a view update by calling setState method
+          this.setState({update: true});
         },
       },
       cancel: {
@@ -100,7 +103,7 @@ export class Trips extends React.Component {
           color: 'black'
         },
         callback: () => {
-          this.popup.alert(' Not removed');
+          this.popup.alert('The trip had not been removed.');
         },
       },
     });
