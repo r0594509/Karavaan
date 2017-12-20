@@ -50,6 +50,13 @@ import { StyleSheet } from 'react-native';
       margin: 10,
     },
 
+    FormTextInvalid: {
+      fontSize: 15,
+      fontWeight: "bold",
+      color: "red",
+      margin: 10,
+    },
+
     FormInput: {
       fontSize: 15,
       marginLeft: 10,

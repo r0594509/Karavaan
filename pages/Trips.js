@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
+import { Trip } from '../domain/model/Trip';
 import  styles  from '../styles/styles';
 //global var c = controller instance
 import c from '../domain/controller/Controller';
@@ -19,11 +20,42 @@ export class Trips extends React.Component {
   //Initiele Status van de modal (pop-up venster)
   state = {
     modalVisible: false,
+    formNameIsValid: true,
+    formDescIsValid: true,
   }
  
+  handleOnClose_newTripForm() {
+    this.saveNewTrip();
+  }
+
+  saveNewTrip() {
+
+    let name = this.state.tripName;
+    let desc = this.state.tripDesc;
+    let errors = 0;
+
+    if (!Trip.isValidTripName(name)) {
+      errors++;
+      this.setState({ formNameIsValid: false})
+    } else {
+      this.setState({ formNameIsValid: true });
+    }
+
+    if (!Trip.isValidTropDescription(desc)) {
+      errors++;
+      this.setState({ formDescIsValid:false})
+    } else {
+      this.setState({ formDescIsValid: true });
+    }
+
+    if (errors === 0) {
+      c.addTrip(new Trip(name, desc));
+      this.toggleModalVisible();
+    }
+  }
   //Zet de modal visible
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
+  toggleModalVisible() {
+    this.setState({ modalVisible: !this.state.modalVisible });
   }
 
   //Functie om te navigeren naar individuele Trip pagina
@@ -35,10 +67,10 @@ export class Trips extends React.Component {
  
   //Rendert het venster
   render() {
-    var textLoop = [];
+    var tripList = [];
     
     c.getTrips().forEach(element => {
-      textLoop.push(
+      tripList.push(
         // Zijn de CARDS waarop gedrukt kan worden om venster te openen
         // N: iterations need a unique key
         <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)}>
@@ -51,67 +83,81 @@ export class Trips extends React.Component {
       )
     });
 
+    var formName = [];
+    var formDesc = [];
+
+    if (this.state.formNameIsValid) {
+      formName.push(
+        <Text key="formName" style={styles.FormText}>TRIP NAME</Text>
+      )
+    } else {
+      formName.push(
+        <Text key="formName" style={styles.FormTextInvalid}>TRIP NAME IS NOT VALID</Text>
+      )
+    }
+
+    if (this.state.formDescIsValid) {
+      formDesc.push(
+        <Text key="formDesc" style={styles.FormText}>TRIP DESCRIPTION</Text>
+      )
+    } else {
+      formDesc.push(
+        <Text key="formDesc" style={styles.FormTextInvalid}>TRIP DESCRIPTION IS NOT VALID</Text>
+      )
+    }
+
     return (
       <View style={styles.mainViewLayout}>
         <View style={{ flex: 1 }}>
 
           {/* Zorgt voor een ScrollWheel wanneer het venster te klein wordt */}
           <ScrollView contentContainer={{ paddingVertical: 20 }}>
-              {textLoop}
+              {tripList}
           </ScrollView>
 
           {/* Knop voor het formulier te openen om een Trip toe te voegen */}
           <View>
-            <TouchableHighlight onPress={() => this.setModalVisible(true)} style={styles.ButtonLayoutMain}>
+            <TouchableHighlight onPress={() => this.toggleModalVisible()} style={styles.ButtonLayoutMain}>
               <View>
                 <Text style={styles.ButtonText}>Add Trip</Text>
               </View>
             </TouchableHighlight>
           </View>
 
-          {/* Formulier Venster voor een Trip aan te maken 
-          Toekomst te steken in een aparte .js file
-          */}
-          <Modal
-            animationType="slide"
+          <Modal animationType="slide"
             transparent={false}
             visible={this.state.modalVisible}
-            onRequestClose={() => { alert("Modal has been closed.") }}
+            onRequestClose={() => { alert("Modal has been closed.") }} 
           >
-            {/* Formulier inhoud */}
             <View style={{ marginTop: 22, flex: 1 }}>
-
-              <Text style={styles.FormText}>TRIP NAME</Text>
+              {formName}
               <TextInput
                 style={styles.FormInput}
-                placeholder="Type the trip name here!"
-                onChangeText={(text) => this.setState({ text })}
+                placeholder="The trip name should contain at least 5 characters"
+                onChangeText={(tripName) => this.setState({ tripName })}
               />
 
-              <Text style={styles.FormText}>TRIP DESCRIPTION</Text>
+              {formDesc}
               <TextInput
                 style={styles.FormInput}
-                placeholder="Type the trip description here"
-                onChangeText={(text) => this.setState({ text })}
+                placeholder="Please enter a description for your trip"
+                onChangeText={(tripDesc) => this.setState({ tripDesc })}
               />
 
               <Text style={styles.FormText}>TRIP FRIENDS</Text>
               <TextInput
                 style={styles.FormInput}
                 placeholder="example: 13_14_16"
-                onChangeText={(text) => this.setState({ text })}
+                onChangeText={(tripPersons) => this.setState({ tripPersons })}
               />
-
-              <View>
-
-                <TouchableHighlight onPress={() => this.setModalVisible(!this.state.modalVisible)} style={styles.ButtonLayoutMain}>
+            </View>
+            <View>
+                <TouchableHighlight onPress={() => this.handleOnClose_newTripForm()} style={styles.ButtonLayoutMain}>
                   <View>
                     <Text style={styles.ButtonText}>Save</Text>
                   </View>
                 </TouchableHighlight>
-
               </View>
-            </View>
           </Modal>
 
         </View>
