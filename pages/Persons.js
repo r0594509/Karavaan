@@ -90,7 +90,7 @@ export class Persons extends React.Component {
         // elk element in een lus heeft blijkbaar een ID nodig
         <TouchableHighlight onPress={() => alert("clicked on " + element.name)} onLongPress={() => this.removeItem(element.id)} key={element.id} style={{ borderRadius: 5, margin: 5, }}>
           <View style={styles.cardLayout}>
-            <Text style={styles.titleText}>Name: {element.name}</Text>
+            <Text style={styles.titleText}>{element.name}</Text>
           </View>
         </TouchableHighlight>
       )

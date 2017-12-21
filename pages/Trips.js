@@ -148,7 +148,7 @@ export class Trips extends React.Component {
       personList.push(
         <CheckBox
           key={element.id}
-          leftText={element.name + "" + element.id}
+          leftText={element.name}
           //checked={this.state.checked}
           onClick={() => this.toggleSelectedPerson(element.id)}
           isChecked={false}
