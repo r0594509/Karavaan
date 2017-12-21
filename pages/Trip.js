@@ -19,7 +19,8 @@ export class Trip extends React.Component {
     formNameIsValid: true,
     formAmntIsValid: true,
     formDateIsValid: true,
-    categoryTitle: 'Select Category',
+    expenseCategorySelected: Category.All,
+    categoryTitle: "Select a category",
   }
 
   handleOnSave_newExpenseForm() {
@@ -83,9 +84,15 @@ export class Trip extends React.Component {
   //Rendert het venster
   render() {
     const { params } = this.props.navigation.state;
+    
+    let data = [];
+    for (var n in Category) {
+      if ( typeof Category[n] === 'string') data.push({value: n});
+    }
+    
     var textLoop = [];
     
-    c.getTrip(params.id).expenses.forEach(element => {
+    c.getExpensesForTrip(params.id, this.state.expenseCategorySelected).forEach(element => {
       textLoop.push(
         // Zijn de CARDS waarop gedrukt kan worden om venster te openen
         // N: iterations need a unique key
@@ -98,19 +105,6 @@ export class Trip extends React.Component {
       </TouchableHighlight>
       )
     });
-
-    //List for Categories
-    let data = [{
-      value: 'Banana',
-    }, {
-      value: 'Mango',
-    }, {
-      value: 'Pear',
-    },{
-      value: 'Banana',
-    }, {
-      value: 'Mango',
-    }];
 
     var formName = [];
     var formAmnt = [];
@@ -152,7 +146,7 @@ export class Trip extends React.Component {
         <Dropdown
             label={this.state.categoryTitle}
             data={data}
-            onChangeText={(expenseCategorySelected) => alert(expenseCategorySelected)}
+            onChangeText={(expenseCategorySelected) => this.setState({expenseCategorySelected: expenseCategorySelected})}
             fontSize={20}
             containerStyle={{paddingLeft: 15, paddingRight: 15}}
             baseColor = 'rgba(0, 0, 0, 1)'

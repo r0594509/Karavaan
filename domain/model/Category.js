@@ -2,6 +2,7 @@
 exports.__esModule = true;
 var Category;
 (function (Category) {
+    Category["All"] = "All";
     Category["Transport"] = "Transport";
     Category["Activity"] = "Activity";
     Category["Food"] = "Food";

@@ -3,6 +3,7 @@ exports.__esModule = true;
 var Trip_1 = require("../model/Trip");
 var Person_1 = require("../model/Person");
 var Expense_1 = require("../model/Expense");
+var Category_1 = require("../model/Category");
 var TripDatabase = /** @class */ (function () {
     function TripDatabase() {
         this.trips = new Array();
@@ -16,8 +17,8 @@ var TripDatabase = /** @class */ (function () {
     TripDatabase.prototype.addDebugTrips = function () {
         var trip_1 = new Trip_1.Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen ');
         var trip_2 = new Trip_1.Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen');
-        var expense_1 = new Expense_1.Expense('Restaurant "La pizzaaa"', new Person_1.Person('Jef'), new Date(2017, 8, 5, 0, 0), 87.99);
-        var expense_2 = new Expense_1.Expense('Cafe "Den Bozze"', new Person_1.Person('Janick'), new Date(2017, 10, 5, 0, 0), 59.99);
+        var expense_1 = new Expense_1.Expense('Restaurant "La pizzaaa"', Category_1.Category.Food, new Date(2017, 8, 5, 0, 0), 87.99);
+        var expense_2 = new Expense_1.Expense('Cafe "Den Bozze"', Category_1.Category.Food, new Date(2017, 10, 5, 0, 0), 59.99);
         trip_1.addExpense(expense_1);
         trip_1.addExpense(expense_2);
         trip_2.addExpense(expense_2);
@@ -47,14 +48,25 @@ var TripDatabase = /** @class */ (function () {
     TripDatabase.prototype.addExpenseToTrip = function (tripId, expense) {
         this.getTrip(tripId).addExpense(expense);
     };
-    TripDatabase.prototype.getTripExpensesForPerson = function (tripId, personId) {
-        var tmp = Array();
-        this.getTrip(tripId).expenses.forEach(function (element) {
-            element.persons.forEach(function (element2) {
-                if (element2.id == personId)
-                    tmp.push(element);
-            });
-        });
+    /**
+     *
+     * @param tripId trip to show expenses from
+     * @param category category to filter expenses on
+     */
+    TripDatabase.prototype.getExpensesForTrip = function (tripId, category) {
+        var tmp = new Array();
+        if (category == Category_1.Category.All) {
+            for (var i = 0; i < this.getTrip(tripId).expenses.length; i++) {
+                tmp.push(this.getTrip(tripId).expenses[i]);
+            }
+        }
+        else {
+            for (var i = 0; i < this.getTrip(tripId).expenses.length; i++) {
+                if (this.getTrip(tripId).expenses[i].category == category) {
+                    tmp.push(this.getTrip(tripId).expenses[i]);
+                }
+            }
+        }
         return tmp;
     };
     TripDatabase.prototype.addTrip = function (trip) {

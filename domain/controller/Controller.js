@@ -11,11 +11,11 @@ var Controller = /** @class */ (function () {
     Controller.prototype.getTrip = function (id) {
         return this.db.getTrip(id);
     };
-    Controller.prototype.getTripExpensesForPerson = function (tripId, personId) {
-        return this.db.getTripExpensesForPerson(tripId, personId);
-    };
     Controller.prototype.addExpenseToTrip = function (tripId, expense) {
         this.db.addExpenseToTrip(tripId, expense);
+    };
+    Controller.prototype.getExpensesForTrip = function (tripId, category) {
+        return this.db.getExpensesForTrip(tripId, category);
     };
     Controller.prototype.addTrip = function (trip) {
         this.db.addTrip(trip);

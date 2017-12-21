@@ -1,6 +1,7 @@
 import { Trip } from "../model/Trip";
 import { Person } from "../model/Person";
 import { Expense } from "../model/Expense";
+import { Category } from "../model/Category";
 
 export class TripDatabase {
 
@@ -23,8 +24,8 @@ export class TripDatabase {
     private addDebugTrips() {
         var trip_1 = new Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen ');
         var trip_2 = new Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen');
-        var expense_1 = new Expense('Restaurant "La pizzaaa"', new Person('Jef'), new Date(2017, 8, 5, 0, 0), 87.99);
-        var expense_2 = new Expense('Cafe "Den Bozze"', new Person('Janick'), new Date(2017, 10, 5, 0, 0), 59.99);
+        var expense_1 = new Expense('Restaurant "La pizzaaa"', Category.Food, new Date(2017, 8, 5, 0, 0), 87.99);
+        var expense_2 = new Expense('Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99);
         trip_1.addExpense(expense_1);
         trip_1.addExpense(expense_2);
         trip_2.addExpense(expense_2);
@@ -60,14 +61,24 @@ export class TripDatabase {
         this.getTrip(tripId).addExpense(expense);
     }
 
-    getTripExpensesForPerson(tripId: number, personId: number) : Expense[] {
-        var tmp = Array<Expense>();
-        this.getTrip(tripId).expenses.forEach(element => {
-            element.persons.forEach(element2 => {
-                if (element2.id == personId)
-                    tmp.push(element);
-               });
-        });
+    /**
+     * 
+     * @param tripId trip to show expenses from
+     * @param category category to filter expenses on
+     */
+    public getExpensesForTrip(tripId: number, category: Category) : Expense[] {
+        let tmp = new Array();
+        if ( category == Category.All) {
+            for (let i=0; i< this.getTrip(tripId).expenses.length; i++) {
+                tmp.push(this.getTrip(tripId).expenses[i]);
+            }
+        } else {
+            for (let i=0; i< this.getTrip(tripId).expenses.length; i++) {
+                if(this.getTrip(tripId).expenses[i].category == category) {
+                    tmp.push(this.getTrip(tripId).expenses[i])
+                }
+            }
+        }
         return tmp;
     }
 
