@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, StatusBar } from 'react-native';
-import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput, Picker } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 import Popup from 'react-native-popup';
 import { Person } from '../domain/model/Person';
@@ -34,7 +34,7 @@ export class Persons extends React.Component {
           this.popup.alert(c.getPerson(id).name + ' has been removed!');
           c.removePerson(id);
           // force a view update by calling setState method
-          this.setState({update: true});
+          this.setState({ update: true });
         },
       },
       cancel: {

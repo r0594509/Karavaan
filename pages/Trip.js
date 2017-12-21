@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
+import { Dropdown } from 'react-native-material-dropdown';
 import styles from '../styles/styles';
 import c from '../domain/controller/Controller';
 import { Expense } from '../domain/model/Expense';
@@ -17,6 +18,7 @@ export class Trip extends React.Component {
     formNameIsValid: true,
     formAmntIsValid: true,
     formDateIsValid: true,
+    categoryTitle: 'Select Category',
   }
 
   handleOnSave_newExpenseForm() {
@@ -96,6 +98,19 @@ export class Trip extends React.Component {
       )
     });
 
+    //List for Categories
+    let data = [{
+      value: 'Banana',
+    }, {
+      value: 'Mango',
+    }, {
+      value: 'Pear',
+    },{
+      value: 'Banana',
+    }, {
+      value: 'Mango',
+    }];
+
     var formName = [];
     var formAmnt = [];
     var formDate = [];
@@ -133,6 +148,15 @@ export class Trip extends React.Component {
     return (
       <View style={styles.mainViewLayout}>
         <View style={{ flex: 1 }}>
+        <Dropdown
+            label={this.state.categoryTitle}
+            data={data}
+            onChangeText={(expenseCategorySelected) => alert(expenseCategorySelected)}
+            fontSize={20}
+            containerStyle={{paddingLeft: 15, paddingRight: 15}}
+            baseColor = 'rgba(0, 0, 0, 1)'
+            dropdownPosition = {1}
+          />
 
           {/* Zorgt voor een ScrollWheel wanneer het venster te klein wordt */}
           <ScrollView contentContainer={{ paddingVertical: 20 }}>

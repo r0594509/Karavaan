@@ -20,6 +20,8 @@ export class Trip {
         return true;
     }
 
+
+    
     /**
      * 
      * @param description cannot be null
