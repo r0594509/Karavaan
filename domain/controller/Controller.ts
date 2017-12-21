@@ -36,6 +36,10 @@ export class Controller {
         this.db.removeTrip(tripId);
     }
 
+    public removePerson(personId: number) {
+        this.db.removePerson(personId);
+    }
+
     public getPersons() {
         return this.db.getPersons();
     }

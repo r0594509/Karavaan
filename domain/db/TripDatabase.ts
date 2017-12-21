@@ -98,4 +98,31 @@ export class TripDatabase {
             }
         }
     }
+
+    /**
+     * This should also remove any trace of said person in the tips / expenses lists...
+     * 
+     * @param personId is always a valid tripid in the triplist
+     */
+    public removePerson(personId: number) {
+        //
+        for (let i = 0; i < this.getPersons().length; i++) {
+            if (this.getPersons()[i].id === personId) {
+                this.getPersons().splice(i, 1);
+            }
+        }
+        /*
+        // Remove person from trips ?
+        for (let i = 0; i < this.getTrips().length; i++) {
+            if (this.getTrips()[i].persons != null) {               
+                for (let j = 0; j < this.getTrips()[i].persons.length; j++) {
+                    if (this.getTrips()[i].persons[j].id === personId) {
+                        this.getTrips()[i].persons.splice(j, 1);
+                    }
+                }
+            }
+        }
+        // Remove person from trip's expenses ?
+        */
+    }
 }

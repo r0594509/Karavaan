@@ -52,9 +52,9 @@ export class Trip extends React.Component {
     }
 
     if (errors === 0) {
-      
+      const { params } = this.props.navigation.state;
       let expense = new Expense(name, null, date, amnt);
-      c.addExpenseToTrip(navigation.state.params.id, expense);
+      c.addExpenseToTrip(params.id, expense);
 
       this.toggleModalVisible();
       // clear state for next form

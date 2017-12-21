@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Platform, StatusBar } from 'react-native';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput } from 'react-native';
-import { TabNavigator } from 'react-navigation'
+import { TabNavigator } from 'react-navigation';
+import Popup from 'react-native-popup';
 import { Person } from '../domain/model/Person';
 import styles from '../styles/styles';
 //global var c = controller instance
@@ -18,6 +19,34 @@ export class Persons extends React.Component {
     modalVisible: false,
     formNameIsValid: true,
     formDescIsValid: true,
+  }
+
+  removeItem(id) {
+    this.popup.confirm({
+      title: 'Remove',
+      content: ['Do you want to remove,', 'Person: ' + c.getPerson(id).name],
+      ok: {
+        text: 'Yes',
+        style: {
+          color: 'red'
+        },
+        callback: () => {
+          this.popup.alert(c.getPerson(id).name + ' has been removed!');
+          c.removePerson(id);
+          // force a view update by calling setState method
+          this.setState({update: true});
+        },
+      },
+      cancel: {
+        text: 'No',
+        style: {
+          color: 'black'
+        },
+        callback: () => {
+          this.popup.alert(c.getPerson(id).name + 'has not been removed.');
+        },
+      },
+    });
   }
 
   toggleModalVisible() {
@@ -59,7 +88,7 @@ export class Persons extends React.Component {
     c.getPersons().forEach(element => {
       personList.push(
         // elk element in een lus heeft blijkbaar een ID nodig
-        <TouchableHighlight onPress={() => alert("clicked on " + element.name)} key={element.id} style={{ borderRadius: 5, margin: 5, }}>
+        <TouchableHighlight onPress={() => alert("clicked on " + element.name)} onLongPress={() => this.removeItem(element.id)} key={element.id} style={{ borderRadius: 5, margin: 5, }}>
           <View style={styles.cardLayout}>
             <Text style={styles.titleText}>Name: {element.name}</Text>
           </View>
@@ -118,6 +147,9 @@ export class Persons extends React.Component {
             </View>
           </Modal>
 
+          {/** Popup component */}
+          <Popup ref={popup => this.popup = popup} />
+          {/** or <Popup ref={popup => this.popup = popup } isOverlay={false} isOverlayClickClose={false}/> */}
 
         </View>
       </View>

@@ -122,7 +122,7 @@ export class Trips extends React.Component {
           color: 'black'
         },
         callback: () => {
-          this.popup.alert('The trip had not been removed.');
+          this.popup.alert('The trip has not been removed.');
         },
       },
     });
@@ -136,7 +136,6 @@ export class Trips extends React.Component {
     c.getTrips().forEach(element => {
       tripList.push(
         // Zijn de CARDS waarop gedrukt kan worden om venster te openen
-        // N: iterations need a unique key
         <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)} onLongPress={() => this.removeItem(element.id)}>
           <View style={styles.cardLayout}>
             <Text style={styles.titleText}>Name: {element.name}</Text>

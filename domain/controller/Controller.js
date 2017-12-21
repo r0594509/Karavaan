@@ -23,6 +23,9 @@ var Controller = /** @class */ (function () {
     Controller.prototype.removeTrip = function (tripId) {
         this.db.removeTrip(tripId);
     };
+    Controller.prototype.removePerson = function (personId) {
+        this.db.removePerson(personId);
+    };
     Controller.prototype.getPersons = function () {
         return this.db.getPersons();
     };
