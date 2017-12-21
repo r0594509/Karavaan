@@ -1,9 +1,12 @@
 import { Person } from "./Person";
+import { Category } from "./Category";
+import { Money, Currencies } from 'ts-money'
 
 export class Expense {
 
     description: string;
     amount: number;
+    category: Category;
     owedPerson: Person;
     persons: Array<Person>;
     date: Date;
@@ -30,7 +33,7 @@ export class Expense {
         }
         return true;
     }
-
+    
     /**
      * 
      * @param date 
@@ -42,10 +45,10 @@ export class Expense {
         return true;
     }
 
-    constructor(description: string, owedPerson: Person, date: Date, amount: number ) {
+    constructor(description: string, category: Category, date: Date, amount: number ) {
         this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));
         this.description = description;
-        this.owedPerson = owedPerson;
+        this.category = category;
         this.amount = amount;
         this.date  = date;
 

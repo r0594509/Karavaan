@@ -5,6 +5,7 @@ import { Dropdown } from 'react-native-material-dropdown';
 import styles from '../styles/styles';
 import c from '../domain/controller/Controller';
 import { Expense } from '../domain/model/Expense';
+import { Category } from '../domain/model/Category';
 
 export class Trip extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -55,7 +56,7 @@ export class Trip extends React.Component {
 
     if (errors === 0) {
       const { params } = this.props.navigation.state;
-      let expense = new Expense(name, null, date, amnt);
+      let expense = new Expense(name, Category.Misc, date, amnt);
       c.addExpenseToTrip(params.id, expense);
 
       this.toggleModalVisible();
