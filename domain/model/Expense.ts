@@ -1,6 +1,6 @@
 import { Person } from "./Person";
 import { Category } from "./Category";
-import { Money, Currencies } from 'ts-money'
+//import { Money, Currencies }  from 'ts-money';
 
 export class Expense {
 

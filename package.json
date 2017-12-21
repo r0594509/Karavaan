@@ -33,6 +33,7 @@
     "react-native-popup": "^0.6.1",
     "react-navigation": "^1.0.0-beta.15",
     "ts-loader": "^2.3.3",
+    "ts-money": "^0.4.4",
     "typescript": "^2.4.2"
   }
 }
