@@ -12,7 +12,7 @@ export class Trip extends React.Component {
     //title: `Trip: ${navigation.state.params.id}`,
     title: 'Trip: ' + c.getTrip(navigation.state.params.id).name,
   });
-  
+
   //Initiele Status van de modal (pop-up venster)
   state = {
     modalVisible: false,
@@ -20,6 +20,8 @@ export class Trip extends React.Component {
     formAmntIsValid: true,
     formDateIsValid: true,
     categoryTitle: 'Select Category',
+    categoryFormTitle: 'Select Category',
+    currencyFormTitle: 'Select Currency',
   }
 
   handleOnSave_newExpenseForm() {
@@ -30,7 +32,7 @@ export class Trip extends React.Component {
     let name = this.state.expenseName;
     let amnt = this.state.expenseAmnt;
     let date = this.state.expenseDate;
-    
+
     let errors = 0;
 
     if (!Expense.isValidExpenseName(name)) {
@@ -84,18 +86,18 @@ export class Trip extends React.Component {
   render() {
     const { params } = this.props.navigation.state;
     var textLoop = [];
-    
+
     c.getTrip(params.id).expenses.forEach(element => {
       textLoop.push(
         // Zijn de CARDS waarop gedrukt kan worden om venster te openen
         // N: iterations need a unique key
         <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)}>
-        <View style={styles.cardLayout}>
-          <Text style={styles.titleText}>Name: {element.description}</Text>
-          <Text>Description: {element.amount}
-          </Text>
-        </View>
-      </TouchableHighlight>
+          <View style={styles.cardLayout}>
+            <Text style={styles.titleText}>Name: {element.description}</Text>
+            <Text>Description: {element.amount}
+            </Text>
+          </View>
+        </TouchableHighlight>
       )
     });
 
@@ -106,7 +108,7 @@ export class Trip extends React.Component {
       value: 'Mango',
     }, {
       value: 'Pear',
-    },{
+    }, {
       value: 'Banana',
     }, {
       value: 'Mango',
@@ -149,14 +151,14 @@ export class Trip extends React.Component {
     return (
       <View style={styles.mainViewLayout}>
         <View style={{ flex: 1 }}>
-        <Dropdown
+          <Dropdown
             label={this.state.categoryTitle}
             data={data}
             onChangeText={(expenseCategorySelected) => alert(expenseCategorySelected)}
             fontSize={20}
-            containerStyle={{paddingLeft: 15, paddingRight: 15}}
-            baseColor = 'rgba(0, 0, 0, 1)'
-            dropdownPosition = {1}
+            containerStyle={{ paddingLeft: 15, paddingRight: 15 }}
+            baseColor='rgba(0, 0, 0, 1)'
+            dropdownPosition={1}
           />
 
           {/* Zorgt voor een ScrollWheel wanneer het venster te klein wordt */}
@@ -185,41 +187,56 @@ export class Trip extends React.Component {
             {/* Formulier inhoud */}
             <View style={{ marginTop: 22, flex: 1 }}>
 
-            {formName}
+              <Text style={styles.FormText}>EXPENSE NAME</Text>
               <TextInput
                 style={styles.FormInput}
                 placeholder="Type the expense name here!"
                 onChangeText={(expenseName) => this.setState({ expenseName })}
-              /> 
-
-              {formAmnt}
-              <TextInput
-                style={styles.FormInput}
-                placeholder="Type the expense amount here!"
-                onChangeText={(expenseAmnt) => this.setState({ expenseAmnt })}
               />
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{ flex: 1 }}>
+                  <Dropdown
+                    label={this.state.categoryFormTitle}
+                    data={data}
+                    onChangeText={(expenseCategory) => this.setState({expenseCategory})}
+                    //fontSize={16}
+                    containerStyle={{ paddingLeft: 15}}
+                    baseColor='rgba(0, 0, 0, 1)'
+                    dropdownPosition={1}
+                  />
+                </View>
+                <View style={{ width: 200, marginLeft: 8 }}>
+                  <TextInput
+                    style={[styles.FormInput, { marginTop: 32 }]}
+                    placeholder="Expense Date"
+                    onChangeText={(expenseDate) => this.setState({ expenseDate })}
+                    keyboardType='numeric'
+                  />
+                </View>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={{ flex: 1 }}>
+                    <TextInput
+                      style={[styles.FormInput, { marginTop: 32 }]}
+                      placeholder="Expense Amount"
+                      onChangeText={(exspenseAmount) => this.setState({ exspenseAmount })}
+                      keyboardType='numeric'
+                    />
+                  </View>
+                  <View style={{ width: 200, marginLeft: 8 }}>
+                    <Dropdown
+                      label={this.state.currencyFormTitle}
+                      data={data}
+                      onChangeText={(expenseCurrency) => this.setState({expenseCurrency})}
+                      //fontSize={16}
+                      containerStyle={{ paddingRight: 15 }}
+                      baseColor='rgba(0, 0, 0, 1)'
+                      dropdownPosition={1}
+                    />
+                  </View>
 
-              <Text style={styles.FormText}>PERSON OWED</Text>
-              <TextInput
-                style={styles.FormInput}
-                placeholder="Type the person owed ID here!"
-                onChangeText={(expensePerson) => this.setState({ expensePerson })}
-              />
-
-              <Text style={styles.FormText}>EXPENSE FRIENDS</Text>
-              <TextInput
-                style={styles.FormInput}
-                placeholder="example: 13_14_16"
-                onChangeText={(expenseFriends) => this.setState({ expenseFriends })}
-              />
-
-              {formDate}
-              <TextInput
-                style={styles.FormInput}
-                placeholder="Type the expense date here!"
-                onChangeText={(expenseDate) => this.setState({ expenseDate })}
-              />
-
+                </View>
+              </View>
               <View>
                 <TouchableHighlight onPress={() => this.handleOnSave_newExpenseForm()} style={styles.ButtonLayoutMain}>
                   <View>
@@ -228,11 +245,11 @@ export class Trip extends React.Component {
                 </TouchableHighlight>
 
               </View>
-            </View>
+
           </Modal>
 
         </View>
-      </View>
-    );
+        </View>
+        );
   }
 }
