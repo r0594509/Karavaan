@@ -68,7 +68,6 @@ export class Persons extends React.Component {
     });
 
     var formName = [];
-    var formDesc = [];
 
     if (this.state.formNameIsValid) {
       formName.push(

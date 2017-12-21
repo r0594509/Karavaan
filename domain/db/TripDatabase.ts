@@ -35,18 +35,18 @@ export class TripDatabase {
 
     private addDebugPersons(){
         this.addPerson(new Person("jeoff"));
-        this.addPerson( new Person("kevin"));
+        this.addPerson(new Person("kevin"));
     }
 
-    getTrips() {
+    public getTrips() {
         return this.trips;
     }
 
-    getPersons(){
+    public getPersons(){
         return this.persons;
     }
 
-    getTrip(id: number) : Trip {
+    public getTrip(id: number) : Trip {
         // do not use foreach
         for (let i = 0; i< this.getTrips().length; i++) {
             if (this.getTrips()[i].id === id) {
@@ -56,8 +56,11 @@ export class TripDatabase {
         return null;
     }
 
-    getTripExpensesForPerson(tripId: number, personId: number) : Expense[] {
+    public addExpenseToTrip(tripId: number, expense: Expense) {
+        this.getTrip(tripId).addExpense(expense);
+    }
 
+    getTripExpensesForPerson(tripId: number, personId: number) : Expense[] {
         var tmp = Array<Expense>();
         this.getTrip(tripId).expenses.forEach(element => {
             element.persons.forEach(element2 => {
@@ -72,7 +75,7 @@ export class TripDatabase {
         this.trips.push(trip);
     }
 
-    addPerson(person: Person){
+    public addPerson(person: Person){
         this.persons.push(person);
     }
 

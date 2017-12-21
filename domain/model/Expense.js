@@ -8,6 +8,36 @@ var Expense = /** @class */ (function () {
         this.amount = amount;
         this.date = date;
     }
+    /**
+     *
+     * @param name cannot be empty and should contain at least 3 characters
+     */
+    Expense.isValidExpenseName = function (name) {
+        if (name == null || name === "" || name.length < 3) {
+            return false;
+        }
+        return true;
+    };
+    /**
+     *
+     * @param amnt cannot be empty and should be a value greater than 0
+     */
+    Expense.isValidExpenseAmount = function (amnt) {
+        if (amnt == null || amnt < 0) {
+            return false;
+        }
+        return true;
+    };
+    /**
+     *
+     * @param date
+     */
+    Expense.isValidExpenseDate = function (date) {
+        if (date == null) {
+            return false;
+        }
+        return true;
+    };
     Expense.prototype.addPersons = function (persons) {
         this.persons = persons;
     };

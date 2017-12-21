@@ -44,6 +44,9 @@ var TripDatabase = /** @class */ (function () {
         }
         return null;
     };
+    TripDatabase.prototype.addExpenseToTrip = function (tripId, expense) {
+        this.getTrip(tripId).addExpense(expense);
+    };
     TripDatabase.prototype.getTripExpensesForPerson = function (tripId, personId) {
         var tmp = Array();
         this.getTrip(tripId).expenses.forEach(function (element) {

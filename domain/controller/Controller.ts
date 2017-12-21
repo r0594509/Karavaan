@@ -24,6 +24,10 @@ export class Controller {
         return this.db.getTripExpensesForPerson(tripId, personId);
     }
 
+    public addExpenseToTrip(tripId: number, expense: Expense) {
+        this.db.addExpenseToTrip(tripId, expense);
+    }
+
     public addTrip(trip: Trip) {
         this.db.addTrip(trip);
     }

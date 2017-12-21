@@ -3,21 +3,75 @@ import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, 
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import styles from '../styles/styles';
 import c from '../domain/controller/Controller';
+import { Expense } from '../domain/model/Expense';
 
 export class Trip extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     //title: `Trip: ${navigation.state.params.id}`,
     title: 'Trip: ' + c.getTrip(navigation.state.params.id).name,
   });
-
+  
   //Initiele Status van de modal (pop-up venster)
   state = {
     modalVisible: false,
+    formNameIsValid: true,
+    formAmntIsValid: true,
+    formDateIsValid: true,
   }
-  
-  //Zet de modal visible
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
+
+  handleOnSave_newExpenseForm() {
+    this.saveNewExpense();
+  }
+
+  saveNewExpense() {
+    let name = this.state.expenseName;
+    let amnt = this.state.expenseAmnt;
+    let date = this.state.expenseDate;
+    
+    let errors = 0;
+
+    if (!Expense.isValidExpenseName(name)) {
+      errors++;
+      this.setState({ formNameIsValid: false })
+    } else {
+      this.setState({ formNameIsValid: true });
+    }
+
+    if (!Expense.isValidExpenseAmount(amnt)) {
+      errors++;
+      this.setState({ formAmntIsValid: false })
+    } else {
+      this.setState({ formAmntIsValid: true });
+    }
+
+    if (!Expense.isValidExpenseDate(date)) {
+      errors++;
+      this.setState({ formDateIsValid: false })
+    } else {
+      this.setState({ formDateIsValid: true });
+    }
+
+    if (errors === 0) {
+      c.addTripExpense();
+      this.toggleModalVisible();
+      // clear state for next form
+      this.state.expenseName = null;
+      this.state.expenseAmnt = null;
+      this.state.expenseDate = null;
+      this.state.expenseFriends = null;
+      this.state.expensePerson = null;
+    }
+  }
+
+  handleOnCancel_newExpenseForm() {
+    this.toggleModalVisible();
+    this.setState({ formNameIsValid: true });
+    this.setState({ formAmntIsValid: true });
+    this.setState({ formDateIsValid: true });
+  }
+
+  toggleModalVisible() {
+    this.setState({ modalVisible: !this.state.modalVisible });
   }
 
   //Rendert het venster
@@ -39,6 +93,40 @@ export class Trip extends React.Component {
       )
     });
 
+    var formName = [];
+    var formAmnt = [];
+    var formDate = [];
+
+    if (this.state.formNameIsValid) {
+      formName.push(
+        <Text key="formName" style={styles.FormText}>EXPENSE NAME</Text>
+      )
+    } else {
+      formName.push(
+        <Text key="formName" style={styles.FormTextInvalid}>EXPENSE NAME IS NOT VALID</Text>
+      )
+    }
+
+    if (this.state.formAmntIsValid) {
+      formAmnt.push(
+        <Text key="formAmnt" style={styles.FormText}>EXPENSE AMOUNT</Text>
+      )
+    } else {
+      formAmnt.push(
+        <Text key="formAmnt" style={styles.FormTextInvalid}>EXPENSE AMOUNT IS NOT VALID</Text>
+      )
+    }
+
+    if (this.state.formDateIsValid) {
+      formDate.push(
+        <Text key="formDate" style={styles.FormText}>EXPENSE DATE</Text>
+      )
+    } else {
+      formDate.push(
+        <Text key="formDate" style={styles.FormTextInvalid}>EXPENSE DATE IS NOT VALID</Text>
+      )
+    }
+
     return (
       <View style={styles.mainViewLayout}>
         <View style={{ flex: 1 }}>
@@ -50,7 +138,7 @@ export class Trip extends React.Component {
 
           {/* Knop voor het formulier te openen om een Trip toe te voegen */}
           <View>
-            <TouchableHighlight onPress={() => this.setModalVisible(true)} style={styles.ButtonLayoutMain}>
+            <TouchableHighlight onPress={() => this.handleOnCancel_newExpenseForm()} style={styles.ButtonLayoutMain}>
               <View>
                 <Text style={styles.ButtonText}>Add Expense</Text>
               </View>
@@ -64,49 +152,48 @@ export class Trip extends React.Component {
             animationType="slide"
             transparent={false}
             visible={this.state.modalVisible}
-            onRequestClose={() => this.setModalVisible(!this.state.modalVisible)}
+            onRequestClose={() => this.toggleModalVisible()}
           >
             {/* Formulier inhoud */}
             <View style={{ marginTop: 22, flex: 1 }}>
 
-            <Text style={styles.FormText}>EXPENSE NAME</Text>
+            {formName}
               <TextInput
                 style={styles.FormInput}
                 placeholder="Type the expense name here!"
-                onChangeText={(text) => this.setState({ text })}
+                onChangeText={(expenseName) => this.setState({ expenseName })}
               /> 
 
-              <Text style={styles.FormText}>EXPENSE AMOUNT</Text>
+              {formAmnt}
               <TextInput
                 style={styles.FormInput}
                 placeholder="Type the expense amount here!"
-                onChangeText={(text) => this.setState({ text })}
+                onChangeText={(expenseAmnt) => this.setState({ expenseAmnt })}
               />
 
               <Text style={styles.FormText}>PERSON OWED</Text>
               <TextInput
                 style={styles.FormInput}
                 placeholder="Type the person owed ID here!"
-                onChangeText={(text) => this.setState({ text })}
+                onChangeText={(expensePerson) => this.setState({ expensePerson })}
               />
 
               <Text style={styles.FormText}>EXPENSE FRIENDS</Text>
               <TextInput
                 style={styles.FormInput}
                 placeholder="example: 13_14_16"
-                onChangeText={(text) => this.setState({ text })}
+                onChangeText={(expenseFriends) => this.setState({ expenseFriends })}
               />
 
-              <Text style={styles.FormText}>EXPENSE DATE</Text>
+              {formDate}
               <TextInput
                 style={styles.FormInput}
                 placeholder="Type the expense date here!"
-                onChangeText={(text) => this.setState({ text })}
+                onChangeText={(expenseDate) => this.setState({ expenseDate })}
               />
 
               <View>
-
-                <TouchableHighlight onPress={() => this.setModalVisible(!this.state.modalVisible)} style={styles.ButtonLayoutMain}>
+                <TouchableHighlight onPress={() => this.handleOnSave_newExpenseForm()} style={styles.ButtonLayoutMain}>
                   <View>
                     <Text style={styles.ButtonText}>Save</Text>
                   </View>
