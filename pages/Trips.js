@@ -5,7 +5,6 @@ import CheckBox from 'react-native-check-box';
 import Popup from 'react-native-popup';
 import { Trip } from '../domain/model/Trip';
 import styles from '../styles/styles';
-//global var c = controller instance
 import c from '../domain/controller/Controller';
 
 export class Trips extends React.Component {

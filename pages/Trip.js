@@ -92,6 +92,13 @@ export class Trip extends React.Component {
       if ( typeof Category[n] === 'string') data.push({value: n});
     }
     
+    let dataForm = []
+    for (var n in Category) {
+      if ( typeof Category[n] === 'string') dataForm.push({value: n});
+    }
+    //Do not allow users to create a new expense of caregoty "all"
+    dataForm.shift();
+
     var textLoop = [];
     
     c.getExpensesForTrip(params.id, this.state.expenseCategorySelected).forEach(element => {
@@ -191,7 +198,7 @@ export class Trip extends React.Component {
                 <View style={{ flex: 1 }}>
                   <Dropdown
                     label={this.state.categoryFormTitle}
-                    data={data}
+                    data={dataForm}
                     onChangeText={(expenseCategory) => this.setState({expenseCategory})}
                     //fontSize={16}
                     containerStyle={{ paddingLeft: 15}}
