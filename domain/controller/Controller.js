@@ -14,6 +14,12 @@ var Controller = /** @class */ (function () {
     Controller.prototype.addExpenseToTrip = function (tripId, expense) {
         this.db.addExpenseToTrip(tripId, expense);
     };
+    Controller.prototype.getExpenseInTrip = function (tripId, expenseId) {
+        return this.db.getExpenseInTrip(tripId, expenseId);
+    };
+    Controller.prototype.removeExpenseInTrip = function (tripId, expenseId) {
+        this.db.removeExpenseInTrip(tripId, expenseId);
+    };
     Controller.prototype.getExpensesForTrip = function (tripId, category) {
         return this.db.getExpensesForTrip(tripId, category);
     };

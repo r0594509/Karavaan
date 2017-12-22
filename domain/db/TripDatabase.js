@@ -4,6 +4,7 @@ var Trip_1 = require("../model/Trip");
 var Person_1 = require("../model/Person");
 var Expense_1 = require("../model/Expense");
 var Category_1 = require("../model/Category");
+var index_1 = require("../../node_modules/ts-money/build/index");
 var TripDatabase = /** @class */ (function () {
     function TripDatabase() {
         this.trips = new Array();
@@ -17,8 +18,8 @@ var TripDatabase = /** @class */ (function () {
     TripDatabase.prototype.addDebugTrips = function () {
         var trip_1 = new Trip_1.Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen ');
         var trip_2 = new Trip_1.Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen');
-        var expense_1 = new Expense_1.Expense('Restaurant "La pizzaaa"', Category_1.Category.Food, new Date(2017, 8, 5, 0, 0), 87.99);
-        var expense_2 = new Expense_1.Expense('Cafe "Den Bozze"', Category_1.Category.Food, new Date(2017, 10, 5, 0, 0), 59.99);
+        var expense_1 = new Expense_1.Expense('Restaurant "La pizzaaa"', Category_1.Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, index_1.Currencies.EUR);
+        var expense_2 = new Expense_1.Expense('Cafe "Den Bozze"', Category_1.Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, index_1.Currencies.EUR);
         trip_1.addExpense(expense_1);
         trip_1.addExpense(expense_2);
         trip_2.addExpense(expense_2);
@@ -47,6 +48,21 @@ var TripDatabase = /** @class */ (function () {
     };
     TripDatabase.prototype.addExpenseToTrip = function (tripId, expense) {
         this.getTrip(tripId).addExpense(expense);
+    };
+    TripDatabase.prototype.getExpenseInTrip = function (tripId, expenseId) {
+        for (var i = 0; i < this.getTrip(tripId).expenses.length; i++) {
+            if (this.getTrip(tripId).expenses[i].id === expenseId) {
+                return this.getTrip(tripId).expenses[i];
+            }
+        }
+        return null;
+    };
+    TripDatabase.prototype.removeExpenseInTrip = function (tripId, expenseId) {
+        for (var i = 0; i < this.getTrip(tripId).expenses.length; i++) {
+            if (this.getTrip(tripId).expenses[i].id === expenseId) {
+                this.getTrip(tripId).expenses.splice(i, 1);
+            }
+        }
     };
     /**
      *

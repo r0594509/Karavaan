@@ -4,6 +4,7 @@ import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Dropdown } from 'react-native-material-dropdown';
 import styles from '../styles/styles';
 import c from '../domain/controller/Controller';
+import Popup from 'react-native-popup';
 import { Expense } from '../domain/model/Expense';
 import { Category } from '../domain/model/Category';
 import { Money, Currencies, Currency } from 'ts-money';
@@ -30,6 +31,36 @@ export class Trip extends React.Component {
 
   handleOnSave_newExpenseForm() {
     this.saveNewExpense();
+  }
+
+  removeItem(id) {
+    const { params } = this.props.navigation.state;
+
+    this.popup.confirm({
+      title: 'Remove',
+      content: ['Do you want to remove,', 'Expense: ' + c.getExpensesForTrip(params.id, id).name],
+      ok: {
+        text: 'Yes',
+        style: {
+          color: 'red'
+        },
+        callback: () => {
+          this.popup.alert(c.getExpensesForTrip(params.id, id).name + ' has been removed!');
+          c.removeExpenseInTrip(params.id, id);
+          // force a view update by calling setState method
+          this.setState({ update: true });
+        },
+      },
+      cancel: {
+        text: 'No',
+        style: {
+          color: 'black'
+        },
+        callback: () => {
+          this.popup.alert(c.getExpensesForTrip(params.id, id).name + 'has not been removed.');
+        },
+      },
+    });
   }
 
   saveNewExpense() {
@@ -135,7 +166,7 @@ export class Trip extends React.Component {
       textLoop.push(
         // Zijn de CARDS waarop gedrukt kan worden om venster te openen
         // N: iterations need a unique key
-        <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)}>
+        <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)} onLongPress={() => this.removeItem(element.id)}>
           <View style={styles.cardLayout}>
             <Text style={styles.titleText}>Name: {element.description}</Text>
             <Text>Description: {element.amount}
@@ -321,6 +352,10 @@ export class Trip extends React.Component {
               </View>
 
           </Modal>
+
+          {/** Popup component */}
+          <Popup ref={popup => this.popup = popup} />
+          {/** or <Popup ref={popup => this.popup = popup } isOverlay={false} isOverlayClickClose={false}/> */}
 
         </View>
         </View>

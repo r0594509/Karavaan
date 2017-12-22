@@ -2,6 +2,7 @@ import { Trip } from "../model/Trip";
 import { Person } from "../model/Person";
 import { Expense } from "../model/Expense";
 import { Category } from "../model/Category";
+import { Currencies } from "../../node_modules/ts-money/build/index";
 
 export class TripDatabase {
 
@@ -24,8 +25,8 @@ export class TripDatabase {
     private addDebugTrips() {
         var trip_1 = new Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen ');
         var trip_2 = new Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen');
-        var expense_1 = new Expense('Restaurant "La pizzaaa"', Category.Food, new Date(2017, 8, 5, 0, 0), 87.99);
-        var expense_2 = new Expense('Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99);
+        var expense_1 = new Expense('Restaurant "La pizzaaa"', Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, Currencies.EUR);
+        var expense_2 = new Expense('Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, Currencies.EUR);
         trip_1.addExpense(expense_1);
         trip_1.addExpense(expense_2);
         trip_2.addExpense(expense_2);
@@ -59,6 +60,23 @@ export class TripDatabase {
 
     public addExpenseToTrip(tripId: number, expense: Expense) {
         this.getTrip(tripId).addExpense(expense);
+    }
+
+    public getExpenseInTrip(tripId: number, expenseId: number) : Expense {
+        for (let i=0; i < this.getTrip(tripId).expenses.length; i++) {
+            if (this.getTrip(tripId).expenses[i].id === expenseId) {
+                return this.getTrip(tripId).expenses[i];
+            }
+        }
+        return null;
+    }
+
+    public removeExpenseInTrip(tripId: number, expenseId: number) {
+        for (let i=0; i < this.getTrip(tripId).expenses.length; i++) {
+            if (this.getTrip(tripId).expenses[i].id === expenseId) {
+                this.getTrip(tripId).expenses.splice(i, 1);
+            }
+        }
     }
 
     /**
