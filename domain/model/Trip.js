@@ -11,10 +11,10 @@ var Trip = /** @class */ (function () {
     }
     /**
      *
-     * @param name cannot be empty and should contain at least 5 characters
+     * @param name cannot be empty and should contain at least 2 characters
      */
     Trip.isValidTripName = function (name) {
-        if (name == null || name === "" || name.length < 5) {
+        if (name == null || name === "" || name.length < 2) {
             return false;
         }
         return true;

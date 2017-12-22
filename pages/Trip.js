@@ -6,6 +6,7 @@ import styles from '../styles/styles';
 import c from '../domain/controller/Controller';
 import { Expense } from '../domain/model/Expense';
 import { Category } from '../domain/model/Category';
+import { Money, Currencies, Currency } from 'ts-money';
 
 export class Trip extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -19,6 +20,8 @@ export class Trip extends React.Component {
     formNameIsValid: true,
     formAmntIsValid: true,
     formDateIsValid: true,
+    expenseCategory: null,
+    expenseCurrency: null,
     expenseCategorySelected: Category.All,
     categoryTitle: "Select a category",
     categoryFormTitle: 'Select Category',
@@ -33,8 +36,23 @@ export class Trip extends React.Component {
     let name = this.state.expenseName;
     let amnt = this.state.expenseAmnt;
     let date = this.state.expenseDate;
+    let category = this.state.expenseCategory;
+    let currency = this.state.expenseCurrency;
 
     let errors = 0;
+
+    if (category == null) {
+      errors++;
+      this.setState({ expenseCategoryIsValid: false});
+    } else {
+      this.setState({ expenseCategoryIsValid: true});
+    }
+    if (currency == null) {
+      errors++;
+      this.setState({ expenseCurrencyIsValid: false});
+    } else {
+      this.setState({ expenseCurrencyIsValid: true});
+    }
 
     if (!Expense.isValidExpenseName(name)) {
       errors++;
@@ -59,7 +77,7 @@ export class Trip extends React.Component {
 
     if (errors === 0) {
       const { params } = this.props.navigation.state;
-      let expense = new Expense(name, Category.Misc, date, amnt);
+      let expense = new Expense(name, Category[category], date, amnt, Currencies[currency]);
       c.addExpenseToTrip(params.id, expense);
 
       this.toggleModalVisible();
@@ -67,8 +85,8 @@ export class Trip extends React.Component {
       this.state.expenseName = null;
       this.state.expenseAmnt = null;
       this.state.expenseDate = null;
-      this.state.expenseFriends = null;
-      this.state.expensePerson = null;
+      this.state.expenseCategory = null;
+      this.state.expenseCurrency = null;
     }
   }
 
@@ -77,6 +95,13 @@ export class Trip extends React.Component {
     this.setState({ formNameIsValid: true });
     this.setState({ formAmntIsValid: true });
     this.setState({ formDateIsValid: true });
+    this.setState({ expenseCategoryIsValid: true});
+    this.setState({ expenseCurrencyIsValid: true});
+    this.state.expenseName = null;
+    this.state.expenseAmnt = null;
+    this.state.expenseDate = null;
+    this.state.expenseCategory = null;
+    this.state.expenseCurrency = null;
   }
 
   toggleModalVisible() {
@@ -92,15 +117,20 @@ export class Trip extends React.Component {
       if ( typeof Category[n] === 'string') data.push({value: n});
     }
     
-    let dataForm = []
+    let dataForm = [];
     for (var n in Category) {
       if ( typeof Category[n] === 'string') dataForm.push({value: n});
     }
     //Do not allow users to create a new expense of caregoty "all"
     dataForm.shift();
 
+    //This is a very slow solution
+    let currenciesList = [];
+    for (var n in Currencies) {
+      currenciesList.push({value: n});
+    }
+
     var textLoop = [];
-    
     c.getExpensesForTrip(params.id, this.state.expenseCategorySelected).forEach(element => {
       textLoop.push(
         // Zijn de CARDS waarop gedrukt kan worden om venster te openen
@@ -118,6 +148,8 @@ export class Trip extends React.Component {
     var formName = [];
     var formAmnt = [];
     var formDate = [];
+    var categoryFormDropDown = [];
+    var currencyFormDropDown = [];
 
     if (this.state.formNameIsValid) {
       formName.push(
@@ -147,6 +179,62 @@ export class Trip extends React.Component {
       formDate.push(
         <Text key="formDate" style={styles.FormTextInvalid}>EXPENSE DATE IS NOT VALID</Text>
       )
+    }
+
+    if (this.state.expenseCategoryIsValid) {
+      categoryFormDropDown.push(
+        <Dropdown
+                    key="categorydormdropdown"
+                    label={this.state.categoryFormTitle}
+                    data={dataForm}
+                    onChangeText={(expenseCategory) => this.setState({expenseCategory: expenseCategory})}
+                    //fontSize={16}
+                    containerStyle={{ paddingLeft: 15}}
+                    baseColor='black'
+                    dropdownPosition={1}
+                  />
+      );
+    } else {
+      categoryFormDropDown.push(
+        <Dropdown
+                    key="categorydormdropdown"
+                    label={this.state.categoryFormTitle}
+                    data={dataForm}
+                    onChangeText={(expenseCategory) => this.setState({expenseCategory: expenseCategory})}
+                    //fontSize={16}
+                    containerStyle={{ paddingLeft: 15}}
+                    baseColor='red'
+                    dropdownPosition={1}
+                  />
+      );
+    }
+
+    if (this.state.expenseCurrencyIsValid) {
+      currencyFormDropDown.push(
+        <Dropdown
+                      key="currencydormdropdown"
+                      label={this.state.currencyFormTitle}
+                      data={currenciesList}
+                      onChangeText={(expenseCurrency) => this.setState({expenseCurrency: expenseCurrency})}
+                      //fontSize={16}
+                      containerStyle={{ paddingRight: 15 }}
+                      baseColor='black'
+                      dropdownPosition={1}
+                    />
+      );
+    } else {
+      currencyFormDropDown.push(
+        <Dropdown
+                      key="currencydormdropdown"
+                      label={this.state.currencyFormTitle}
+                      data={currenciesList}
+                      onChangeText={(expenseCurrency) => this.setState({expenseCurrency: expenseCurrency})}
+                      //fontSize={16}
+                      containerStyle={{ paddingRight: 15 }}
+                      baseColor='red'
+                      dropdownPosition={1}
+                    />
+      );
     }
 
     return (
@@ -188,7 +276,7 @@ export class Trip extends React.Component {
             {/* Formulier inhoud */}
             <View style={{ marginTop: 22, flex: 1 }}>
 
-              <Text style={styles.FormText}>EXPENSE NAME</Text>
+              {formName}
               <TextInput
                 style={styles.FormInput}
                 placeholder="Type the expense name here!"
@@ -196,19 +284,12 @@ export class Trip extends React.Component {
               />
               <View style={{ flexDirection: 'row' }}>
                 <View style={{ flex: 1 }}>
-                  <Dropdown
-                    label={this.state.categoryFormTitle}
-                    data={dataForm}
-                    onChangeText={(expenseCategory) => this.setState({expenseCategory})}
-                    //fontSize={16}
-                    containerStyle={{ paddingLeft: 15}}
-                    baseColor='rgba(0, 0, 0, 1)'
-                    dropdownPosition={1}
-                  />
+                  {categoryFormDropDown}
                 </View>
                 <View style={{ width: 200, marginLeft: 8 }}>
+                  {formDate}
                   <TextInput
-                    style={[styles.FormInput, { marginTop: 32 }]}
+                    style={[styles.FormInput, { marginTop: -2 }]}
                     placeholder="Expense Date"
                     onChangeText={(expenseDate) => this.setState({ expenseDate })}
                     keyboardType='numeric'
@@ -217,25 +298,17 @@ export class Trip extends React.Component {
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                   <View style={{ flex: 1 }}>
+                    {formAmnt}
                     <TextInput
-                      style={[styles.FormInput, { marginTop: 32 }]}
+                      style={[styles.FormInput, { marginTop: -2 }]}
                       placeholder="Expense Amount"
-                      onChangeText={(exspenseAmount) => this.setState({ exspenseAmount })}
+                      onChangeText={(expenseAmnt) => this.setState({ expenseAmnt })}
                       keyboardType='numeric'
                     />
                   </View>
                   <View style={{ width: 200, marginLeft: 8 }}>
-                    <Dropdown
-                      label={this.state.currencyFormTitle}
-                      data={data}
-                      onChangeText={(expenseCurrency) => this.setState({expenseCurrency})}
-                      //fontSize={16}
-                      containerStyle={{ paddingRight: 15 }}
-                      baseColor='rgba(0, 0, 0, 1)'
-                      dropdownPosition={1}
-                    />
+                    {currencyFormDropDown}
                   </View>
-
                 </View>
               </View>
               <View>

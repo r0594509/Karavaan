@@ -60,6 +60,7 @@ export class Persons extends React.Component {
   handleOnCancel_newPersonForm() {
     this.toggleModalVisible();
     this.setState({ formNameIsValid: true });
+    this.state.personName = null;
   }
 
   saveNewPerson() {

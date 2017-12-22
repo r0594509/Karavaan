@@ -35,6 +35,8 @@ export class Trips extends React.Component {
     this.setState({ formNameIsValid: true });
     this.setState({ formDescIsValid: true });
     this.setState({ personIdList : [] });
+    this.state.tripName = null;
+    this.state.tripDesc = null;
   }
 
   saveNewTrip() {
@@ -62,7 +64,6 @@ export class Trips extends React.Component {
       // clear state for next form
       this.state.tripName = null;
       this.state.tripDesc = null;
-      this.state.tripPersons = null;
       this.state.personIdList = [];
     }
   }
