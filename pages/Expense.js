@@ -24,16 +24,31 @@ export class Expense extends React.Component {
         textLoop = [];
         textLoop.push(
             <View style={styles.mainViewLayout} key='expensedetails'>
-                <Text>{expense.amount} {expense.defaultCurrency.name}</Text>
-                <Text>{expense.category}</Text>
+                <Text>Total expense: {expense.amount} {expense.defaultCurrency.name}</Text>
+                <Text>expense category: {expense.category}</Text>
+                <Text>expense date: {expense.date.getDate()}-{expense.date.getMonth()}-{expense.date.getFullYear()}</Text>
             </View>
         );
+
+        personList = [];
+        if (expense.persons != null) {
+            expense.persons.forEach(element => {
+                personList.push(
+                    <View style={styles.mainViewLayout} key={'persondetails'+element.id}>
+                        <Text>{element.name}</Text>
+                    </View>
+                );
+            });
+        }
 
         return (
             <View style={styles.mainViewLayout}>
                 <View style={{ flex: 1 }}>
                     {textLoop}
                 </View>
+                <ScrollView contentContainer={{ paddingVertical: 20 }}>
+                    {personList}
+                </ScrollView>
             </View>
         );
     }

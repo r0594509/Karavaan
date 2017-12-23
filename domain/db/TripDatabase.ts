@@ -18,26 +18,28 @@ export class TripDatabase {
     constructor() {
         this.trips = new Array();
         this.persons = new Array();
-        this.addDebugTrips();
-        this.addDebugPersons();
+        this.addDebugInfo();
     }
 
-    private addDebugTrips() {
+    private addDebugInfo() {
         var trip_1 = new Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen ');
         var trip_2 = new Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen');
         var expense_1 = new Expense('Restaurant "La pizzaaa"', Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, Currencies.EUR);
         var expense_2 = new Expense('Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, Currencies.EUR);
+        var person_1 = new Person("jeoff");
+        var person_2 = new Person("kevin");
+        
+        expense_1.addPersons(new Array<Person>(person_1, person_2));
+        expense_2.addPersons(new Array<Person>(person_1));
         trip_1.addExpense(expense_1);
         trip_1.addExpense(expense_2);
         trip_2.addExpense(expense_2);
         trip_2.addExpense(expense_1);
         this.addTrip(trip_1);
-        this.addTrip(trip_2);  
-    }
-
-    private addDebugPersons(){
-        this.addPerson(new Person("jeoff"));
-        this.addPerson(new Person("kevin"));
+        this.addTrip(trip_2);
+        this.addPerson(person_1);
+        this.addPerson(person_2);
+  
     }
 
     public getTrips() {
