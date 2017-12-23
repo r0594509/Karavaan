@@ -44,10 +44,26 @@ export class Expense {
         this.amount = amount;
         this.date  = date;
         this.defaultCurrency = defaultCurrency;
+        this.persons = new Array<Person>();
     }    
 
-    addPersons(persons : Array<Person>){
-        this.persons = persons;
+    /**
+     * checking out varargs
+     */
+    addPersons(...persons : Person[]) {
+        if(persons!=null||persons.length>=0)
+        persons.forEach(element=>{!this.personIsInList(element)?this.persons.push(element):null;});
+    }
+
+    private personIsInList(person: Person) : boolean {
+        if (this.persons != null) {
+            this.persons.forEach(element => {
+                if (element.id === person.id) {
+                    return true;
+                }    
+            });
+        }
+        return false;
     }
 
     addAmount(amount: number) {

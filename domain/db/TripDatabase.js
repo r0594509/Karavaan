@@ -21,8 +21,9 @@ var TripDatabase = /** @class */ (function () {
         var expense_2 = new Expense_1.Expense('Cafe "Den Bozze"', Category_1.Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, index_1.Currencies.EUR);
         var person_1 = new Person_1.Person("jeoff");
         var person_2 = new Person_1.Person("kevin");
-        expense_1.addPersons(new Array(person_1, person_2));
-        expense_2.addPersons(new Array(person_1));
+        expense_1.addPersons();
+        expense_1.addPersons(person_1, person_2);
+        expense_2.addPersons(person_1);
         trip_1.addExpense(expense_1);
         trip_1.addExpense(expense_2);
         trip_2.addExpense(expense_2);

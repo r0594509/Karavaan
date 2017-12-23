@@ -8,6 +8,7 @@ var Expense = /** @class */ (function () {
         this.amount = amount;
         this.date = date;
         this.defaultCurrency = defaultCurrency;
+        this.persons = new Array();
     }
     /**
      *
@@ -30,8 +31,27 @@ var Expense = /** @class */ (function () {
     Expense.isValidExpenseDate = function (date) {
         return !(date == null);
     };
-    Expense.prototype.addPersons = function (persons) {
-        this.persons = persons;
+    /**
+     * checking out varargs
+     */
+    Expense.prototype.addPersons = function () {
+        var _this = this;
+        var persons = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            persons[_i] = arguments[_i];
+        }
+        if (persons != null || persons.length >= 0)
+            persons.forEach(function (element) { !_this.personIsInList(element) ? _this.persons.push(element) : null; });
+    };
+    Expense.prototype.personIsInList = function (person) {
+        if (this.persons != null) {
+            this.persons.forEach(function (element) {
+                if (element.id === person.id) {
+                    return true;
+                }
+            });
+        }
+        return false;
     };
     Expense.prototype.addAmount = function (amount) {
         this.amount = amount;

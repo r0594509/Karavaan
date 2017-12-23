@@ -28,9 +28,9 @@ export class TripDatabase {
         var expense_2 = new Expense('Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, Currencies.EUR);
         var person_1 = new Person("jeoff");
         var person_2 = new Person("kevin");
-        
-        expense_1.addPersons(new Array<Person>(person_1, person_2));
-        expense_2.addPersons(new Array<Person>(person_1));
+        expense_1.addPersons();
+        expense_1.addPersons(person_1, person_2);
+        expense_2.addPersons(person_1);
         trip_1.addExpense(expense_1);
         trip_1.addExpense(expense_2);
         trip_2.addExpense(expense_2);
