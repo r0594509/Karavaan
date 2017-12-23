@@ -57,4 +57,5 @@ const StackNavigation = StackNavigator({
   cardStyle: {
       paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
   }
-});
+},
+{ headerMode: 'screen' });

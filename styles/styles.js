@@ -69,6 +69,17 @@ import { StyleSheet } from 'react-native';
       padding: 10,
     },
 
+    FormViewExpensePerson: {
+      flexDirection: 'row', 
+      marginTop: 10,
+      marginLeft: 20,
+      marginRight: 20, 
+      backgroundColor: 'white', 
+      borderColor: 'black',
+      borderRadius: 5,
+      borderWidth: 0.5, 
+    },
+
   });
 
   export default styles;
