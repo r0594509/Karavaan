@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Dropdown } from 'react-native-material-dropdown';
+import CheckBox from 'react-native-check-box';
 import styles from '../styles/styles';
 import c from '../domain/controller/Controller';
 import Popup from 'react-native-popup';
@@ -19,7 +20,7 @@ export class Expense extends React.Component {
     }
 
     state = {
-        AmountToDevide:c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount,
+        AmountToDevide: c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount,
         isDevided: false,
         standaardValue: '0',
         standaardCss: [styles.titleText, { marginTop: 20 }],
@@ -28,40 +29,40 @@ export class Expense extends React.Component {
 
     listOfPayedAmounts = {};
 
-    
-    changeDivideMethode(devideMethodSelected){
-        this.setState({devideMethodSelected: devideMethodSelected});
-        friends = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).persons;
-        toPayAmount = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount/ friends.length;
 
-        if(devideMethodSelected == 'Equal'){
+    changeDivideMethode(devideMethodSelected) {
+        this.setState({ devideMethodSelected: devideMethodSelected });
+        friends = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).persons;
+        toPayAmount = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount / friends.length;
+
+        if (devideMethodSelected == 'Equal') {
             friends.forEach(person => {
                 //this.listOfPayedAmounts[person.id] = toPayAmount;
                 this.tempSaveAmount(person.id, toPayAmount);
             })
-            this.setState({standaardValue: toPayAmount + ''});
-            this.setState({isDevided: true});
-        }else{
+            this.setState({ standaardValue: toPayAmount + '' });
+            this.setState({ isDevided: true });
+        } else {
             friends.forEach(person => {
                 //this.listOfPayedAmounts[person.id] = 0;
                 this.tempSaveAmount(person.id, 0);
             })
-            this.setState({standaardValue: '0'});
-            this.setState({isDevided: false});
+            this.setState({ standaardValue: '0' });
+            this.setState({ isDevided: false });
         }
     }
 
-    tempSaveAmount(id, amount){
+    tempSaveAmount(id, amount) {
         var typedAmount = 0;
         var totalAmount = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount;
         var payedAmount = 0;
 
-        if(amount != null){
+        if (amount != null) {
             typedAmount = amount;
         }
         this.listOfPayedAmounts[id] = typedAmount;
 
-        for (var k in this.listOfPayedAmounts){
+        for (var k in this.listOfPayedAmounts) {
             if (this.listOfPayedAmounts.hasOwnProperty(k)) {
                 var test = this.listOfPayedAmounts[k];
                 payedAmount = (payedAmount * 10 + test * 10) / 10;
@@ -70,32 +71,32 @@ export class Expense extends React.Component {
         //payedAmount = totalAmount - this.state.AmountToDevide;
         //alert(payedAmount);
         newAmount = totalAmount - payedAmount;
-        this.setState({AmountToDevide: newAmount});
+        this.setState({ AmountToDevide: newAmount });
     }
 
-    isAmountValidated(){
+    isAmountValidated() {
         var payedAmount = 0;
-        
-        for (var k in this.listOfPayedAmounts){
+
+        for (var k in this.listOfPayedAmounts) {
             if (this.listOfPayedAmounts.hasOwnProperty(k)) {
                 var test = this.listOfPayedAmounts[k];
                 payedAmount = (payedAmount * 10 + test * 10) / 10;
             }
         }
 
-        if(payedAmount == c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount ){
+        if (payedAmount == c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    saveExpenseForm(){
-        if(this.isAmountValidated()){
-            this.setState({isDevided: true});
-            this.setState({standaardCss: [styles.titleText, { marginTop: 20, color: 'black' }]});
-        }else{
-            this.setState({standaardCss: [styles.titleText, { marginTop: 20, color: 'red' }]});
+    saveExpenseForm() {
+        if (this.isAmountValidated()) {
+            this.setState({ isDevided: true });
+            this.setState({ standaardCss: [styles.titleText, { marginTop: 20, color: 'black' }] });
+        } else {
+            this.setState({ standaardCss: [styles.titleText, { marginTop: 20, color: 'red' }] });
         }
 
     }
@@ -111,15 +112,6 @@ export class Expense extends React.Component {
 
         let expense = c.getExpenseInTrip(params.tripId, params.expenseId);
 
-        textLoop = [];
-        textLoop.push(
-            <View style={styles.mainViewLayout} key='expensedetails'>
-                <Text style={[styles.titleText, { marginTop: 10 }]} >Amount to be divided: {this.state.AmountToDevide} {expense.defaultCurrency.name}</Text>
-                {/* <Text>expense category: {expense.category}</Text>*/}
-                {/* <Text>expense date: {expense.date.getDate()}-{expense.date.getMonth()}-{expense.date.getFullYear()}</Text>*/}
-            </View>
-        );
-
         personList = [];
         if (expense.persons != null) {
             expense.persons.forEach(element => {
@@ -128,7 +120,7 @@ export class Expense extends React.Component {
                         <View style={{ flex: 1 }}>
                             <Text style={styles.FormText}>{element.name}:</Text>
                         </View>
-                        <View style={{ width: 200 }}>
+                        <View style={{ width: 150 }}>
                             <TextInput
                                 style={[styles.FormInput, { marginTop: -2 }]}
                                 placeholder="Amount due"
@@ -136,6 +128,15 @@ export class Expense extends React.Component {
                                 keyboardType='numeric'
                                 editable={!this.state.isDevided}
                                 defaultValue={this.state.standaardValue}
+                            />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <CheckBox
+                                //checked={this.state.checked}
+                                onClick={() => alert(element.id)}
+                                isChecked={false}
+                                //style={[styles.FormCheckBoxInput, {paddingLeft: 20}]}
+                                style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 50}}
                             />
                         </View>
                     </View>
@@ -151,7 +152,7 @@ export class Expense extends React.Component {
 
                     <Dropdown
                         label='Divide method'
-                        value= 'Custom'
+                        value='Custom'
                         data={data}
                         onChangeText={(devideMethodSelected) => this.changeDivideMethode(devideMethodSelected)}
                         fontSize={20}
