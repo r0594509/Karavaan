@@ -105,7 +105,7 @@ export class Expense extends React.Component {
                         {personList}
                     </ScrollView>
 
-                    <TouchableHighlight onPress={() => echo('oke')} style={styles.ButtonLayoutMain}>
+                    <TouchableHighlight onPress={() => alert('oke')} style={styles.ButtonLayoutMain}>
                         <View>
                             <Text style={styles.ButtonText}>Save</Text>
                         </View>
