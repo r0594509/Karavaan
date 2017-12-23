@@ -29,6 +29,10 @@ export class Trip extends React.Component {
     currencyFormTitle: 'Select Currency',
   }
 
+  goToTrip(tripId, expenseId) {
+    this.props.navigation.navigate('ExpenseScreen', { tripId: tripId, expenseId: expenseId });
+  }
+
   handleOnSave_newExpenseForm() {
     this.saveNewExpense();
   }
@@ -166,7 +170,7 @@ export class Trip extends React.Component {
       textLoop.push(
         // Zijn de CARDS waarop gedrukt kan worden om venster te openen
         // N: iterations need a unique key
-        <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)} onLongPress={() => this.removeItem(element.id)}>
+        <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(params.id, element.id)} onLongPress={() => this.removeItem(element.id)}>
           <View style={styles.cardLayout}>
             <Text style={styles.titleText}>Name: {element.description}</Text>
             <Text>Description: {element.amount}

@@ -4,6 +4,7 @@ import { TabNavigator, StackNavigator } from 'react-navigation'
 import { Persons } from './pages/Persons';
 import { Trips } from './pages/Trips';
 import { Trip } from './pages/Trip';
+import { Expense } from './pages/Expense';
 import { Controller } from './domain/controller/Controller';
 
 //Start Punt van de App
@@ -49,5 +50,6 @@ const StackNavigation = StackNavigator({
   },
   //Inhouds Pagina TRIP
   TripScreen: { screen: Trip },
+  ExpenseScreen: { screen: Expense },
   //TripScreen: {screen: Person },
 });

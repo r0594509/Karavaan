@@ -8,7 +8,6 @@ export class Expense {
     description: string;
     amount: number;
     category: Category;
-    owedPerson: Person;
     persons: Array<Person>;
     date: Date;
     id: number;
