@@ -20,9 +20,36 @@ export class Expense extends React.Component {
 
     state = {
         AmountToDevide:c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount,
+        isDevided: false,
+        standaardValue: '0',
+        standaardCss: [styles.titleText, { marginTop: 20 }],
+        devideMethodSelected: 'Custom',
     }
 
     listOfPayedAmounts = {};
+
+    
+    changeDivideMethode(devideMethodSelected){
+        this.setState({devideMethodSelected: devideMethodSelected});
+        friends = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).persons;
+        toPayAmount = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount/ friends.length;
+
+        if(devideMethodSelected == 'Equal'){
+            friends.forEach(person => {
+                //this.listOfPayedAmounts[person.id] = toPayAmount;
+                this.tempSaveAmount(person.id, toPayAmount);
+            })
+            this.setState({standaardValue: toPayAmount + ''});
+            this.setState({isDevided: true});
+        }else{
+            friends.forEach(person => {
+                //this.listOfPayedAmounts[person.id] = 0;
+                this.tempSaveAmount(person.id, 0);
+            })
+            this.setState({standaardValue: '0'});
+            this.setState({isDevided: false});
+        }
+    }
 
     tempSaveAmount(id, amount){
         var typedAmount = 0;
@@ -45,13 +72,41 @@ export class Expense extends React.Component {
         newAmount = totalAmount - payedAmount;
         this.setState({AmountToDevide: newAmount});
     }
+
+    isAmountValidated(){
+        var payedAmount = 0;
+        
+        for (var k in this.listOfPayedAmounts){
+            if (this.listOfPayedAmounts.hasOwnProperty(k)) {
+                var test = this.listOfPayedAmounts[k];
+                payedAmount = (payedAmount * 10 + test * 10) / 10;
+            }
+        }
+
+        if(payedAmount == c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    saveExpenseForm(){
+        if(this.isAmountValidated()){
+            this.setState({isDevided: true});
+            this.setState({standaardCss: [styles.titleText, { marginTop: 20, color: 'black' }]});
+        }else{
+            this.setState({standaardCss: [styles.titleText, { marginTop: 20, color: 'red' }]});
+        }
+
+    }
+
     render() {
         const { params } = this.props.navigation.state;
 
         let data = [{
-            value: 'Equal',
-        }, {
             value: 'Custom',
+        }, {
+            value: 'Equal',
         }];
 
         let expense = c.getExpenseInTrip(params.tripId, params.expenseId);
@@ -79,6 +134,8 @@ export class Expense extends React.Component {
                                 placeholder="Amount due"
                                 onChangeText={(amount) => this.tempSaveAmount(element.id, amount)}
                                 keyboardType='numeric'
+                                editable={!this.state.isDevided}
+                                defaultValue={this.state.standaardValue}
                             />
                         </View>
                     </View>
@@ -90,22 +147,24 @@ export class Expense extends React.Component {
             <View style={styles.mainViewLayout}>
                 <View style={{ flex: 1 }}>
 
-                    <Text style={[styles.titleText, { marginTop: 20 }]} >Amount to be divided: {this.state.AmountToDevide} {expense.defaultCurrency.name}</Text>
+                    <Text style={this.state.standaardCss} >Amount to be divided: {this.state.AmountToDevide} {expense.defaultCurrency.name}</Text>
 
                     <Dropdown
                         label='Divide method'
+                        value= 'Custom'
                         data={data}
-                        //onChangeText={(expenseCategorySelected) => this.setState({ expenseCategorySelected: expenseCategorySelected })}
+                        onChangeText={(devideMethodSelected) => this.changeDivideMethode(devideMethodSelected)}
                         fontSize={20}
                         containerStyle={{ paddingLeft: 20, paddingRight: 20 }}
                         baseColor='rgba(0, 0, 0, 1)'
                         dropdownPosition={1}
+                        editable={!this.state.isDevided}
                     />
                     <ScrollView contentContainer={{ paddingVertical: 20 }}>
                         {personList}
                     </ScrollView>
 
-                    <TouchableHighlight onPress={() => echo('oke')} style={styles.ButtonLayoutMain}>
+                    <TouchableHighlight onPress={() => this.saveExpenseForm()} style={styles.ButtonLayoutMain}>
                         <View>
                             <Text style={styles.ButtonText}>Save</Text>
                         </View>
