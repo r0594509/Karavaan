@@ -18,6 +18,33 @@ export class Expense extends React.Component {
         super(props);
     }
 
+    state = {
+        AmountToDevide:c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount,
+    }
+
+    listOfPayedAmounts = {};
+
+    tempSaveAmount(id, amount){
+        var typedAmount = 0;
+        var totalAmount = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount;
+        var payedAmount = 0;
+
+        if(amount != null){
+            typedAmount = amount;
+        }
+        this.listOfPayedAmounts[id] = typedAmount;
+
+        for (var k in this.listOfPayedAmounts){
+            if (this.listOfPayedAmounts.hasOwnProperty(k)) {
+                var test = this.listOfPayedAmounts[k];
+                payedAmount = (payedAmount * 10 + test * 10) / 10;
+            }
+        }
+        //payedAmount = totalAmount - this.state.AmountToDevide;
+        //alert(payedAmount);
+        newAmount = totalAmount - payedAmount;
+        this.setState({AmountToDevide: newAmount});
+    }
     render() {
         const { params } = this.props.navigation.state;
 
@@ -32,7 +59,7 @@ export class Expense extends React.Component {
         textLoop = [];
         textLoop.push(
             <View style={styles.mainViewLayout} key='expensedetails'>
-                <Text style={[styles.titleText, { marginTop: 10 }]} >Amount to be divided: {expense.amount} {expense.defaultCurrency.name}</Text>
+                <Text style={[styles.titleText, { marginTop: 10 }]} >Amount to be divided: {this.state.AmountToDevide} {expense.defaultCurrency.name}</Text>
                 {/* <Text>expense category: {expense.category}</Text>*/}
                 {/* <Text>expense date: {expense.date.getDate()}-{expense.date.getMonth()}-{expense.date.getFullYear()}</Text>*/}
             </View>
@@ -50,7 +77,7 @@ export class Expense extends React.Component {
                             <TextInput
                                 style={[styles.FormInput, { marginTop: -2 }]}
                                 placeholder="Amount due"
-                                //onChangeText={(expenseDate) => this.setState({ expenseDate })}
+                                onChangeText={(amount) => this.tempSaveAmount(element.id, amount)}
                                 keyboardType='numeric'
                             />
                         </View>
@@ -63,7 +90,7 @@ export class Expense extends React.Component {
             <View style={styles.mainViewLayout}>
                 <View style={{ flex: 1 }}>
 
-                    <Text style={[styles.titleText, { marginTop: 20 }]} >Amount to be divided: {expense.amount} {expense.defaultCurrency.name}</Text>
+                    <Text style={[styles.titleText, { marginTop: 20 }]} >Amount to be divided: {this.state.AmountToDevide} {expense.defaultCurrency.name}</Text>
 
                     <Dropdown
                         label='Divide method'
