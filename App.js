@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, Button, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Button, StatusBar, Platform } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { Persons } from './pages/Persons';
 import { Trips } from './pages/Trips';
@@ -52,4 +52,9 @@ const StackNavigation = StackNavigator({
   TripScreen: { screen: Trip },
   ExpenseScreen: { screen: Expense },
   //TripScreen: {screen: Person },
+  },
+  {
+  cardStyle: {
+      paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
+  }
 });
