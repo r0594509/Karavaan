@@ -34,6 +34,7 @@ export class Expense extends React.Component {
         this.setState({ devideMethodSelected: devideMethodSelected });
         friends = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).persons;
         toPayAmount = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount / friends.length;
+        toPayAmount = +toPayAmount.toFixed(2);
 
         if (devideMethodSelected == 'Equal') {
             friends.forEach(person => {
@@ -66,27 +67,38 @@ export class Expense extends React.Component {
             if (this.listOfPayedAmounts.hasOwnProperty(k)) {
                 var test = this.listOfPayedAmounts[k];
                 payedAmount = (payedAmount * 10 + test * 10) / 10;
+                payedAmount = +payedAmount.toFixed(2);
             }
         }
         //payedAmount = totalAmount - this.state.AmountToDevide;
         //alert(payedAmount);
         newAmount = totalAmount - payedAmount;
+
+        if (newAmount < 0.01) {
+            newAmount = 0;
+        }
         this.setState({ AmountToDevide: newAmount });
     }
 
     isAmountValidated() {
         var payedAmount = 0;
+        var typedAmount = 0;
+        var totalAmount = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount;
 
         for (var k in this.listOfPayedAmounts) {
             if (this.listOfPayedAmounts.hasOwnProperty(k)) {
                 var test = this.listOfPayedAmounts[k];
                 payedAmount = (payedAmount * 10 + test * 10) / 10;
+                //Math.round(payedAmount + 0.00001 * 100) / 100;
+                //payedAmount = +payedAmount.toFixed(2);
             }
         }
 
-        if (payedAmount == c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount) {
+        newAmount = totalAmount - payedAmount;
+
+        if (newAmount < 0.01 || newAmount == 0) {
             return true;
-        } else {
+        } else{
             return false;
         }
     }
@@ -136,7 +148,7 @@ export class Expense extends React.Component {
                                 onClick={() => alert(element.id)}
                                 isChecked={false}
                                 //style={[styles.FormCheckBoxInput, {paddingLeft: 20}]}
-                                style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 50}}
+                                style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 50 }}
                             />
                         </View>
                     </View>
