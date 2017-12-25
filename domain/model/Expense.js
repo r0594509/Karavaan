@@ -4,7 +4,7 @@ var Expense = /** @class */ (function () {
     /**
      * Creates a new Expense with said parameters
      */
-    function Expense(tripId, description, category, date, amount, expenseCurrency) {
+    function Expense(tripId, description, category, date, amount, isDevided, expenseCurrency) {
         this.tripId = tripId;
         this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));
         this.description = description;
@@ -12,6 +12,8 @@ var Expense = /** @class */ (function () {
         this.amount = amount;
         this.date = date;
         this.expenseCurrency = expenseCurrency;
+        this.isDevided = isDevided;
+        this.expenseDataMap = new Map();
     }
     /**
      * @param name cannot be empty and should contain at least 3 characters
