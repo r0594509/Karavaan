@@ -80,7 +80,7 @@ export class TripDatabase {
      */
     private populateExpenseDataMap(expense: Expense) {
         this.getTrip(expense.tripId).persons.forEach(element => {
-            expense.expenseDataMap.set(element.id, {amount : 0, isPaid : false}); 
+            expense.expenseDataMap.set(element.id, new PersonExpenseData(0, false)); 
         });
     }
 

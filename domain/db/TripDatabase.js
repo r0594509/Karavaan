@@ -5,6 +5,7 @@ var Person_1 = require("../model/Person");
 var Expense_1 = require("../model/Expense");
 var Category_1 = require("../model/Category");
 var index_1 = require("../../node_modules/ts-money/build/index");
+var PersonExpenseData_1 = require("../model/PersonExpenseData");
 var TripDatabase = /** @class */ (function () {
     function TripDatabase() {
         this.trips = new Array();
@@ -66,7 +67,7 @@ var TripDatabase = /** @class */ (function () {
      */
     TripDatabase.prototype.populateExpenseDataMap = function (expense) {
         this.getTrip(expense.tripId).persons.forEach(function (element) {
-            expense.expenseDataMap.set(element.id, { amount: 0, isPaid: false });
+            expense.expenseDataMap.set(element.id, new PersonExpenseData_1.PersonExpenseData(0, false));
         });
     };
     TripDatabase.prototype.getExpense = function (expenseId) {
