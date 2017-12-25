@@ -117,7 +117,7 @@ export class Trip extends React.Component {
     if (errors === 0) {
       const { params } = this.props.navigation.state;
       let expense = new Expense(params.id, name, Category[category], /*date=HARDCODED*/ new Date(2017, 12, 24, 0, 0, 0, 0), amnt, /*idDevided=HARDCODED*/ true, Currencies[currency]);
-      //console.log(expense.expenseCurrency);
+      //console.log(expense.expenseCurrency);      
       c.addExpense(expense);
       //console.log(c.getTrip(params.id).expenses);
 
