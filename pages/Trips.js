@@ -91,7 +91,14 @@ export class Trips extends React.Component {
     friendList = [];
     c.getTrip(id).persons.forEach(person => {
       friendList.push(
-        <Text key={person.id}>{person.name}</Text>
+        <View key={person.id} style={[styles.FormViewExpensePerson, {backgroundColor: 'lightgrey'}]}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.FormText}>{person.name}</Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.FormText}>50 EUR</Text>
+          </View>
+        </View>
       )
     });
     this.setState({personsInTripList: friendList})
