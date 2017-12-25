@@ -29,6 +29,10 @@ export class Trip extends React.Component {
     currencyFormTitle: 'Select Currency',
   }
 
+  constructor(props) {
+    super(props);
+  }
+
   goToExpense(tripId, expenseId) {
     this.props.navigation.navigate('ExpenseScreen', { tripId: tripId, expenseId: expenseId });
   }
@@ -42,14 +46,14 @@ export class Trip extends React.Component {
 
     this.popup.confirm({
       title: 'Remove',
-      content: ['Do you want to remove,', 'Expense: ' + c.getExpensesForTrip(params.id, id).name],
+      content: ['Do you want to remove,', 'Expense: ' + c.getExpensesForTrip(params.id, id).description],
       ok: {
         text: 'Yes',
         style: {
           color: 'red'
         },
         callback: () => {
-          this.popup.alert(c.getExpensesForTrip(params.id, id).name + ' has been removed!');
+          this.popup.alert(c.getExpensesForTrip(params.id, id).description + ' has been removed!');
           c.removeExpenseInTrip(params.id, id);
           // force a view update by calling setState method
           this.setState({ update: true });
@@ -61,7 +65,7 @@ export class Trip extends React.Component {
           color: 'black'
         },
         callback: () => {
-          this.popup.alert(c.getExpensesForTrip(params.id, id).name + 'has not been removed.');
+          this.popup.alert(c.getExpensesForTrip(params.id, id).description + ' has not been removed.');
         },
       },
     });
@@ -112,8 +116,8 @@ export class Trip extends React.Component {
 
     if (errors === 0) {
       const { params } = this.props.navigation.state;
-      let expense = new Expense(params.id, name, Category[category], /*date=HARDCODED*/ new Date(2017, 12, 24, 0, 0, 0, 0), amnt, /*idDevided=HARDCODED*/ true,Currencies[currency]);
-      console.log(expense.expenseCurrency);
+      let expense = new Expense(params.id, name, Category[category], /*date=HARDCODED*/ new Date(2017, 12, 24, 0, 0, 0, 0), amnt, /*idDevided=HARDCODED*/ true, Currencies[currency]);
+      //console.log(expense.expenseCurrency);
       c.addExpense(expense);
       //console.log(c.getTrip(params.id).expenses);
 
@@ -161,10 +165,12 @@ export class Trip extends React.Component {
     //Do not allow users to create a new expense of caregoty "all"
     dataForm.shift();
 
-    //This is a very slow solution
     let currenciesList = [];
     for (var n in Currencies) {
-      currenciesList.push({value: n});
+      //console.log(Currencies[n].code);
+      if (Currencies[n].code != "ALL") {
+        currenciesList.push({value: n});
+      }
     }
 
     var textLoop = [];
