@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput, TouchableWithoutFeedback  } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import CheckBox from 'react-native-check-box';
 import Popup from 'react-native-popup';
@@ -21,6 +21,7 @@ export class Trips extends React.Component {
   //Initiele Status van de modal (pop-up venster)
   state = {
     modalVisible: false,
+    modalFriendsVisible: false,
     formNameIsValid: true,
     formDescIsValid: true,
     personIdList : []
@@ -81,6 +82,10 @@ export class Trips extends React.Component {
     this.setState({ modalVisible: !this.state.modalVisible });
   }
 
+  toggleModalFriendsVisible(){
+    this.setState({modalFriendsVisible: !this.state.modalFriendsVisible});
+  }
+
   //Functie om te navigeren naar individuele Trip pagina
   //Wordt later goToTrip(int id)
   goToTrip(id) {
@@ -100,33 +105,6 @@ export class Trips extends React.Component {
     }
   }
 
-  removeItem(id) {
-    this.popup.confirm({
-      title: 'Remove',
-      content: ['Do you want to remove,', 'Trip: ' + c.getTrip(id).name],
-      ok: {
-        text: 'Yes',
-        style: {
-          color: 'red'
-        },
-        callback: () => {
-          c.removeTrip(id);
-          this.popup.alert('The trip has been removed!');
-          // force a view update by calling setState method
-          this.setState({update: true});
-        },
-      },
-      cancel: {
-        text: 'No',
-        style: {
-          color: 'black'
-        },
-        callback: () => {
-          this.popup.alert('The trip has not been removed.');
-        },
-      },
-    });
-  }
 
   //Rendert het venster
   render() {
@@ -136,7 +114,7 @@ export class Trips extends React.Component {
     c.getTrips().forEach(element => {
       tripList.push(
         // Zijn de CARDS waarop gedrukt kan worden om venster te openen
-        <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)} onLongPress={() => this.removeItem(element.id)}>
+        <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)} onLongPress={() => this.toggleModalFriendsVisible()}>
           <View style={styles.cardLayout}>
             <Text style={styles.titleText}>Name: {element.name}</Text>
             <Text>Description: {element.description}</Text>
@@ -234,9 +212,26 @@ export class Trips extends React.Component {
               </View>
           </Modal>
 
-          {/** Popup component */}
-          <Popup ref={popup => this.popup = popup} />
-          {/** or <Popup ref={popup => this.popup = popup } isOverlay={false} isOverlayClickClose={false}/> */}
+           {/* Friends Modal */}
+           
+          <Modal animationType="fade"
+            transparent={true}
+            visible={this.state.modalFriendsVisible}
+            onRequestClose={() => this.toggleModalFriendsVisible()}
+          >
+            <View style={styles.ModalFriends}>
+              <ScrollView contentContainer={{ paddingVertical: 20 }}>
+                {personList}
+              </ScrollView>
+              <TouchableHighlight onPress={() => this.toggleModalFriendsVisible()} style={styles.ButtonLayoutMain}>
+                  <View>
+                    <Text style={styles.ButtonText}>Close</Text>
+                  </View>
+                </TouchableHighlight>
+            </View>
+            
+
+          </Modal>
 
         </View>
       </View >

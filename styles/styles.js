@@ -80,6 +80,16 @@ import { StyleSheet } from 'react-native';
       borderWidth: 0.5, 
     },
 
+    ModalFriends:{
+      backgroundColor: 'white',
+      borderColor: 'black',
+      borderRadius: 5,
+      borderWidth: 0.5,
+      padding: 20,
+      margin : 25,
+      flex: 1,
+    }
+
   });
 
   export default styles;
