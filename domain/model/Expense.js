@@ -33,9 +33,6 @@ var Expense = /** @class */ (function () {
     Expense.isValidExpenseDate = function (date) {
         return !(date == null);
     };
-    Expense.prototype.toString = function () {
-        return this.description + ", " + this.amount + " " + this.expenseCurrency.code;
-    };
     return Expense;
 }());
 exports.Expense = Expense;

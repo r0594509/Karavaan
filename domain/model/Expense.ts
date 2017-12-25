@@ -50,12 +50,9 @@ export class Expense {
         this.date  = date;
         this.expenseCurrency = expenseCurrency;
         this.isDevided = isDevided;
-        this.expenseDataMap = new Map<number, PersonExpenseData[]>();
+        this.expenseDataMap = new Map<number, PersonExpenseData>();
     }    
 
-    public toString(): string {
-        return this.description + ", " + this.amount + " " + this.expenseCurrency.code;
-    }
 }
 
 /**

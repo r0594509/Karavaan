@@ -21,7 +21,7 @@ export class Expense extends React.Component {
 
     state = {
         AmountToDevide: c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount,
-        isDevided: false,
+        isDevided: c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).isDevided,
         standaardValue: '0',
         standaardCss: [styles.titleText, { marginTop: 20 }],
         devideMethodSelected: 'Custom',
@@ -103,6 +103,8 @@ export class Expense extends React.Component {
     }
 
     saveExpenseForm() {
+        //this.isAmountValidated()
+        //this.c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).isAmountValid(this.listOfPayedAmounts)
         if (this.isAmountValidated()) {
             this.setState({ isDevided: true });
             this.setState({ standaardCss: [styles.titleText, { marginTop: 20, color: 'black' }] });
