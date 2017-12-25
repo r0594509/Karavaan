@@ -27,10 +27,10 @@ export class TripDatabase {
         var person_3 = new Person("davlyn");
         var trip_1 = new Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen', Currencies.EUR, [person_1, person_2]);
         var trip_2 = new Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen', Currencies.EUR, [person_1, person_2, person_3]);
-        var expense_1 = new Expense(trip_1.id, '1 Restaurant "La pizzaaa"', Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, true, Currencies.EUR);
-        var expense_2 = new Expense(trip_1.id,'2 Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, true, Currencies.EUR);
-        var expense_3 = new Expense(trip_2.id, '3 Restaurant "La pizzaaa"', Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, true, Currencies.EUR);
-        var expense_4 = new Expense(trip_2.id,'4 Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, true, Currencies.EUR);
+        var expense_1 = new Expense(trip_1.id, '1 Restaurant "La pizzaaa"', Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, false, Currencies.EUR);
+        var expense_2 = new Expense(trip_1.id,'2 Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, false, Currencies.EUR);
+        var expense_3 = new Expense(trip_2.id, '3 Restaurant "La pizzaaa"', Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, false, Currencies.EUR);
+        var expense_4 = new Expense(trip_2.id,'4 Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, false, Currencies.EUR);
         
         this.addTrip(trip_1);
         this.addTrip(trip_2);

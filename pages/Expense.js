@@ -22,7 +22,7 @@ export class Expense extends React.Component {
     state = {
         AmountToDevide: c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount,
         isDevided: c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).isDevided,
-        standaardValue: '0',
+        standaardValue: '',
         standaardCss: [styles.titleText, { marginTop: 20 }],
         devideMethodSelected: 'Custom',
     }
@@ -31,7 +31,7 @@ export class Expense extends React.Component {
 
     changeDivideMethode(devideMethodSelected) {
         this.setState({ devideMethodSelected: devideMethodSelected });
-        friends = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).persons;
+        friends = c.getTrip(this.props.navigation.state.params.tripId).persons;
         toPayAmount = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount / friends.length;
         toPayAmount = +toPayAmount.toFixed(2);
 
@@ -40,6 +40,7 @@ export class Expense extends React.Component {
                 //this.listOfPayedAmounts[person.id] = toPayAmount;
                 this.tempSaveAmount(person.id, toPayAmount);
             })
+            console.log(toPayAmount);
             this.setState({ standaardValue: toPayAmount + '' });
             this.setState({ isDevided: true });
         } else {
@@ -47,7 +48,7 @@ export class Expense extends React.Component {
                 //this.listOfPayedAmounts[person.id] = 0;
                 this.tempSaveAmount(person.id, 0);
             })
-            this.setState({ standaardValue: '0' });
+            this.setState({ standaardValue: '' });
             this.setState({ isDevided: false });
         }
     }
@@ -69,8 +70,7 @@ export class Expense extends React.Component {
                 payedAmount = +payedAmount.toFixed(2);
             }
         }
-        //payedAmount = totalAmount - this.state.AmountToDevide;
-        //alert(payedAmount);
+
         newAmount = totalAmount - payedAmount;
 
         if (newAmount < 0.01) {
@@ -106,9 +106,18 @@ export class Expense extends React.Component {
         //this.isAmountValidated()
         //this.c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).isAmountValid(this.listOfPayedAmounts)
         if (this.isAmountValidated()) {
+            var expense = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId);
+            expense.isDevided = true;
+            for (var k in this.listOfPayedAmounts) {
+                if (this.listOfPayedAmounts.hasOwnProperty(k)) {
+                   expense.expenseDataMap.get(Number(k)).amount = this.listOfPayedAmounts[k] ;
+                }
+            }
+
             this.setState({ isDevided: true });
             this.setState({ standaardCss: [styles.titleText, { marginTop: 20, color: 'black' }] });
-        } else {
+            this.forceUpdate();
+        } else  if (this.state.isDevided == false){
             this.setState({ standaardCss: [styles.titleText, { marginTop: 20, color: 'red' }] });
         }
 
@@ -124,9 +133,10 @@ export class Expense extends React.Component {
         }];
 
         var expense = c.getExpenseInTrip(params.tripId, params.expenseId);
-        console.log(expense);
+        //console.log(expense);
         personList = [];
         if (c.getTrip(expense.tripId).persons != null) {
+            //console.log(expense);
             c.getTrip(expense.tripId).persons.forEach(element => {
                 //console.log(element);
                 personList.push(
@@ -141,15 +151,14 @@ export class Expense extends React.Component {
                                 onChangeText={(amount) => this.tempSaveAmount(element.id, amount)}
                                 keyboardType='numeric'
                                 editable={!this.state.isDevided}
-                                defaultValue={this.state.standaardValue}
+                                defaultValue={expense.expenseDataMap.get(element.id).amount + this.state.standaardValue}
                             />
                         </View>
+
                         <View style={{ flex: 1 }}>
                             <CheckBox
-                                //checked={this.state.checked}
                                 onClick={() => alert(element.id)}
-                                isChecked={false}
-                                //style={[styles.FormCheckBoxInput, {paddingLeft: 20}]}
+                                isChecked={expense.expenseDataMap.get(element.id).isPaid}
                                 style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 50 }}
                             />
                         </View>
@@ -173,7 +182,7 @@ export class Expense extends React.Component {
                         containerStyle={{ paddingLeft: 20, paddingRight: 20 }}
                         baseColor='rgba(0, 0, 0, 1)'
                         dropdownPosition={1}
-                        editable={!this.state.isDevided}
+                        //editable={!this.state.isDevided}
                     />
                     <ScrollView contentContainer={{ paddingVertical: 20 }}>
                         {personList}
