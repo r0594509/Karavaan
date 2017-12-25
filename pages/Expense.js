@@ -124,7 +124,7 @@ export class Expense extends React.Component {
         }];
 
         var expense = c.getExpenseInTrip(params.tripId, params.expenseId);
-        //console.log(expense);
+        console.log(expense);
         personList = [];
         if (c.getTrip(expense.tripId).persons != null) {
             c.getTrip(expense.tripId).persons.forEach(element => {
