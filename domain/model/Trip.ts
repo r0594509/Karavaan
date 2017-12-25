@@ -1,11 +1,13 @@
 import { Expense } from "./Expense";
 import { Person } from "./Person";
+import { Money, Currencies, Currency } from '../../node_modules/ts-money/build/index';
 
 export class Trip {
 
     id: number;
     name: string;
     description: string;
+    defaultCurrency: Currency;
     expenses: Array<Expense>;
     persons: Array<Person>;
 
@@ -31,13 +33,14 @@ export class Trip {
         return true;
     }
 
-    constructor(name: string, description: string, persons : Array<Person>) {
+    constructor(name: string, description: string, defaultCurrency: Currency, persons : Array<Person>) {
         this.persons = new Array();
         this.expenses = new Array();
 
         this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));
         this.name = name;
         this.description = description;
+        this.defaultCurrency = defaultCurrency;
         this.persons = persons;
     }
 

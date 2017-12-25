@@ -5,6 +5,8 @@ import CheckBox from 'react-native-check-box';
 import Popup from 'react-native-popup';
 import { Trip } from '../domain/model/Trip';
 import styles from '../styles/styles';
+import { Money, Currencies, Currency } from 'ts-money';
+import { Dropdown } from 'react-native-material-dropdown';
 import c from '../domain/controller/Controller';
 
 export class Trips extends React.Component {
@@ -22,6 +24,8 @@ export class Trips extends React.Component {
   state = {
     modalVisible: false,
     modalFriendsVisible: false,
+    tripCurrency: null,
+    currencyFormTitle: 'Select Currency',
     formNameIsValid: true,
     formDescIsValid: true,
     personIdList : [],
@@ -37,14 +41,24 @@ export class Trips extends React.Component {
     this.setState({ formNameIsValid: true });
     this.setState({ formDescIsValid: true });
     this.setState({ personIdList : [] });
+    this.setState({ tripCurrencyIsValid: true});
     this.state.tripName = null;
     this.state.tripDesc = null;
+    this.state.tripCurrency = null;
   }
 
   saveNewTrip() {
     let name = this.state.tripName;
     let desc = this.state.tripDesc;
+    let currency = this.state.tripCurrency;
     let errors = 0;
+
+    if (currency == null) {
+      errors++;
+      this.setState({ tripCurrencyIsValid: false});
+    } else {
+      this.setState({ tripCurrencyIsValid: true});
+    }
 
     if (!Trip.isValidTripName(name)) {
       errors++;
@@ -61,11 +75,14 @@ export class Trips extends React.Component {
     }
 
     if (errors === 0) {
-      c.addTrip(new Trip(name, desc, this.processPersonIds(this.state.personIdList)));
+      let trip = new Trip(name, desc, Currencies[currency], this.processPersonIds(this.state.personIdList));
+      console.log(trip);
+      c.addTrip(trip);
       this.toggleModalVisible();
       // clear state for next form
       this.state.tripName = null;
       this.state.tripDesc = null;
+      this.state.tripCurrency = null;
       this.state.personIdList = [];
     }
   }
@@ -127,6 +144,15 @@ export class Trips extends React.Component {
 
   //Rendert het venster
   render() {
+
+    let currenciesList = [];
+    for (var n in Currencies) {
+      //console.log(Currencies[n].code);
+      if (Currencies[n].code != "ALL") {
+        currenciesList.push({value: n});
+      }
+    }
+
     var tripList = [];
     var personList = [];
 
@@ -157,6 +183,7 @@ export class Trips extends React.Component {
 
     var formName = [];
     var formDesc = [];
+    var currencyFormDropDown = [];
 
     if (this.state.formNameIsValid) {
       formName.push(
@@ -176,6 +203,34 @@ export class Trips extends React.Component {
       formDesc.push(
         <Text key="formDesc" style={styles.FormTextInvalid}>TRIP DESCRIPTION IS NOT VALID</Text>
       )
+    }
+
+    if (this.state.tripCurrencyIsValid) {
+      currencyFormDropDown.push(
+        <Dropdown
+                      key="currencydormdropdown"
+                      label={this.state.currencyFormTitle}
+                      data={currenciesList}
+                      onChangeText={(tripCurrency) => this.setState({tripCurrency: tripCurrency})}
+                      //fontSize={16}
+                      containerStyle={{ paddingRight: 15 }}
+                      baseColor='black'
+                      dropdownPosition={1}
+                    />
+      );
+    } else {
+      currencyFormDropDown.push(
+        <Dropdown
+                      key="currencydormdropdown"
+                      label={this.state.currencyFormTitle}
+                      data={currenciesList}
+                      onChangeText={(tripCurrency) => this.setState({tripCurrency: tripCurrency})}
+                      //fontSize={16}
+                      containerStyle={{ paddingRight: 15 }}
+                      baseColor='red'
+                      dropdownPosition={1}
+                    />
+      );
     }
 
     return (
@@ -215,6 +270,10 @@ export class Trips extends React.Component {
                 placeholder="Please enter a description for your trip"
                 onChangeText={(tripDesc) => this.setState({ tripDesc })}
               />
+
+              <View style={{ width: 200, marginLeft: 8 }}>
+                {currencyFormDropDown}
+              </View>
 
               <Text style={styles.FormText}>TRIP FRIENDS</Text>
 
