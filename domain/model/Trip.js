@@ -2,11 +2,11 @@
 exports.__esModule = true;
 var Trip = /** @class */ (function () {
     function Trip(name, description, persons) {
-        if (persons === void 0) { persons = null; }
+        this.persons = new Array();
+        this.expenses = new Array();
+        this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));
         this.name = name;
         this.description = description;
-        this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));
-        this.expenses = new Array();
         this.persons = persons;
     }
     /**

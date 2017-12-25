@@ -29,7 +29,6 @@ export class Expense extends React.Component {
 
     listOfPayedAmounts = {};
 
-
     changeDivideMethode(devideMethodSelected) {
         this.setState({ devideMethodSelected: devideMethodSelected });
         friends = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).persons;
@@ -123,10 +122,10 @@ export class Expense extends React.Component {
         }];
 
         let expense = c.getExpenseInTrip(params.tripId, params.expenseId);
-
         personList = [];
-        if (expense.persons != null) {
-            expense.persons.forEach(element => {
+        if (c.getTrip(expense.tripId).persons != null) {
+            c.getTrip(expense.tripId).persons.forEach(element => {
+                //console.log(element);
                 personList.push(
                     <View style={styles.FormViewExpensePerson} key={'persondetails' + element.id}>
                         <View style={{ flex: 1 }}>
@@ -160,7 +159,7 @@ export class Expense extends React.Component {
             <View style={styles.mainViewLayout}>
                 <View style={{ flex: 1 }}>
 
-                    <Text style={this.state.standaardCss} >Amount to be divided: {this.state.AmountToDevide} {expense.defaultCurrency.name}</Text>
+                    <Text style={this.state.standaardCss} >Amount to be divided: {this.state.AmountToDevide} {expense.expenseCurrency.name}</Text>
 
                     <Dropdown
                         label='Divide method'

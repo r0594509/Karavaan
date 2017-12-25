@@ -15,23 +15,24 @@ var TripDatabase = /** @class */ (function () {
         return this._instance || (this._instance = new this());
     };
     TripDatabase.prototype.addDebugInfo = function () {
-        var trip_1 = new Trip_1.Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen ');
-        var trip_2 = new Trip_1.Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen');
-        var expense_1 = new Expense_1.Expense('Restaurant "La pizzaaa"', Category_1.Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, index_1.Currencies.EUR);
-        var expense_2 = new Expense_1.Expense('Cafe "Den Bozze"', Category_1.Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, index_1.Currencies.EUR);
         var person_1 = new Person_1.Person("jeoff");
         var person_2 = new Person_1.Person("kevin");
-        expense_1.addPersons();
-        expense_1.addPersons(person_1, person_2);
-        expense_2.addPersons(person_1);
-        trip_1.addExpense(expense_1);
-        trip_1.addExpense(expense_2);
-        trip_2.addExpense(expense_2);
-        trip_2.addExpense(expense_1);
+        var person_3 = new Person_1.Person("davlyn");
+        var trip_1 = new Trip_1.Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen', [person_1, person_2]);
+        var trip_2 = new Trip_1.Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen', [person_1, person_2, person_3]);
+        var expense_1 = new Expense_1.Expense(trip_1.id, '1 Restaurant "La pizzaaa"', Category_1.Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, index_1.Currencies.EUR);
+        var expense_2 = new Expense_1.Expense(trip_1.id, '2 Cafe "Den Bozze"', Category_1.Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, index_1.Currencies.EUR);
+        var expense_3 = new Expense_1.Expense(trip_2.id, '3 Restaurant "La pizzaaa"', Category_1.Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, index_1.Currencies.EUR);
+        var expense_4 = new Expense_1.Expense(trip_2.id, '4 Cafe "Den Bozze"', Category_1.Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, index_1.Currencies.EUR);
         this.addTrip(trip_1);
         this.addTrip(trip_2);
         this.addPerson(person_1);
         this.addPerson(person_2);
+        this.addPerson(person_3);
+        this.addExpense(expense_1);
+        this.addExpense(expense_2);
+        this.addExpense(expense_3);
+        this.addExpense(expense_4);
     };
     TripDatabase.prototype.getTrips = function () {
         return this.trips;
@@ -48,8 +49,17 @@ var TripDatabase = /** @class */ (function () {
         }
         return null;
     };
-    TripDatabase.prototype.addExpenseToTrip = function (tripId, expense) {
-        this.getTrip(tripId).addExpense(expense);
+    TripDatabase.prototype.addExpense = function (expense) {
+        this.getTrip(expense.tripId).addExpense(expense);
+    };
+    TripDatabase.prototype.getExpense = function (expenseId) {
+        this.getTrips().forEach(function (element) {
+            element.expenses.forEach(function (element2) {
+                if (element2.id === expenseId)
+                    return element2;
+            });
+        });
+        return null;
     };
     TripDatabase.prototype.getExpenseInTrip = function (tripId, expenseId) {
         for (var i = 0; i < this.getTrip(tripId).expenses.length; i++) {

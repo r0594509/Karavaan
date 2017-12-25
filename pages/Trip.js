@@ -29,7 +29,7 @@ export class Trip extends React.Component {
     currencyFormTitle: 'Select Currency',
   }
 
-  goToTrip(tripId, expenseId) {
+  goToExpense(tripId, expenseId) {
     this.props.navigation.navigate('ExpenseScreen', { tripId: tripId, expenseId: expenseId });
   }
 
@@ -112,8 +112,10 @@ export class Trip extends React.Component {
 
     if (errors === 0) {
       const { params } = this.props.navigation.state;
-      let expense = new Expense(name, Category[category], date, amnt, Currencies[currency]);
-      c.addExpenseToTrip(params.id, expense);
+      let expense = new Expense(params.id, name, Category[category], /* date */ new Date(2017, 12, 24, 0, 0, 0, 0), amnt, Currencies[currency]);
+
+      c.addExpense(expense);
+      //console.log(c.getTrip(params.id).expenses);
 
       this.toggleModalVisible();
       // clear state for next form
@@ -167,10 +169,11 @@ export class Trip extends React.Component {
 
     var textLoop = [];
     c.getExpensesForTrip(params.id, this.state.expenseCategorySelected).forEach(element => {
+      //console.log(element.id);
       textLoop.push(
         // Zijn de CARDS waarop gedrukt kan worden om venster te openen
         // N: iterations need a unique key
-        <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(params.id, element.id)} onLongPress={() => this.removeItem(element.id)}>
+        <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToExpense(params.id, element.id)} onLongPress={() => this.removeItem(element.id)}>
           <View style={styles.cardLayout}>
             <Text style={styles.titleText}>Name: {element.description}</Text>
             <Text>Description: {element.amount}

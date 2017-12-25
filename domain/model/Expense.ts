@@ -5,16 +5,16 @@ import { Money, Currencies, Currency } from '../../node_modules/ts-money/build/i
 
 export class Expense {
 
+    tripId: number;
     description: string;
     amount: number;
     category: Category;
-    persons: Array<Person>;
+    //@deprecated persons: Array<Person>;
     date: Date;
     id: number;
-    defaultCurrency: Currency;
+    expenseCurrency: Currency;
 
     /**
-     * 
      * @param name cannot be empty and should contain at least 3 characters
      */
     public static isValidExpenseName(name: string) : boolean {
@@ -22,7 +22,6 @@ export class Expense {
     }
 
     /**
-     * 
      * @param amnt cannot be empty and should be a value greater than 0
      */
     public static isValidExpenseAmount(amnt: number) : boolean {
@@ -30,27 +29,35 @@ export class Expense {
     }
     
     /**
-     * 
      * @param date 
      */
     public static isValidExpenseDate(date: Date) : boolean {
         return !(date == null);
     }
 
-    constructor(description: string, category: Category, date: Date, amount: number , defaultCurrency: Currency) {
+    /**
+     * Creates a new Expense with said parameters
+     */
+    constructor(tripId: number, description: string, category: Category, date: Date, amount: number , expenseCurrency: Currency) {
+        this.tripId = tripId;
         this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));
         this.description = description;
         this.category = category;
         this.amount = amount;
         this.date  = date;
-        this.defaultCurrency = defaultCurrency;
-        this.persons = new Array<Person>();
+        this.expenseCurrency = expenseCurrency;
     }    
 
-    /**
-     * checking out varargs
-     */
-    addPersons(...persons : Person[]) {
+    public toString(): string {
+        return this.description + ", " + this.amount + " " + this.expenseCurrency.code;
+    }
+}
+
+/**
+     *  @deprecated after domain refactoring
+     *  checking out varargs
+     *     
+    public addPersons(...persons : Person[]) {
         if(persons!=null||persons.length>=0)
         persons.forEach(element=>{!this.personIsInList(element)?this.persons.push(element):null;});
     }
@@ -65,12 +72,4 @@ export class Expense {
         }
         return false;
     }
-
-    addAmount(amount: number) {
-        this.amount = amount;
-    }
-
-    toString(): string {
-        return 
-    }
-}
+    */

@@ -2,7 +2,7 @@ import { TripDatabase } from "../db/TripDatabase";
 import { Person } from "../model/Person";
 import { Trip } from "../model/Trip";
 import { Expense } from "../model/Expense";
-import { Category } from "../model/Category";
+import { Category } from '../model/Category';
 
 export class Controller {
 
@@ -20,8 +20,12 @@ export class Controller {
         return this.db.getTrip(id);
     }
 
-    public addExpenseToTrip(tripId: number, expense: Expense) {
-        this.db.addExpenseToTrip(tripId, expense);
+    public addExpense(expense: Expense) {
+        this.db.addExpense(expense);
+    }
+
+    public getExpense(expenseId: number) : Expense {
+        return this.db.getExpense(expenseId);
     }
 
     public getExpenseInTrip(tripId: number, expenseId: number) : Expense {
@@ -62,5 +66,4 @@ export class Controller {
 }
 
 var c = new Controller();
-
 export default c;
