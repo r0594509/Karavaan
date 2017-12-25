@@ -24,7 +24,8 @@ export class Trips extends React.Component {
     modalFriendsVisible: false,
     formNameIsValid: true,
     formDescIsValid: true,
-    personIdList : []
+    personIdList : [],
+    personsInTripList: [],
   }
  
   handleOnSave_newTripForm() {
@@ -82,7 +83,18 @@ export class Trips extends React.Component {
     this.setState({ modalVisible: !this.state.modalVisible });
   }
 
-  toggleModalFriendsVisible(){
+  closeModalFriends(){
+    this.setState({modalFriendsVisible: !this.state.modalFriendsVisible});
+  }
+
+  openModalFriends(id){
+    friendList = [];
+    c.getTrip(id).persons.forEach(person => {
+      friendList.push(
+        <Text key={person.id}>{person.name}</Text>
+      )
+    });
+    this.setState({personsInTripList: friendList})
     this.setState({modalFriendsVisible: !this.state.modalFriendsVisible});
   }
 
@@ -114,7 +126,7 @@ export class Trips extends React.Component {
     c.getTrips().forEach(element => {
       tripList.push(
         // Zijn de CARDS waarop gedrukt kan worden om venster te openen
-        <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)} onLongPress={() => this.toggleModalFriendsVisible()}>
+        <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)} onLongPress={() => this.openModalFriends(element.id)}>
           <View style={styles.cardLayout}>
             <Text style={styles.titleText}>Name: {element.name}</Text>
             <Text>Description: {element.description}</Text>
@@ -217,13 +229,13 @@ export class Trips extends React.Component {
           <Modal animationType="fade"
             transparent={true}
             visible={this.state.modalFriendsVisible}
-            onRequestClose={() => this.toggleModalFriendsVisible()}
+            onRequestClose={() => this.closeModalFriends()}
           >
             <View style={styles.ModalFriends}>
               <ScrollView contentContainer={{ paddingVertical: 20 }}>
-                {personList}
+                {this.state.personsInTripList}
               </ScrollView>
-              <TouchableHighlight onPress={() => this.toggleModalFriendsVisible()} style={styles.ButtonLayoutMain}>
+              <TouchableHighlight onPress={() => this.closeModalFriends()} style={styles.ButtonLayoutMain}>
                   <View>
                     <Text style={styles.ButtonText}>Close</Text>
                   </View>
