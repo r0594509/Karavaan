@@ -3,9 +3,9 @@ import { Person } from "../model/Person";
 import { Expense } from "../model/Expense";
 import { Category } from "../model/Category";
 import { Currencies } from "../../node_modules/ts-money/build/index";
+import { PersonExpenseData } from "../model/PersonExpenseData";
 
 export class TripDatabase {
-
 
     private trips: Trip[];
     private persons: Person[];
@@ -27,10 +27,10 @@ export class TripDatabase {
         var person_3 = new Person("davlyn");
         var trip_1 = new Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen', [person_1, person_2]);
         var trip_2 = new Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen', [person_1, person_2, person_3]);
-        var expense_1 = new Expense(trip_1.id, '1 Restaurant "La pizzaaa"', Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, Currencies.EUR);
-        var expense_2 = new Expense(trip_1.id,'2 Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, Currencies.EUR);
-        var expense_3 = new Expense(trip_2.id, '3 Restaurant "La pizzaaa"', Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, Currencies.EUR);
-        var expense_4 = new Expense(trip_2.id,'4 Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, Currencies.EUR);
+        var expense_1 = new Expense(trip_1.id, '1 Restaurant "La pizzaaa"', Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, true, Currencies.EUR);
+        var expense_2 = new Expense(trip_1.id,'2 Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, true, Currencies.EUR);
+        var expense_3 = new Expense(trip_2.id, '3 Restaurant "La pizzaaa"', Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, true, Currencies.EUR);
+        var expense_4 = new Expense(trip_2.id,'4 Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, true, Currencies.EUR);
         
         this.addTrip(trip_1);
         this.addTrip(trip_2);
@@ -41,6 +41,8 @@ export class TripDatabase {
         this.addExpense(expense_2);
         this.addExpense(expense_3);
         this.addExpense(expense_4);
+
+        //console.log(this.trips);
     }
 
     public getTrips() {
@@ -61,8 +63,25 @@ export class TripDatabase {
         return null;
     }
 
+    /**
+     * 
+     * @param expense expense type that will be added to it's respective trip AND sets up the trip's internal hashmap.
+     */
     public addExpense(expense: Expense) {
         this.getTrip(expense.tripId).addExpense(expense);
+        this.populateExpenseDataMap(expense);
+    }
+
+    /**
+     * Cannot import controller variable OR database instance in Expense class,
+     * meaning we have to initialize list from outide the expense class...
+     * No issues should happen as long as we add new expenses via the controller class OR
+     * by calling a specific sequence of methods in the database class.
+     */
+    private populateExpenseDataMap(expense: Expense) {
+        this.getTrip(expense.tripId).persons.forEach(element => {
+            expense.expenseDataMap.set(element.id, {amount : 0, isPaid : false}); 
+        });
     }
 
     public getExpense(expenseId: number) : Expense {

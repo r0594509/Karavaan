@@ -20,10 +20,10 @@ var TripDatabase = /** @class */ (function () {
         var person_3 = new Person_1.Person("davlyn");
         var trip_1 = new Trip_1.Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen', [person_1, person_2]);
         var trip_2 = new Trip_1.Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen', [person_1, person_2, person_3]);
-        var expense_1 = new Expense_1.Expense(trip_1.id, '1 Restaurant "La pizzaaa"', Category_1.Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, index_1.Currencies.EUR);
-        var expense_2 = new Expense_1.Expense(trip_1.id, '2 Cafe "Den Bozze"', Category_1.Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, index_1.Currencies.EUR);
-        var expense_3 = new Expense_1.Expense(trip_2.id, '3 Restaurant "La pizzaaa"', Category_1.Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, index_1.Currencies.EUR);
-        var expense_4 = new Expense_1.Expense(trip_2.id, '4 Cafe "Den Bozze"', Category_1.Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, index_1.Currencies.EUR);
+        var expense_1 = new Expense_1.Expense(trip_1.id, '1 Restaurant "La pizzaaa"', Category_1.Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, true, index_1.Currencies.EUR);
+        var expense_2 = new Expense_1.Expense(trip_1.id, '2 Cafe "Den Bozze"', Category_1.Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, true, index_1.Currencies.EUR);
+        var expense_3 = new Expense_1.Expense(trip_2.id, '3 Restaurant "La pizzaaa"', Category_1.Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, true, index_1.Currencies.EUR);
+        var expense_4 = new Expense_1.Expense(trip_2.id, '4 Cafe "Den Bozze"', Category_1.Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, true, index_1.Currencies.EUR);
         this.addTrip(trip_1);
         this.addTrip(trip_2);
         this.addPerson(person_1);
@@ -33,6 +33,7 @@ var TripDatabase = /** @class */ (function () {
         this.addExpense(expense_2);
         this.addExpense(expense_3);
         this.addExpense(expense_4);
+        //console.log(this.trips);
     };
     TripDatabase.prototype.getTrips = function () {
         return this.trips;
@@ -49,8 +50,24 @@ var TripDatabase = /** @class */ (function () {
         }
         return null;
     };
+    /**
+     *
+     * @param expense expense type that will be added to it's respective trip AND sets up the trip's internal hashmap.
+     */
     TripDatabase.prototype.addExpense = function (expense) {
         this.getTrip(expense.tripId).addExpense(expense);
+        this.populateExpenseDataMap(expense);
+    };
+    /**
+     * Cannot import controller variable OR database instance in Expense class,
+     * meaning we have to initialize list from outide the expense class...
+     * No issues should happen as long as we add new expenses via the controller class OR
+     * by calling a specific sequence of methods in the database class.
+     */
+    TripDatabase.prototype.populateExpenseDataMap = function (expense) {
+        this.getTrip(expense.tripId).persons.forEach(function (element) {
+            expense.expenseDataMap.set(element.id, { amount: 0, isPaid: false });
+        });
     };
     TripDatabase.prototype.getExpense = function (expenseId) {
         this.getTrips().forEach(function (element) {

@@ -2,6 +2,7 @@ import { Person } from "./Person";
 import { Category } from "./Category";
 //import { Money, Currencies }  from 'ts-money';
 import { Money, Currencies, Currency } from '../../node_modules/ts-money/build/index';
+import { PersonExpenseData } from "./PersonExpenseData";
 
 export class Expense {
 
@@ -13,6 +14,8 @@ export class Expense {
     date: Date;
     id: number;
     expenseCurrency: Currency;
+    isDevided: boolean;
+    expenseDataMap: Map<number, PersonExpenseData>
 
     /**
      * @param name cannot be empty and should contain at least 3 characters
@@ -38,7 +41,7 @@ export class Expense {
     /**
      * Creates a new Expense with said parameters
      */
-    constructor(tripId: number, description: string, category: Category, date: Date, amount: number , expenseCurrency: Currency) {
+    constructor(tripId: number, description: string, category: Category, date: Date, amount: number , isDevided: boolean, expenseCurrency: Currency) {
         this.tripId = tripId;
         this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));
         this.description = description;
@@ -46,6 +49,8 @@ export class Expense {
         this.amount = amount;
         this.date  = date;
         this.expenseCurrency = expenseCurrency;
+        this.isDevided = isDevided;
+        this.expenseDataMap = new Map<number, PersonExpenseData[]>();
     }    
 
     public toString(): string {
