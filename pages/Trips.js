@@ -76,7 +76,7 @@ export class Trips extends React.Component {
 
     if (errors === 0) {
       let trip = new Trip(name, desc, Currencies[currency], this.processPersonIds(this.state.personIdList));
-      console.log(trip);
+      //console.log(trip);
       c.addTrip(trip);
       this.toggleModalVisible();
       // clear state for next form
