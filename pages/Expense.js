@@ -33,13 +33,13 @@ export class Expense extends React.Component {
     listOfPayedAmounts = {};
 
     changeDivideMethode(devideMethodSelected) {
-       
+
         this.setState({ devideMethodSelected: devideMethodSelected });
         friends = c.getTrip(this.props.navigation.state.params.tripId).persons;
-        
+
 
         if (devideMethodSelected == 'Equal') {
-            equalyDevidedAmount = this.state.currentExpense.devideAmountEqualy(); 
+            equalyDevidedAmount = this.state.currentExpense.devideAmountEqualy();
             friends.forEach(person => {
                 this.tempSaveAmount(person.id, equalyDevidedAmount);
             })
@@ -80,8 +80,8 @@ export class Expense extends React.Component {
     }
 
     saveExpenseForm() {
-    
-       if (this.state.currentExpense.isAmountPayed(this.getAmountsPayed())) {
+
+        if (this.state.currentExpense.isAmountPayed(this.getAmountsPayed())) {
             var expense = this.state.currentExpense;
             expense.isDevided = true;
             for (var k in this.listOfPayedAmounts) {
@@ -98,7 +98,7 @@ export class Expense extends React.Component {
         }
     }
 
-    getAmountsPayed(){
+    getAmountsPayed() {
         var amounts = [];
         for (var k in this.listOfPayedAmounts) {
             if (this.listOfPayedAmounts.hasOwnProperty(k)) {
@@ -127,8 +127,10 @@ export class Expense extends React.Component {
         ownerButton = [];
         personList = [];
         ownerList = [];
+        dropDown = [];
+        saveButton = [];
 
-        
+
         if (expensePersonArray != null) {
             let tmp = "";
             let bool = false;
@@ -148,48 +150,64 @@ export class Expense extends React.Component {
                 );
             }
         }
-        
-        //console.log(expense);
+
+        if (this.state.currentExpense.isDevided == false) {
+            dropDown.push(<Dropdown
+                key='001'
+                label='Divide method'
+                value='Custom'
+                data={data}
+                onChangeText={(devideMethodSelected) => this.changeDivideMethode(devideMethodSelected)}
+                fontSize={20}
+                containerStyle={{ paddingLeft: 20, paddingRight: 20 }}
+                baseColor='rgba(0, 0, 0, 1)'
+                dropdownPosition={1}
+            />
+            );
+
+            saveButton.push(                    
+                <TouchableHighlight key='001' onPress={() => this.saveExpenseForm()} style={styles.ButtonLayoutMain}>
+                    <View>
+                        <Text style={styles.ButtonText}>Save</Text>
+                    </View>
+                </TouchableHighlight>
+            );
+        }
         if (expensePersonArray != null) {
-            //console.log(expense);
             expensePersonArray.forEach(element => {
-                //Owners do not have to contribute to the amount left to be payed.
-                //if (!expense.expenseDataMap.get(element.id).isOwner) {
-                    //console.log(element);
-                    personList.push(
-                        <View style={styles.FormViewExpensePerson} key={'persondetails' + element.id}>
-                            <View style={{ flex: 1 }}>
-                                <Text style={styles.FormText}>{element.name}:</Text>
-                            </View>
-                            <View>
-                                <Text>
-                                    {expense.expenseCurrency.symbol_native}
-                                </Text>
-                            </View>
-                            <View style={{ width: 150 }}>
-                                <TextInput
-                                    style={[styles.FormInput, { marginTop: -2 }]}
-                                    placeholder="Amount due"
-                                    onChangeText={(amount) => this.tempSaveAmount(element.id, amount)}
-                                    keyboardType='numeric'
-                                    editable={!this.state.isDevided}
-                                    //defaultValue={expense.expenseDataMap.get(element.id).amount + this.state.standaardValue}
-                                    defaultValue={expense.expenseDataMap.get(element.id).amount == 0 ? '' + this.state.standaardValue : expense.expenseDataMap.get(element.id).amount + ''}                                    
-                                />
-                            </View>
-                            <View style={{ flex: 1 }}>
-                                <CheckBox
-                                    onClick={() => alert(element.id)}
-                                    isChecked={expense.expenseDataMap.get(element.id).isPaid}
-                                    style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 50 }}
-                                />
-                            </View>
+                personList.push(
+                    <View style={styles.FormViewExpensePerson} key={'persondetails' + element.id}>
+                        <View style={{ flex: 1 }}>
+                            <Text style={styles.FormText}>{element.name}:</Text>
                         </View>
-                    );
-                //}
+                        <View>
+                            <Text>
+                                {expense.expenseCurrency.symbol_native}
+                            </Text>
+                        </View>
+                        <View style={{ width: 150 }}>
+                            <TextInput
+                                style={[styles.FormInput, { marginTop: -2 }]}
+                                placeholder="Amount due"
+                                onChangeText={(amount) => this.tempSaveAmount(element.id, amount)}
+                                keyboardType='numeric'
+                                editable={!this.state.isDevided}
+                                //defaultValue={expense.expenseDataMap.get(element.id).amount + this.state.standaardValue}
+                                defaultValue={expense.expenseDataMap.get(element.id).amount == 0 ? '' + this.state.standaardValue : expense.expenseDataMap.get(element.id).amount + ''}
+                            />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <CheckBox
+                                onClick={() => alert(element.id)}
+                                isChecked={expense.expenseDataMap.get(element.id).isPaid}
+                                style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 50 }}
+                            />
+                        </View>
+                    </View>
+                );
             });
         }
-        
+
         if (expensePersonArray != null) {
             expensePersonArray.forEach(element => {
                 ownerList.push(
@@ -205,7 +223,7 @@ export class Expense extends React.Component {
                                 keyboardType='numeric'
                                 editable={!this.state.isDevided}
                                 //defaultValue={expense.expenseDataMap.get(element.id).amount + this.state.standaardValue}
-                                defaultValue={expense.expenseDataMap.get(element.id).amount == 0 ? '' + this.state.standaardValue : expense.expenseDataMap.get(element.id).amount + '' }
+                                defaultValue={expense.expenseDataMap.get(element.id).amount == 0 ? '' + this.state.standaardValue : expense.expenseDataMap.get(element.id).amount + ''}
                             />
                         </View>
 
@@ -216,7 +234,7 @@ export class Expense extends React.Component {
                                 style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 50 }}
                             />
                         </View>
-                    </View>   
+                    </View>
                 );
             });
         }
@@ -228,33 +246,19 @@ export class Expense extends React.Component {
                     <Text style={this.state.standaardCss} >Amount to be divided: {this.state.AmountToDevide} {expense.expenseCurrency.name}</Text>
 
                     {
-                    <TouchableHighlight onPress={() => this.toggleModalVisible()} style={styles.ButtonLayoutMain}>
-                        <View>
-                            {ownerButton}
-                        </View>
-                    </TouchableHighlight>
+                        <TouchableHighlight onPress={() => this.toggleModalVisible()} style={styles.ButtonLayoutMain}>
+                            <View>
+                                {ownerButton}
+                            </View>
+                        </TouchableHighlight>
                     }
-                    
-                    <Dropdown
-                        label='Divide method'
-                        value='Custom'
-                        data={data}
-                        onChangeText={(devideMethodSelected) => this.changeDivideMethode(devideMethodSelected)}
-                        fontSize={20}
-                        containerStyle={{ paddingLeft: 20, paddingRight: 20 }}
-                        baseColor='rgba(0, 0, 0, 1)'
-                        dropdownPosition={1}
-                    //editable={!this.state.isDevided}
-                    />
+
+                    {dropDown}
                     <ScrollView contentContainer={{ paddingVertical: 20 }}>
                         {personList}
                     </ScrollView>
 
-                    <TouchableHighlight onPress={() => this.saveExpenseForm()} style={styles.ButtonLayoutMain}>
-                        <View>
-                            <Text style={styles.ButtonText}>Save</Text>
-                        </View>
-                    </TouchableHighlight>
+                    {saveButton}
 
                     <Modal
                         animationType="slide"
@@ -264,7 +268,7 @@ export class Expense extends React.Component {
                     >
                         <ScrollView contentContainer={{ paddingVertical: 20 }}>
                             <Text>Select who paid for the expense:</Text>
-                            { ownerList }
+                            {ownerList}
                         </ScrollView>
                     </Modal>
 
