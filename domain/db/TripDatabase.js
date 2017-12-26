@@ -34,31 +34,52 @@ var TripDatabase = /** @class */ (function () {
         this.addExpense(expense_2);
         this.addExpense(expense_3);
         this.addExpense(expense_4);
-        //console.log(this.trips);
     };
     TripDatabase.prototype.getTrips = function () {
         return this.trips;
     };
-    TripDatabase.prototype.getPersons = function () {
-        return this.persons;
+    TripDatabase.prototype.getPersons = function (tripFilter) {
+        if (tripFilter === void 0) { tripFilter = null; }
+        if (tripFilter == null) {
+            return this.persons;
+        }
+        else {
+            return this.getTrip(tripFilter).persons;
+        }
     };
+    /**
+     * Look for trip that matches id
+     * @return if(typeof @param id == number) then @param id will be treated as a trip's id property
+     *          |   if(typeof @param id == string) then @param id will be treated as the trip's name property
+     */
     TripDatabase.prototype.getTrip = function (id) {
-        // do not use foreach
-        for (var i = 0; i < this.getTrips().length; i++) {
-            if (this.getTrips()[i].id === id) {
-                return this.getTrips()[i];
+        if (typeof id == 'number') {
+            // do not use foreach
+            for (var i = 0; i < this.getTrips().length; i++) {
+                if (this.getTrips()[i].id === id) {
+                    return this.getTrips()[i];
+                }
+            }
+        }
+        else if (typeof id == 'string') {
+            for (var i = 0; i < this.getTrips().length; i++) {
+                if (this.getTrips()[i].name === id) {
+                    return this.getTrips()[i];
+                }
             }
         }
         return null;
     };
-    TripDatabase.prototype.getTripsOfPerson = function (personId) {
+    TripDatabase.prototype.getTripsOfPerson = function (personId, filter) {
         var trips = new Array();
         this.getTrips().forEach(function (element) {
-            element.persons.forEach(function (element2) {
-                if (element2.id === personId) {
-                    trips.push(element);
-                }
-            });
+            if (filter == "ALL" || filter === element.name) {
+                element.persons.forEach(function (element2) {
+                    if (element2.id === personId) {
+                        trips.push(element);
+                    }
+                });
+            }
         });
         return trips;
     };
@@ -147,9 +168,9 @@ var TripDatabase = /** @class */ (function () {
      *
      * looks trough all the expenses of all the trips
      */
-    TripDatabase.prototype.getPersonBalance = function (personId) {
+    TripDatabase.prototype.getPersonBalance = function (personId, filter) {
         var balance = new Array(0, 0);
-        var personTrips = this.getTripsOfPerson(personId);
+        var personTrips = this.getTripsOfPerson(personId, filter);
         if (personTrips != null) {
             personTrips.forEach(function (element) {
                 element.expenses.forEach(function (element2) {

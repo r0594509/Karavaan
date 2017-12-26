@@ -152,7 +152,6 @@ export class Expense extends React.Component {
             }
         }
         
-
         //console.log(expense);
         if (expensePersonArray != null) {
             //console.log(expense);
@@ -193,7 +192,6 @@ export class Expense extends React.Component {
                 //}
             });
         }
-
         
         if (expensePersonArray != null) {
             expensePersonArray.forEach(element => {

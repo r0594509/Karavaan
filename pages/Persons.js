@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Platform, StatusBar } from 'react-native';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput, Picker } from 'react-native';
 import { TabNavigator } from 'react-navigation';
+import { Dropdown } from 'react-native-material-dropdown';
 import Popup from 'react-native-popup';
 import { Person } from '../domain/model/Person';
 import styles from '../styles/styles';
@@ -19,6 +20,8 @@ export class Persons extends React.Component {
     modalVisible: false,
     formNameIsValid: true,
     formDescIsValid: true,
+    tripSelected: "ALL",
+    tripsDDTitle: "Sort contacts by trips", //tripsDropDownTitle
   }
 
   removeItem(id) {
@@ -84,17 +87,24 @@ export class Persons extends React.Component {
   }
 
   render() {
-    console.log("RENDER");
+
+    var dropDownData = [];
+
+    dropDownData.push({value: "ALL"});
+    c.getTrips().forEach(element => {
+      dropDownData.push({value: element.name});
+    });
+
     var personList = [];
 
-    c.getPersons().forEach(element => {
+    c.getPersons(this.state.tripSelected==="ALL"? null : this.state.tripSelected).forEach(element => {
       personList.push(
         // elk element in een lus heeft blijkbaar een ID nodig
         <TouchableHighlight onPress={() => alert("clicked on " + element.name)} onLongPress={() => this.removeItem(element.id)} key={element.id} style={{ borderRadius: 5, margin: 5, }}>
           <View style={styles.cardLayout}>
             <Text style={styles.titleText}>{element.name}</Text>
-            <Text style={{color: 'red'}}>Amount owed: {c.getPersonBalance(element.id)[0]}</Text>
-            <Text style={{color: 'green'}}>Amount lend: {c.getPersonBalance(element.id)[1]}</Text>
+            <Text style={{ color: 'red' }}>Amount owed: {c.getPersonBalance(element.id, this.state.tripSelected)[0]}</Text>
+            <Text style={{ color: 'green' }}>Amount lend: {c.getPersonBalance(element.id, this.state.tripSelected)[1]}</Text>
           </View>
         </TouchableHighlight>
       )
@@ -115,6 +125,16 @@ export class Persons extends React.Component {
     return (
       <View style={styles.mainViewLayout} >
         <View style={{ flex: 1 }}>
+
+          <Dropdown
+            label={this.state.tripsDDTitle}
+            data={dropDownData}
+            onChangeText={(tripSelected) => this.setState({ tripSelected: tripSelected })}
+            fontSize={20}
+            containerStyle={{ paddingLeft: 15, paddingRight: 15 }}
+            baseColor='rgba(0, 0, 0, 1)'
+            dropdownPosition={1}
+          />
 
           <ScrollView contentContainer={{ paddingVertical: 20 }}>
             {personList}

@@ -25,14 +25,10 @@ export default class App extends React.Component {
   }
 }
 
-App.defaultProps = {
-  controller: new Controller()
-}
-
 //Maakt de TabBar navigatie onderaan 
 const MainNavigation = TabNavigator({
-  TabA: { screen: Trips},
-  TabB: { screen: Persons},
+  TabA: { screen: Trips },
+  TabB: { screen: Persons },
 }, {
     tabBarPosition: 'bottom'
 });
@@ -45,7 +41,7 @@ const StackNavigation = StackNavigator({
     navigationOptions: {
       //Title bovenaan
       //Voorlopig Static
-      title: 'Vacation Planner',
+      title: 'Karavaan expense manager',
     },
   },
   //Inhouds Pagina TRIP

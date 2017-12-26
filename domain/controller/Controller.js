@@ -11,8 +11,8 @@ var Controller = /** @class */ (function () {
     Controller.prototype.getTrip = function (id) {
         return this.db.getTrip(id);
     };
-    Controller.prototype.getTripsOfPerson = function (personId) {
-        return this.db.getTripsOfPerosn(personId);
+    Controller.prototype.getTripsOfPerson = function (personId, filter) {
+        return this.db.getTripsOfPerson(personId, filter);
     };
     Controller.prototype.addExpense = function (expense) {
         this.db.addExpense(expense);
@@ -38,8 +38,9 @@ var Controller = /** @class */ (function () {
     Controller.prototype.removePerson = function (personId) {
         this.db.removePerson(personId);
     };
-    Controller.prototype.getPersons = function () {
-        return this.db.getPersons();
+    Controller.prototype.getPersons = function (tripFilter) {
+        if (tripFilter === void 0) { tripFilter = null; }
+        return this.db.getPersons(tripFilter);
     };
     Controller.prototype.addPerson = function (person) {
         this.db.addPerson(person);
@@ -47,8 +48,8 @@ var Controller = /** @class */ (function () {
     Controller.prototype.getPerson = function (personId) {
         return this.db.getPerson(personId);
     };
-    Controller.prototype.getPersonBalance = function (personId) {
-        return this.db.getPersonBalance(personId);
+    Controller.prototype.getPersonBalance = function (personId, filter) {
+        return this.db.getPersonBalance(personId, filter);
     };
     return Controller;
 }());
