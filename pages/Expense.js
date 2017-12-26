@@ -141,11 +141,11 @@ export class Expense extends React.Component {
         let expense = c.getExpenseInTrip(params.tripId, params.expenseId);
         let expensePersonArray = c.getTrip(expense.tripId).persons;
 
-        //ownerButton = [];
+        ownerButton = [];
         personList = [];
-        //ownerList = [];
+        ownerList = [];
 
-        /*
+        
         if (expensePersonArray != null) {
             let tmp = "";
             let bool = false;
@@ -156,16 +156,16 @@ export class Expense extends React.Component {
                 }
             });
             if (bool) {
-                ownerList.push(
+                ownerButton.push(
                     <Text key='whopays' style={styles.ButtonText}>paid by {tmp}</Text>
                 );
             } else {
-                ownerList.push(
+                ownerButton.push(
                     <Text key='whopays' style={styles.ButtonText}>paid by NOONE</Text>
                 );
             }
         }
-        */
+        
 
         //console.log(expense);
         if (expensePersonArray != null) {
@@ -207,12 +207,10 @@ export class Expense extends React.Component {
             });
         }
 
-        /*
+        
         if (expensePersonArray != null) {
             expensePersonArray.forEach(element => {
                 ownerList.push(
-                    <Text>IDK</Text>
-                    
                     <View style={styles.FormViewExpensePerson} key={'ownerdetails' + element.id}>
                         <View style={{ flex: 1 }}>
                             <Text style={styles.FormText}>{element.name}:</Text>
@@ -224,12 +222,10 @@ export class Expense extends React.Component {
                                 style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 50 }}
                             />
                         </View>
-                    </View>
-                    
+                    </View>   
                 );
             });
         }
-        */
 
         return (
             <View style={styles.mainViewLayout}>
@@ -237,13 +233,13 @@ export class Expense extends React.Component {
 
                     <Text style={this.state.standaardCss} >Amount to be divided: {this.state.AmountToDevide} {expense.expenseCurrency.name}</Text>
 
-                    {/*
+                    {
                     <TouchableHighlight onPress={() => this.toggleModalVisible()} style={styles.ButtonLayoutMain}>
                         <View>
                             {ownerButton}
                         </View>
                     </TouchableHighlight>
-                    */}
+                    }
                     
                     <Dropdown
                         label='Divide method'
@@ -273,7 +269,8 @@ export class Expense extends React.Component {
                         onRequestClose={() => this.toggleModalVisible()}
                     >
                         <ScrollView contentContainer={{ paddingVertical: 20 }}>
-                            {/* ownerList */}
+                            <Text>Select who paid for the expense:</Text>
+                            { ownerList }
                         </ScrollView>
                     </Modal>
 
