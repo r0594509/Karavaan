@@ -25,11 +25,11 @@ var TripDatabase = /** @class */ (function () {
         var expense_2 = new Expense_1.Expense(trip_1.id, '2 Cafe "Den Bozze"', Category_1.Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, false, index_1.Currencies.EUR);
         var expense_3 = new Expense_1.Expense(trip_2.id, '3 Restaurant "La pizzaaa"', Category_1.Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, false, index_1.Currencies.EUR);
         var expense_4 = new Expense_1.Expense(trip_2.id, '4 Cafe "Den Bozze"', Category_1.Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, false, index_1.Currencies.EUR);
-        this.addTrip(trip_1);
-        this.addTrip(trip_2);
         this.addPerson(person_1);
         this.addPerson(person_2);
         this.addPerson(person_3);
+        this.addTrip(trip_1);
+        this.addTrip(trip_2);
         this.addExpense(expense_1);
         this.addExpense(expense_2);
         this.addExpense(expense_3);

@@ -118,6 +118,7 @@ export class Expense extends React.Component {
     }
 
     render() {
+        console.log(this.state.AmountToDevide);
         const { params } = this.props.navigation.state;
 
         let data = [{

@@ -80,6 +80,22 @@ export class Trip extends React.Component {
 
     let errors = 0;
 
+    //DEBUG
+    if(false) {
+      const { params } = this.props.navigation.state;
+      let expense = new Expense(params.id, "Debug expense", Category.Food, /*date=HARDCODED*/ new Date(2017, 12, 24, 0, 0, 0, 0), 133, /*idDevided=HARDCODED*/ false, Currencies.USD);
+      
+      c.addExpense(expense);
+      this.toggleModalVisible();
+      // clear state for next form
+      this.state.expenseName = null;
+      this.state.expenseAmnt = null;
+      this.state.expenseDate = null;
+      this.state.expenseCategory = null;
+      this.state.expenseCurrency = null;
+      return null;
+    }
+
     if (category == null) {
       errors++;
       this.setState({ expenseCategoryIsValid: false});
@@ -116,11 +132,9 @@ export class Trip extends React.Component {
 
     if (errors === 0) {
       const { params } = this.props.navigation.state;
-      let expense = new Expense(params.id, name, Category[category], /*date=HARDCODED*/ new Date(2017, 12, 24, 0, 0, 0, 0), amnt, /*idDevided=HARDCODED*/ false, Currencies[currency]);
-      //console.log(expense.expenseCurrency);
+      let expense = new Expense(params.id, name, Category[category], /*date=HARDCODED*/ new Date(2017, 12, 24, 0, 0, 0, 0), Number(amnt), /*idDevided=HARDCODED*/ false, Currencies[currency]);
+      
       c.addExpense(expense);
-      //console.log(c.getTrip(params.id).expenses);
-
       this.toggleModalVisible();
       // clear state for next form
       this.state.expenseName = null;

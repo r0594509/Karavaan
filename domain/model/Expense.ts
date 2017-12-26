@@ -41,7 +41,7 @@ export class Expense {
     /**
      * Creates a new Expense with said parameters
      */
-    constructor(tripId: number, description: string, category: Category, date: Date, amount: number , isDevided: boolean, expenseCurrency: Currency) {
+    constructor(tripId: number, description: string, category: Category, date: Date, amount: number, isDevided: boolean, expenseCurrency: Currency) {
         this.tripId = tripId;
         this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));
         this.description = description;
