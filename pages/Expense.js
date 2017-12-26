@@ -36,20 +36,17 @@ export class Expense extends React.Component {
        
         this.setState({ devideMethodSelected: devideMethodSelected });
         friends = c.getTrip(this.props.navigation.state.params.tripId).persons;
-        toPayAmount = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount / friends.length;
-        toPayAmount = +toPayAmount.toFixed(2);
+        
 
         if (devideMethodSelected == 'Equal') {
+            equalyDevidedAmount = this.state.currentExpense.devideAmountEqualy(); 
             friends.forEach(person => {
-                //this.listOfPayedAmounts[person.id] = toPayAmount;
-                this.tempSaveAmount(person.id, toPayAmount);
+                this.tempSaveAmount(person.id, equalyDevidedAmount);
             })
-            //console.log(toPayAmount);
-            this.setState({ standaardValue: toPayAmount + '' });
+            this.setState({ standaardValue: equalyDevidedAmount + '' });
             this.setState({ isDevided: true });
-        } else if (c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).isDevided == false) {
+        } else if (this.state.currentExpense.isDevided == false) {
             friends.forEach(person => {
-                //this.listOfPayedAmounts[person.id] = 0;
                 this.tempSaveAmount(person.id, 0);
             })
             this.setState({ standaardValue: '' });
@@ -99,7 +96,8 @@ export class Expense extends React.Component {
             this.setState({ standaardCss: [styles.titleText, { marginTop: 20, color: 'red' }] });
         }
 
-        console.log(this.state.currentExpense.AmountLeftToPay());
+        console.log(this.state.currentExpense.makeAmountDivisible());
+        console.log(this.state.currentExpense.devideAmountEqualy());
 
     }
 
