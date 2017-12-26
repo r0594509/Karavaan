@@ -90,21 +90,21 @@ export class Persons extends React.Component {
 
     var dropDownData = [];
 
-    dropDownData.push({value: "ALL"});
+    dropDownData.push({ value: "ALL" });
     c.getTrips().forEach(element => {
-      dropDownData.push({value: element.name});
+      dropDownData.push({ value: element.name });
     });
 
     var personList = [];
 
-    c.getPersons(this.state.tripSelected==="ALL"? null : this.state.tripSelected).forEach(element => {
+    c.getPersons(this.state.tripSelected === "ALL" ? null : this.state.tripSelected).forEach(element => {
       personList.push(
         // elk element in een lus heeft blijkbaar een ID nodig
         <TouchableHighlight onPress={() => alert("clicked on " + element.name)} onLongPress={() => this.removeItem(element.id)} key={element.id} style={{ borderRadius: 5, margin: 5, }}>
           <View style={styles.cardLayout}>
             <Text style={styles.titleText}>{element.name}</Text>
-            <Text style={{ color: 'red' }}>Amount owed: {Math.round(c.getPersonBalance(element.id/*, this.state.tripSelected*/)[0] * 100)/100}</Text>
-      <Text style={{ color: 'green' }}>Amount lend: {Math.round(c.getPersonBalance(element.id/*, this.state.tripSelected*/)[1] * 100)/100}</Text>
+            <Text style={{ color: 'red' }}>Amount owed: {Math.round(c.getPersonBalance(element.id, this.state.tripSelected)[0] * 100) / 100}</Text>
+            <Text style={{ color: 'green' }}>Amount lend: {Math.round(c.getPersonBalance(element.id, this.state.tripSelected)[1] * 100) / 100}</Text>
           </View>
         </TouchableHighlight>
       )
