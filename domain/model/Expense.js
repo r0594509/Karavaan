@@ -33,6 +33,37 @@ var Expense = /** @class */ (function () {
     Expense.isValidExpenseDate = function (date) {
         return !(date == null);
     };
+    Expense.prototype.isAmountPayed = function (payed) {
+        var toPayAmount = this.makeAmountDivisible();
+        var payedAmount = 0;
+        for (var i = 0; i < payed.length; i++) {
+            payedAmount += payed[i];
+        }
+        if (toPayAmount - payedAmount == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
+    Expense.prototype.AmountLeftToPay = function () {
+        var subTotal = 0;
+        for (var k in this.expenseDataMap.keys) {
+            subTotal += this.expenseDataMap.get(Number(k)).amount;
+        }
+        return subTotal;
+    };
+    Expense.prototype.devideAmountEqualy = function () {
+        var ToPayAmount = this.makeAmountDivisible();
+        return ToPayAmount / this.expenseDataMap.size;
+    };
+    Expense.prototype.makeAmountDivisible = function () {
+        var toPayAmount = this.amount;
+        if (this.amount % this.expenseDataMap.size != 0) {
+            toPayAmount = toPayAmount - 0.01;
+        }
+        return toPayAmount;
+    };
     return Expense;
 }());
 exports.Expense = Expense;

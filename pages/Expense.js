@@ -81,7 +81,7 @@ export class Expense extends React.Component {
 
     isAmountValidated() {
         var payedAmount = 0;
-        var typedAmount = 0;
+        //var typedAmount = 0;
         var totalAmount = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount;
 
         for (var k in this.listOfPayedAmounts) {
@@ -105,6 +105,7 @@ export class Expense extends React.Component {
     saveExpenseForm() {
         //this.isAmountValidated()
         //this.c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).isAmountValid(this.listOfPayedAmounts)
+        //console.log(c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).isAmountPayed(this.listOfPayedAmounts));
         if (this.isAmountValidated()) {
             var expense = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId);
             expense.isDevided = true;
@@ -152,7 +153,7 @@ export class Expense extends React.Component {
                                 keyboardType='numeric'
                                 editable={!this.state.isDevided}
                                 //defaultValue={expense.expenseDataMap.get(element.id).amount + this.state.standaardValue}
-                                defaultValue={expense.expenseDataMap.get(element.id).amount == 0 ? '' + this.state.standaardValue : expense.expenseDataMap.get(element.id).amount + ''}
+                                defaultValue={expense.expenseDataMap.get(element.id).amount == 0 ? '' + this.state.standaardValue : expense.expenseDataMap.get(element.id).amount + '' }
                             />
                         </View>
 

@@ -51,7 +51,44 @@ export class Expense {
         this.expenseCurrency = expenseCurrency;
         this.isDevided = isDevided;
         this.expenseDataMap = new Map<number, PersonExpenseData>();
-    }    
+    }
+    
+    public isAmountPayed(payed:Array<number>){
+        var toPayAmount = this.makeAmountDivisible();
+        var payedAmount = 0;
+
+        for (let i = 0; i < payed.length; i++){
+            payedAmount += payed[i];
+        }
+
+        if(toPayAmount - payedAmount == 0){
+            return true;
+        }else{
+            return false;
+        }
+        
+    }
+
+    public AmountLeftToPay(){
+        var subTotal = 0;
+        for(var k in this.expenseDataMap.keys){
+            subTotal += this.expenseDataMap.get(Number(k)).amount;
+        }
+        return subTotal;
+    }
+
+    public devideAmountEqualy(){
+        var ToPayAmount = this.makeAmountDivisible();
+        return ToPayAmount/this.expenseDataMap.size;
+    }
+
+    public makeAmountDivisible(){
+        var toPayAmount = this.amount;
+        if(this.amount % this.expenseDataMap.size != 0){
+            toPayAmount = toPayAmount - 0.01;
+        }
+        return toPayAmount;
+    }
 
 }
 
