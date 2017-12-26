@@ -74,6 +74,7 @@ export class Expense extends React.Component {
         }
 
         newAmount = divisibleAmountToPay - payedAmount;
+        newAmount = +newAmount.toFixed(2);
 
         this.setState({ AmountToDevide: newAmount });
     }
@@ -95,10 +96,6 @@ export class Expense extends React.Component {
         } else if (this.state.isDevided == false) {
             this.setState({ standaardCss: [styles.titleText, { marginTop: 20, color: 'red' }] });
         }
-
-        console.log(this.state.currentExpense.makeAmountDivisible());
-        console.log(this.state.currentExpense.devideAmountEqualy());
-
     }
 
     getAmountsPayed(){
