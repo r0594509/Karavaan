@@ -103,8 +103,8 @@ export class Persons extends React.Component {
         <TouchableHighlight onPress={() => alert("clicked on " + element.name)} onLongPress={() => this.removeItem(element.id)} key={element.id} style={{ borderRadius: 5, margin: 5, }}>
           <View style={styles.cardLayout}>
             <Text style={styles.titleText}>{element.name}</Text>
-            <Text style={{ color: 'red' }}>Amount owed: {c.getPersonBalance(element.id, this.state.tripSelected)[0]}</Text>
-            <Text style={{ color: 'green' }}>Amount lend: {c.getPersonBalance(element.id, this.state.tripSelected)[1]}</Text>
+            <Text style={{ color: 'red' }}>Amount owed: {Math.round(c.getPersonBalance(element.id/*, this.state.tripSelected*/)[0] * 100)/100}</Text>
+      <Text style={{ color: 'green' }}>Amount lend: {Math.round(c.getPersonBalance(element.id/*, this.state.tripSelected*/)[1] * 100)/100}</Text>
           </View>
         </TouchableHighlight>
       )

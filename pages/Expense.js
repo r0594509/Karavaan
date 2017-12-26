@@ -180,36 +180,40 @@ export class Expense extends React.Component {
         }
         if (expensePersonArray != null) {
             expensePersonArray.forEach(element => {
-                personList.push(
-                    <View style={styles.FormViewExpensePerson} key={'persondetails' + element.id}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={styles.FormText}>{element.name}:</Text>
+                //Owners do not have to contribute to the amount left to be payed.
+                if (!expense.expenseDataMap.get(element.id).isOwner) {
+                    //console.log(element);
+                    personList.push(
+                        <View style={styles.FormViewExpensePerson} key={'persondetails' + element.id}>
+                            <View style={{ flex: 1 }}>
+                                <Text style={styles.FormText}>{element.name}:</Text>
+                            </View>
+                            <View>
+                                <Text>
+                                    {expense.expenseCurrency.symbol_native}
+                                </Text>
+                            </View>
+                            <View style={{ width: 150 }}>
+                                <TextInput
+                                    style={[styles.FormInput, { marginTop: -2 }]}
+                                    placeholder="Amount due"
+                                    onChangeText={(amount) => this.tempSaveAmount(element.id, amount)}
+                                    keyboardType='numeric'
+                                    editable={!this.state.isDevided}
+                                    //defaultValue={expense.expenseDataMap.get(element.id).amount + this.state.standaardValue}
+                                    defaultValue={expense.expenseDataMap.get(element.id).amount == 0 ? '' + this.state.standaardValue : expense.expenseDataMap.get(element.id).amount + ''}                                    
+                                />
+                            </View>
+                            <View style={{ flex: 1 }}>
+                                <CheckBox
+                                    onClick={() => this.toggleHasPayedHisPart(element.id)}
+                                    isChecked={expense.expenseDataMap.get(element.id).isPaid}
+                                    style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 50 }}
+                                />
+                            </View>
                         </View>
-                        <View>
-                            <Text>
-                                {expense.expenseCurrency.symbol_native}
-                            </Text>
-                        </View>
-                        <View style={{ width: 150 }}>
-                            <TextInput
-                                style={[styles.FormInput, { marginTop: -2 }]}
-                                placeholder="Amount due"
-                                onChangeText={(amount) => this.tempSaveAmount(element.id, amount)}
-                                keyboardType='numeric'
-                                editable={!this.state.isDevided}
-                                //defaultValue={expense.expenseDataMap.get(element.id).amount + this.state.standaardValue}
-                                defaultValue={expense.expenseDataMap.get(element.id).amount == 0 ? '' + this.state.standaardValue : expense.expenseDataMap.get(element.id).amount + ''}
-                            />
-                        </View>
-                        <View style={{ flex: 1 }}>
-                            <CheckBox
-                                onClick={() => this.toggleHasPayedHisPart(element.id)}
-                                isChecked={expense.expenseDataMap.get(element.id).isPaid}
-                                style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 50 }}
-                            />
-                        </View>
-                    </View>
-                );
+                    );
+                }
             });
         }
 
