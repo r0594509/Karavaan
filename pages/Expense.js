@@ -108,6 +108,11 @@ export class Expense extends React.Component {
         return amounts;
     }
 
+    toggleHasPayedHisPart(id){
+        this.state.currentExpense.expenseDataMap.get(id).isPaid = !this.state.currentExpense.expenseDataMap.get(id).isPaid;
+        //console.log(this.state.currentExpense.expenseDataMap.get(id).isPaid);
+    }
+
     toggleModalVisible() {
         this.setState({ modalVisible: !this.state.modalVisible });
     }
@@ -198,7 +203,7 @@ export class Expense extends React.Component {
                         </View>
                         <View style={{ flex: 1 }}>
                             <CheckBox
-                                onClick={() => alert(element.id)}
+                                onClick={() => this.toggleHasPayedHisPart(element.id)}
                                 isChecked={expense.expenseDataMap.get(element.id).isPaid}
                                 style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 50 }}
                             />
@@ -246,7 +251,7 @@ export class Expense extends React.Component {
                     <Text style={this.state.standaardCss} >Amount to be divided: {this.state.AmountToDevide} {expense.expenseCurrency.name}</Text>
 
                     {
-                        <TouchableHighlight onPress={() => this.toggleModalVisible()} style={styles.ButtonLayoutMain}>
+                        <TouchableHighlight onPress={() => this.toggleModalVisible()} style={[styles.ButtonLayoutMain, {marginLeft: 20, marginRight: 20, }]}>
                             <View>
                                 {ownerButton}
                             </View>
