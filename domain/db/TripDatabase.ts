@@ -41,37 +41,54 @@ export class TripDatabase {
         this.addExpense(expense_2);
         this.addExpense(expense_3);
         this.addExpense(expense_4);
-
-        //console.log(this.trips);
     }
 
     public getTrips() {
         return this.trips;
     }
 
-    public getPersons() {
-        return this.persons;
+    public getPersons(tripFilter: string = null) {
+        if (tripFilter == null) {
+            return this.persons;
+        } else {
+            return this.getTrip(tripFilter).persons;
+        }
     }
 
-    public getTrip(id: number): Trip {
-        // do not use foreach
-        for (let i = 0; i < this.getTrips().length; i++) {
-            if (this.getTrips()[i].id === id) {
-                return this.getTrips()[i];
+    /**
+     * Look for trip that matches id
+     * @return if(typeof @param id == number) then @param id will be treated as a trip's id property
+     *          |   if(typeof @param id == string) then @param id will be treated as the trip's name property
+     */
+    public getTrip(id: any): Trip {
+        if (typeof id == 'number') {
+            // do not use foreach
+            for (let i = 0; i < this.getTrips().length; i++) {
+                if (this.getTrips()[i].id === id) {
+                    return this.getTrips()[i];
+                }
+            }
+        } else if (typeof id == 'string') {
+            for (let i = 0; i < this.getTrips().length; i++) {
+                if (this.getTrips()[i].name === id) {
+                    return this.getTrips()[i];
+                }
             }
         }
         return null;
     }
 
-    public getTripsOfPerson(personId: number): Trip[] {
+    public getTripsOfPerson(personId: number, filter: string): Trip[] {
         var trips: Trip[] = new Array();
 
         this.getTrips().forEach(element => {
-            element.persons.forEach(element2 => {
-                if (element2.id === personId) {
-                    trips.push(element);
-                }
-            });
+            if (filter == "ALL" || filter === element.name) {
+                element.persons.forEach(element2 => {
+                    if (element2.id === personId) {
+                        trips.push(element);
+                    }
+                });
+            }
         });
         return trips;
     }
@@ -169,10 +186,10 @@ export class TripDatabase {
      * 
      * looks trough all the expenses of all the trips
      */
-    public getPersonBalance(personId: number): number[] {
+    public getPersonBalance(personId: number, filter: string): number[] {
         let balance: number[] = new Array<number>(0, 0);
 
-        let personTrips = this.getTripsOfPerson(personId);
+        let personTrips = this.getTripsOfPerson(personId, filter);
         if (personTrips != null) {
             personTrips.forEach(element => {
                 element.expenses.forEach(element2 => {

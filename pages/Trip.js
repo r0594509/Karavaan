@@ -24,7 +24,7 @@ export class Trip extends React.Component {
     expenseCategory: null,
     expenseCurrency: null,
     expenseCategorySelected: Category.All,
-    categoryTitle: "Select a category",
+    categoryTitle: "Sort trips by category",
     categoryFormTitle: 'Select Category',
     currencyFormTitle: 'Select Currency',
   }

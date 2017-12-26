@@ -20,8 +20,8 @@ export class Controller {
         return this.db.getTrip(id);
     }
 
-    public getTripsOfPerson(personId: number): Trip[] {
-        return this.db.getTripsOfPerosn(personId);
+    public getTripsOfPerson(personId: number, filter: string): Trip[] {
+        return this.db.getTripsOfPerson(personId, filter);
     }
 
     public addExpense(expense: Expense) {
@@ -56,8 +56,8 @@ export class Controller {
         this.db.removePerson(personId);
     }
 
-    public getPersons() {
-        return this.db.getPersons();
+    public getPersons(tripFilter: string = null) {
+        return this.db.getPersons(tripFilter);
     }
 
     public addPerson(person: Person) {
@@ -68,8 +68,8 @@ export class Controller {
         return this.db.getPerson(personId);
     }
 
-    public getPersonBalance(personId: number): number[] {
-        return this.db.getPersonBalance(personId);
+    public getPersonBalance(personId: number, filter: string): number[] {
+        return this.db.getPersonBalance(personId, filter);
     }
 }
 
