@@ -74,12 +74,14 @@ export class Expense {
     public AmountLeftToPay(){
         var subTotal = 0;
         var toPayAmount = this.makeAmountDivisible();
-        for(var k in this.expenseDataMap.keys){
-            subTotal += this.expenseDataMap.get(Number(k)).amount;
-        }
+        
+        for(let key of Array.from( this.expenseDataMap.keys()) ) {
+            subTotal = (subTotal * 10 + this.expenseDataMap.get(key).amount * 10) / 10;
+         }
+
         var result = (toPayAmount - subTotal).toFixed(2);
         return Number(result);
-    }
+    } 
 
     public devideAmountEqualy(){
         var ToPayAmount = this.makeAmountDivisible();

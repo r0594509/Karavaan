@@ -58,8 +58,6 @@ export class Expense extends React.Component {
     }
 
     tempSaveAmount(id, amount) {
-
-        //var totalAmount = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount;
         var divisibleAmountToPay = this.state.currentExpense.makeAmountDivisible();
         var payedAmount = 0;
         var typedAmount = 0;
@@ -80,14 +78,11 @@ export class Expense extends React.Component {
 
         newAmount = divisibleAmountToPay - payedAmount;
 
-        //if (newAmount < 0.01) {
-        //    newAmount = 0;
-        //}
         this.setState({ AmountToDevide: newAmount });
     }
 
     saveExpenseForm() {
-        console.log(this.state.currentExpense.isAmountPayed(this.getAmountsPayed()));
+    
        if (this.state.currentExpense.isAmountPayed(this.getAmountsPayed())) {
             var expense = this.state.currentExpense;
             expense.isDevided = true;
@@ -103,6 +98,8 @@ export class Expense extends React.Component {
         } else if (this.state.isDevided == false) {
             this.setState({ standaardCss: [styles.titleText, { marginTop: 20, color: 'red' }] });
         }
+
+        console.log(this.state.currentExpense.AmountLeftToPay());
 
     }
 

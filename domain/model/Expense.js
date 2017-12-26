@@ -50,8 +50,9 @@ var Expense = /** @class */ (function () {
     Expense.prototype.AmountLeftToPay = function () {
         var subTotal = 0;
         var toPayAmount = this.makeAmountDivisible();
-        for (var k in this.expenseDataMap.keys) {
-            subTotal += this.expenseDataMap.get(Number(k)).amount;
+        for (var _i = 0, _a = Array.from(this.expenseDataMap.keys()); _i < _a.length; _i++) {
+            var key = _a[_i];
+            subTotal = (subTotal * 10 + this.expenseDataMap.get(key).amount * 10) / 10;
         }
         var result = (toPayAmount - subTotal).toFixed(2);
         return Number(result);
