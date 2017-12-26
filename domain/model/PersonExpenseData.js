@@ -4,6 +4,7 @@ var PersonExpenseData = /** @class */ (function () {
     function PersonExpenseData(amount, isPaid) {
         this.amount = amount;
         this.isPaid = isPaid;
+        this.isOwner = false;
     }
     return PersonExpenseData;
 }());

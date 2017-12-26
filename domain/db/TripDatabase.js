@@ -51,6 +51,17 @@ var TripDatabase = /** @class */ (function () {
         }
         return null;
     };
+    TripDatabase.prototype.getTripsOfPerson = function (personId) {
+        var trips = new Array();
+        this.getTrips().forEach(function (element) {
+            element.persons.forEach(function (element2) {
+                if (element2.id === personId) {
+                    trips.push(element);
+                }
+            });
+        });
+        return trips;
+    };
     /**
      *
      * @param expense expense type that will be added to it's respective trip AND sets up the trip's internal hashmap.
@@ -128,6 +139,33 @@ var TripDatabase = /** @class */ (function () {
             }
         }
         return null;
+    };
+    /**
+     * Returns a number array of two elements:
+     * number[0] = amount owed
+     * number[1] = amount lend
+     *
+     * looks trough all the expenses of all the trips
+     */
+    TripDatabase.prototype.getPersonBalance = function (personId) {
+        var balance = new Array(0, 0);
+        var personTrips = this.getTripsOfPerson(personId);
+        if (personTrips != null) {
+            personTrips.forEach(function (element) {
+                element.expenses.forEach(function (element2) {
+                    var personExpData = element2.expenseDataMap.get(personId);
+                    if (personExpData != null) {
+                        if (personExpData.isOwner) {
+                            balance[1] += Number(element2.expenseDataMap.get(personId).amount);
+                        }
+                        else {
+                            balance[0] += Number(element2.expenseDataMap.get(personId).amount);
+                        }
+                    }
+                });
+            });
+        }
+        return balance;
     };
     /**
      * @param tripId is always a valid tripid in the triplist

@@ -11,6 +11,9 @@ var Controller = /** @class */ (function () {
     Controller.prototype.getTrip = function (id) {
         return this.db.getTrip(id);
     };
+    Controller.prototype.getTripsOfPerson = function (personId) {
+        return this.db.getTripsOfPerosn(personId);
+    };
     Controller.prototype.addExpense = function (expense) {
         this.db.addExpense(expense);
     };
@@ -43,6 +46,9 @@ var Controller = /** @class */ (function () {
     };
     Controller.prototype.getPerson = function (personId) {
         return this.db.getPerson(personId);
+    };
+    Controller.prototype.getPersonBalance = function (personId) {
+        return this.db.getPersonBalance(personId);
     };
     return Controller;
 }());
