@@ -45,7 +45,7 @@ export class Expense extends React.Component {
             console.log(toPayAmount);
             this.setState({ standaardValue: toPayAmount + '' });
             this.setState({ isDevided: true });
-        } else {
+        } else if (c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).isDevided == false) {
             friends.forEach(person => {
                 //this.listOfPayedAmounts[person.id] = 0;
                 this.tempSaveAmount(person.id, 0);
@@ -191,7 +191,8 @@ export class Expense extends React.Component {
                                     onChangeText={(amount) => this.tempSaveAmount(element.id, amount)}
                                     keyboardType='numeric'
                                     editable={!this.state.isDevided}
-                                    defaultValue={expense.expenseDataMap.get(element.id).amount + this.state.standaardValue}
+                                    //defaultValue={expense.expenseDataMap.get(element.id).amount + this.state.standaardValue}
+                                    defaultValue={expense.expenseDataMap.get(element.id).amount == 0 ? '' + this.state.standaardValue : expense.expenseDataMap.get(element.id).amount + ''}                                    
                                 />
                             </View>
                             <View style={{ flex: 1 }}>
