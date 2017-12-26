@@ -91,9 +91,9 @@ export class Expense {
 
     public makeAmountDivisible(){
         var toPayAmount = this.amount;
-        if(this.amount % this.expenseDataMap.size != 0){
-            toPayAmount = toPayAmount - 0.01;
-        }
+        //if(this.amount % this.expenseDataMap.size != 0){
+        //    toPayAmount = toPayAmount - 0.01;
+        //}
         var result = toPayAmount.toFixed(2)
         return Number(result);
     }

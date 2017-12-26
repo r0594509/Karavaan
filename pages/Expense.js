@@ -44,7 +44,7 @@ export class Expense extends React.Component {
                 this.tempSaveAmount(person.id, equalyDevidedAmount);
             })
             this.setState({ standaardValue: equalyDevidedAmount + '' });
-            this.setState({ isDevided: true });
+            //this.setState({ isDevided: true });
         } else if (this.state.currentExpense.isDevided == false) {
             friends.forEach(person => {
                 this.tempSaveAmount(person.id, 0);
