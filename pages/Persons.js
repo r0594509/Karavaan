@@ -88,8 +88,6 @@ export class Persons extends React.Component {
 
   render() {
 
-    console.log(this.state.tripSelected);
-
     var dropDownData = [];
 
     dropDownData.push({value: "ALL"});
