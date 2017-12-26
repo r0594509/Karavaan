@@ -37,9 +37,10 @@ var Expense = /** @class */ (function () {
         var toPayAmount = this.makeAmountDivisible();
         var payedAmount = 0;
         for (var i = 0; i < payed.length; i++) {
-            payedAmount += payed[i];
+            payedAmount = (payedAmount * 10 + payed[i] * 10) / 10;
         }
-        if (toPayAmount - payedAmount == 0) {
+        var result = payedAmount.toFixed(2);
+        if (toPayAmount - Number(result) == 0) {
             return true;
         }
         else {
@@ -48,21 +49,25 @@ var Expense = /** @class */ (function () {
     };
     Expense.prototype.AmountLeftToPay = function () {
         var subTotal = 0;
+        var toPayAmount = this.makeAmountDivisible();
         for (var k in this.expenseDataMap.keys) {
             subTotal += this.expenseDataMap.get(Number(k)).amount;
         }
-        return subTotal;
+        var result = (toPayAmount - subTotal).toFixed(2);
+        return Number(result);
     };
     Expense.prototype.devideAmountEqualy = function () {
         var ToPayAmount = this.makeAmountDivisible();
-        return ToPayAmount / this.expenseDataMap.size;
+        var result = (ToPayAmount / this.expenseDataMap.size).toFixed(2);
+        return Number(result);
     };
     Expense.prototype.makeAmountDivisible = function () {
         var toPayAmount = this.amount;
         if (this.amount % this.expenseDataMap.size != 0) {
             toPayAmount = toPayAmount - 0.01;
         }
-        return toPayAmount;
+        var result = toPayAmount.toFixed(2);
+        return Number(result);
     };
     return Expense;
 }());

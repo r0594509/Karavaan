@@ -58,10 +58,12 @@ export class Expense {
         var payedAmount = 0;
 
         for (let i = 0; i < payed.length; i++){
-            payedAmount += payed[i];
+            payedAmount = (payedAmount * 10 + payed[i] * 10) / 10;
         }
 
-        if(toPayAmount - payedAmount == 0){
+        var result =  payedAmount.toFixed(2);
+
+        if(toPayAmount - Number(result) == 0){
             return true;
         }else{
             return false;
@@ -71,15 +73,18 @@ export class Expense {
 
     public AmountLeftToPay(){
         var subTotal = 0;
+        var toPayAmount = this.makeAmountDivisible();
         for(var k in this.expenseDataMap.keys){
             subTotal += this.expenseDataMap.get(Number(k)).amount;
         }
-        return subTotal;
+        var result = (toPayAmount - subTotal).toFixed(2);
+        return Number(result);
     }
 
     public devideAmountEqualy(){
         var ToPayAmount = this.makeAmountDivisible();
-        return ToPayAmount/this.expenseDataMap.size;
+        var result = (ToPayAmount/this.expenseDataMap.size).toFixed(2);
+        return Number(result);
     }
 
     public makeAmountDivisible(){
@@ -87,7 +92,8 @@ export class Expense {
         if(this.amount % this.expenseDataMap.size != 0){
             toPayAmount = toPayAmount - 0.01;
         }
-        return toPayAmount;
+        var result = toPayAmount.toFixed(2)
+        return Number(result);
     }
 
 }
