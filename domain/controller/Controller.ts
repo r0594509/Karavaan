@@ -20,6 +20,10 @@ export class Controller {
         return this.db.getTrip(id);
     }
 
+    public getTripsOfPerson(personId: number): Trip[] {
+        return this.db.getTripsOfPerosn(personId);
+    }
+
     public addExpense(expense: Expense) {
         this.db.addExpense(expense);
     }
@@ -62,6 +66,10 @@ export class Controller {
 
     public getPerson(personId: number) {
         return this.db.getPerson(personId);
+    }
+
+    public getPersonBalance(personId: number): number[] {
+        return this.db.getPersonBalance(personId);
     }
 }
 

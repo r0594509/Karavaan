@@ -28,10 +28,10 @@ export class TripDatabase {
         var trip_1 = new Trip('Belgium RoadTrip', 'Een Road-Trip door Belgie startende bij Antwerpen-Brussel-Leuven-Luik-Namen', Currencies.EUR, [person_1, person_2]);
         var trip_2 = new Trip('Madrid CityTrip', 'Een dag trip door Madrid met vrienden. Bezoeke van bekende toeristische plaatsen', Currencies.EUR, [person_1, person_2, person_3]);
         var expense_1 = new Expense(trip_1.id, '1 Restaurant "La pizzaaa"', Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, false, Currencies.EUR);
-        var expense_2 = new Expense(trip_1.id,'2 Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, false, Currencies.EUR);
+        var expense_2 = new Expense(trip_1.id, '2 Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, false, Currencies.EUR);
         var expense_3 = new Expense(trip_2.id, '3 Restaurant "La pizzaaa"', Category.Food, new Date(2017, 8, 5, 0, 0), 87.99, false, Currencies.EUR);
-        var expense_4 = new Expense(trip_2.id,'4 Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, false, Currencies.EUR);
-        
+        var expense_4 = new Expense(trip_2.id, '4 Cafe "Den Bozze"', Category.Food, new Date(2017, 10, 5, 0, 0), 59.99, false, Currencies.EUR);
+
         this.addTrip(trip_1);
         this.addTrip(trip_2);
         this.addPerson(person_1);
@@ -49,18 +49,31 @@ export class TripDatabase {
         return this.trips;
     }
 
-    public getPersons(){
+    public getPersons() {
         return this.persons;
     }
 
-    public getTrip(id: number) : Trip {
+    public getTrip(id: number): Trip {
         // do not use foreach
-        for (let i = 0; i< this.getTrips().length; i++) {
+        for (let i = 0; i < this.getTrips().length; i++) {
             if (this.getTrips()[i].id === id) {
                 return this.getTrips()[i];
             }
         }
         return null;
+    }
+
+    public getTripsOfPerson(personId: number): Trip[] {
+        var trips: Trip[] = new Array();
+
+        this.getTrips().forEach(element => {
+            element.persons.forEach(element2 => {
+                if (element2.id === personId) {
+                    trips.push(element);
+                }
+            });
+        });
+        return trips;
     }
 
     /**
@@ -80,11 +93,11 @@ export class TripDatabase {
      */
     private populateExpenseDataMap(expense: Expense) {
         this.getTrip(expense.tripId).persons.forEach(element => {
-            expense.expenseDataMap.set(element.id, new PersonExpenseData(0, false)); 
+            expense.expenseDataMap.set(element.id, new PersonExpenseData(0, false));
         });
     }
 
-    public getExpense(expenseId: number) : Expense {
+    public getExpense(expenseId: number): Expense {
         this.getTrips().forEach(element => {
             element.expenses.forEach(element2 => {
                 if (element2.id === expenseId)
@@ -94,8 +107,8 @@ export class TripDatabase {
         return null;
     }
 
-    public getExpenseInTrip(tripId: number, expenseId: number) : Expense {
-        for (let i=0; i < this.getTrip(tripId).expenses.length; i++) {
+    public getExpenseInTrip(tripId: number, expenseId: number): Expense {
+        for (let i = 0; i < this.getTrip(tripId).expenses.length; i++) {
             if (this.getTrip(tripId).expenses[i].id === expenseId) {
                 return this.getTrip(tripId).expenses[i];
             }
@@ -104,7 +117,7 @@ export class TripDatabase {
     }
 
     public removeExpenseInTrip(tripId: number, expenseId: number) {
-        for (let i=0; i < this.getTrip(tripId).expenses.length; i++) {
+        for (let i = 0; i < this.getTrip(tripId).expenses.length; i++) {
             if (this.getTrip(tripId).expenses[i].id === expenseId) {
                 this.getTrip(tripId).expenses.splice(i, 1);
             }
@@ -116,15 +129,15 @@ export class TripDatabase {
      * @param tripId trip to show expenses from
      * @param category category to filter expenses on
      */
-    public getExpensesForTrip(tripId: number, category: Category) : Expense[] {
+    public getExpensesForTrip(tripId: number, category: Category): Expense[] {
         let tmp = new Array();
-        if ( category == Category.All) {
-            for (let i=0; i< this.getTrip(tripId).expenses.length; i++) {
+        if (category == Category.All) {
+            for (let i = 0; i < this.getTrip(tripId).expenses.length; i++) {
                 tmp.push(this.getTrip(tripId).expenses[i]);
             }
         } else {
-            for (let i=0; i< this.getTrip(tripId).expenses.length; i++) {
-                if(this.getTrip(tripId).expenses[i].category == category) {
+            for (let i = 0; i < this.getTrip(tripId).expenses.length; i++) {
+                if (this.getTrip(tripId).expenses[i].category == category) {
                     tmp.push(this.getTrip(tripId).expenses[i])
                 }
             }
@@ -136,12 +149,12 @@ export class TripDatabase {
         this.trips.push(trip);
     }
 
-    public addPerson(person: Person){
+    public addPerson(person: Person) {
         this.persons.push(person);
     }
 
-    public getPerson(personId : number) : Person {
-        for (let i=0; i< this.getPersons().length; i++) {
+    public getPerson(personId: number): Person {
+        for (let i = 0; i < this.getPersons().length; i++) {
             if (this.getPersons()[i].id === personId) {
                 return this.getPersons()[i];
             }
@@ -150,9 +163,37 @@ export class TripDatabase {
     }
 
     /**
+     * Returns a number array of two elements:
+     * number[0] = amount owed
+     * number[1] = amount lend
+     * 
+     * looks trough all the expenses of all the trips
+     */
+    public getPersonBalance(personId: number): number[] {
+        let balance: number[] = new Array<number>(0, 0);
+
+        let personTrips = this.getTripsOfPerson(personId);
+        if (personTrips != null) {
+            personTrips.forEach(element => {
+                element.expenses.forEach(element2 => {
+                    let personExpData = element2.expenseDataMap.get(personId);
+                    if (personExpData != null) {
+                        if (personExpData.isOwner) {
+                            balance[1] += Number(element2.expenseDataMap.get(personId).amount);
+                        } else {
+                            balance[0] += Number(element2.expenseDataMap.get(personId).amount);
+                        }
+                    }
+                });
+            });
+        }
+        return balance;
+    }
+
+    /**
      * @param tripId is always a valid tripid in the triplist
      */
-    public removeTrip(tripId : number) {
+    public removeTrip(tripId: number) {
         for (let i = 0; i < this.getTrips().length; i++) {
             if (this.getTrips()[i].id === tripId) {
                 this.getTrips().splice(i, 1);

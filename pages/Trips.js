@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput, TouchableWithoutFeedback  } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput, TouchableWithoutFeedback } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import CheckBox from 'react-native-check-box';
 import Popup from 'react-native-popup';
@@ -28,10 +28,10 @@ export class Trips extends React.Component {
     currencyFormTitle: 'Select Currency',
     formNameIsValid: true,
     formDescIsValid: true,
-    personIdList : [],
+    personIdList: [],
     personsInTripList: [],
   }
- 
+
   handleOnSave_newTripForm() {
     this.saveNewTrip();
   }
@@ -40,8 +40,8 @@ export class Trips extends React.Component {
     this.toggleModalVisible();
     this.setState({ formNameIsValid: true });
     this.setState({ formDescIsValid: true });
-    this.setState({ personIdList : [] });
-    this.setState({ tripCurrencyIsValid: true});
+    this.setState({ personIdList: [] });
+    this.setState({ tripCurrencyIsValid: true });
     this.state.tripName = null;
     this.state.tripDesc = null;
     this.state.tripCurrency = null;
@@ -55,9 +55,9 @@ export class Trips extends React.Component {
 
     if (currency == null) {
       errors++;
-      this.setState({ tripCurrencyIsValid: false});
+      this.setState({ tripCurrencyIsValid: false });
     } else {
-      this.setState({ tripCurrencyIsValid: true});
+      this.setState({ tripCurrencyIsValid: true });
     }
 
     if (!Trip.isValidTripName(name)) {
@@ -76,7 +76,7 @@ export class Trips extends React.Component {
 
     if (errors === 0) {
       let trip = new Trip(name, desc, Currencies[currency], this.processPersonIds(this.state.personIdList));
-      console.log(trip);
+      //console.log(trip);
       c.addTrip(trip);
       this.toggleModalVisible();
       // clear state for next form
@@ -100,15 +100,44 @@ export class Trips extends React.Component {
     this.setState({ modalVisible: !this.state.modalVisible });
   }
 
-  closeModalFriends(){
-    this.setState({modalFriendsVisible: !this.state.modalFriendsVisible});
+  removeItem(id) {
+    this.popup.confirm({
+      title: 'Remove',
+      content: ['Do you want to remove,', 'Expense: ' + c.getTrip(id).name],
+      ok: {
+        text: 'Yes',
+        style: {
+          color: 'red'
+        },
+        callback: () => {
+          this.popup.alert(c.getTrip(id).name + ' has been removed!');
+          c.removeTrip(id);
+          this.forceUpdate();
+        },
+      },
+      cancel: {
+        text: 'No',
+        style: {
+          color: 'black'
+        },
+        callback: () => {
+          this.popup.alert(c.getTrip(id).name + ' has not been removed.');
+        },
+      },
+    });
   }
 
-  openModalFriends(id){
+  /** @Obsolete */
+  closeModalFriends() {
+    this.setState({ modalFriendsVisible: !this.state.modalFriendsVisible });
+  }
+
+  /** @Obsolete */
+  openModalFriends(id) {
     friendList = [];
     c.getTrip(id).persons.forEach(person => {
       friendList.push(
-        <View key={person.id} style={[styles.FormViewExpensePerson, {backgroundColor: 'lightgrey'}]}>
+        <View key={person.id} style={[styles.FormViewExpensePerson, { backgroundColor: 'lightgrey' }]}>
           <View style={{ flex: 1 }}>
             <Text style={styles.FormText}>{person.name}</Text>
           </View>
@@ -118,8 +147,8 @@ export class Trips extends React.Component {
         </View>
       )
     });
-    this.setState({personsInTripList: friendList})
-    this.setState({modalFriendsVisible: !this.state.modalFriendsVisible});
+    this.setState({ personsInTripList: friendList })
+    this.setState({ modalFriendsVisible: !this.state.modalFriendsVisible });
   }
 
   //Functie om te navigeren naar individuele Trip pagina
@@ -130,13 +159,13 @@ export class Trips extends React.Component {
   }
 
   toggleSelectedPerson(id) {
-    if ( this.state.personIdList.indexOf(id) === -1 ) {
+    if (this.state.personIdList.indexOf(id) === -1) {
       this.setState({
         personIdList: this.state.personIdList.concat([id])
       });
     } else {
       this.setState({
-        personIdList: this.state.personIdList.splice(this.state.personIdList.indexOf(id)+1, 1)
+        personIdList: this.state.personIdList.splice(this.state.personIdList.indexOf(id) + 1, 1)
       });
     }
   }
@@ -149,7 +178,7 @@ export class Trips extends React.Component {
     for (var n in Currencies) {
       //console.log(Currencies[n].code);
       if (Currencies[n].code != "ALL") {
-        currenciesList.push({value: n});
+        currenciesList.push({ value: n });
       }
     }
 
@@ -159,7 +188,7 @@ export class Trips extends React.Component {
     c.getTrips().forEach(element => {
       tripList.push(
         // Zijn de CARDS waarop gedrukt kan worden om venster te openen
-        <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)} onLongPress={() => this.openModalFriends(element.id)}>
+        <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToTrip(element.id)} onLongPress={() => this.removeItem(element.id)}>
           <View style={styles.cardLayout}>
             <Text style={styles.titleText}>Name: {element.name}</Text>
             <Text>Description: {element.description}</Text>
@@ -208,28 +237,28 @@ export class Trips extends React.Component {
     if (this.state.tripCurrencyIsValid) {
       currencyFormDropDown.push(
         <Dropdown
-                      key="currencydormdropdown"
-                      label={this.state.currencyFormTitle}
-                      data={currenciesList}
-                      onChangeText={(tripCurrency) => this.setState({tripCurrency: tripCurrency})}
-                      //fontSize={16}
-                      containerStyle={{ paddingRight: 15 }}
-                      baseColor='black'
-                      dropdownPosition={1}
-                    />
+          key="currencydormdropdown"
+          label={this.state.currencyFormTitle}
+          data={currenciesList}
+          onChangeText={(tripCurrency) => this.setState({ tripCurrency: tripCurrency })}
+          //fontSize={16}
+          containerStyle={{ paddingRight: 15 }}
+          baseColor='black'
+          dropdownPosition={1}
+        />
       );
     } else {
       currencyFormDropDown.push(
         <Dropdown
-                      key="currencydormdropdown"
-                      label={this.state.currencyFormTitle}
-                      data={currenciesList}
-                      onChangeText={(tripCurrency) => this.setState({tripCurrency: tripCurrency})}
-                      //fontSize={16}
-                      containerStyle={{ paddingRight: 15 }}
-                      baseColor='red'
-                      dropdownPosition={1}
-                    />
+          key="currencydormdropdown"
+          label={this.state.currencyFormTitle}
+          data={currenciesList}
+          onChangeText={(tripCurrency) => this.setState({ tripCurrency: tripCurrency })}
+          //fontSize={16}
+          containerStyle={{ paddingRight: 15 }}
+          baseColor='red'
+          dropdownPosition={1}
+        />
       );
     }
 
@@ -282,16 +311,16 @@ export class Trips extends React.Component {
               </ScrollView>
             </View>
             <View>
-                <TouchableHighlight onPress={() => this.handleOnSave_newTripForm()} style={styles.ButtonLayoutMain}>
-                  <View>
-                    <Text style={styles.ButtonText}>Save</Text>
-                  </View>
-                </TouchableHighlight>
-              </View>
+              <TouchableHighlight onPress={() => this.handleOnSave_newTripForm()} style={styles.ButtonLayoutMain}>
+                <View>
+                  <Text style={styles.ButtonText}>Save</Text>
+                </View>
+              </TouchableHighlight>
+            </View>
           </Modal>
 
-           {/* Friends Modal */}
-           
+          {/* Friends Modal */}
+
           <Modal animationType="fade"
             transparent={true}
             visible={this.state.modalFriendsVisible}
@@ -302,14 +331,16 @@ export class Trips extends React.Component {
                 {this.state.personsInTripList}
               </ScrollView>
               <TouchableHighlight onPress={() => this.closeModalFriends()} style={styles.ButtonLayoutMain}>
-                  <View>
-                    <Text style={styles.ButtonText}>Close</Text>
-                  </View>
-                </TouchableHighlight>
+                <View>
+                  <Text style={styles.ButtonText}>Close</Text>
+                </View>
+              </TouchableHighlight>
             </View>
-            
-
           </Modal>
+
+          {/** Popup component */}
+          <Popup ref={popup => this.popup = popup} />
+          {/** or <Popup ref={popup => this.popup = popup } isOverlay={false} isOverlayClickClose={false}/> */}
 
         </View>
       </View >

@@ -182,8 +182,7 @@ export class Trip extends React.Component {
         <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToExpense(params.id, element.id)} onLongPress={() => this.removeItem(element.id)}>
           <View style={styles.cardLayout}>
             <Text style={styles.titleText}>Name: {element.description}</Text>
-            <Text>Description: {element.amount}
-            </Text>
+            <Text>Description: {element.amount}</Text>
           </View>
         </TouchableHighlight>
       )

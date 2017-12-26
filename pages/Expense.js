@@ -6,6 +6,7 @@ import CheckBox from 'react-native-check-box';
 import styles from '../styles/styles';
 import c from '../domain/controller/Controller';
 import Popup from 'react-native-popup';
+import { PersonExpenseData } from '../domain/model/PersonExpenseData';
 
 
 export class Expense extends React.Component {
@@ -20,6 +21,7 @@ export class Expense extends React.Component {
     }
 
     state = {
+        modalVisible: false,
         AmountToDevide: c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).amount,
         isDevided: c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).isDevided,
         standaardValue: '',
@@ -97,7 +99,7 @@ export class Expense extends React.Component {
 
         if (newAmount < 0.01 || newAmount == 0) {
             return true;
-        } else{
+        } else {
             return false;
         }
     }
@@ -111,17 +113,21 @@ export class Expense extends React.Component {
             expense.isDevided = true;
             for (var k in this.listOfPayedAmounts) {
                 if (this.listOfPayedAmounts.hasOwnProperty(k)) {
-                   expense.expenseDataMap.get(Number(k)).amount = this.listOfPayedAmounts[k] ;
+                    expense.expenseDataMap.get(Number(k)).amount = this.listOfPayedAmounts[k];
                 }
             }
 
             this.setState({ isDevided: true });
             this.setState({ standaardCss: [styles.titleText, { marginTop: 20, color: 'black' }] });
             this.forceUpdate();
-        } else  if (this.state.isDevided == false){
+        } else if (this.state.isDevided == false) {
             this.setState({ standaardCss: [styles.titleText, { marginTop: 20, color: 'red' }] });
         }
 
+    }
+
+    toggleModalVisible() {
+        this.setState({ modalVisible: !this.state.modalVisible });
     }
 
     render() {
@@ -133,18 +139,85 @@ export class Expense extends React.Component {
             value: 'Equal',
         }];
 
-        var expense = c.getExpenseInTrip(params.tripId, params.expenseId);
-        //console.log(expense);
+        let expense = c.getExpenseInTrip(params.tripId, params.expenseId);
+        let expensePersonArray = c.getTrip(expense.tripId).persons;
+
+        ownerButton = [];
         personList = [];
-        if (c.getTrip(expense.tripId).persons != null) {
+        ownerList = [];
+
+        
+        if (expensePersonArray != null) {
+            let tmp = "";
+            let bool = false;
+            expensePersonArray.forEach(element => {
+                if (expense.expenseDataMap.get(element.id).isOwner) {
+                    tmp += element.name + ", ";
+                    bool = true;
+                }
+            });
+            if (bool) {
+                ownerButton.push(
+                    <Text key='whopays' style={styles.ButtonText}>paid by {tmp}</Text>
+                );
+            } else {
+                ownerButton.push(
+                    <Text key='whopays' style={styles.ButtonText}>paid by NOONE</Text>
+                );
+            }
+        }
+        
+
+        //console.log(expense);
+        if (expensePersonArray != null) {
             //console.log(expense);
-            c.getTrip(expense.tripId).persons.forEach(element => {
-                //console.log(element);
-                personList.push(
-                    <View style={styles.FormViewExpensePerson} key={'persondetails' + element.id}>
+            expensePersonArray.forEach(element => {
+                //Owners do not have to contribute to the amount left to be payed.
+                //if (!expense.expenseDataMap.get(element.id).isOwner) {
+                    //console.log(element);
+                    personList.push(
+                        <View style={styles.FormViewExpensePerson} key={'persondetails' + element.id}>
+                            <View style={{ flex: 1 }}>
+                                <Text style={styles.FormText}>{element.name}:</Text>
+                            </View>
+                            <View>
+                                <Text>
+                                    {expense.expenseCurrency.symbol_native}
+                                </Text>
+                            </View>
+                            <View style={{ width: 150 }}>
+                                <TextInput
+                                    style={[styles.FormInput, { marginTop: -2 }]}
+                                    placeholder="Amount due"
+                                    onChangeText={(amount) => this.tempSaveAmount(element.id, amount)}
+                                    keyboardType='numeric'
+                                    editable={!this.state.isDevided}
+                                    //defaultValue={expense.expenseDataMap.get(element.id).amount + this.state.standaardValue}
+                                    defaultValue={expense.expenseDataMap.get(element.id).amount == 0 ? '' + this.state.standaardValue : expense.expenseDataMap.get(element.id).amount + ''}                                    
+                                />
+                            </View>
+                            <View style={{ flex: 1 }}>
+                                <CheckBox
+                                    onClick={() => alert(element.id)}
+                                    isChecked={expense.expenseDataMap.get(element.id).isPaid}
+                                    style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 50 }}
+                                />
+                            </View>
+                        </View>
+                    );
+                //}
+            });
+        }
+
+        
+        if (expensePersonArray != null) {
+            expensePersonArray.forEach(element => {
+                ownerList.push(
+                    <View style={styles.FormViewExpensePerson} key={'ownerdetails' + element.id}>
                         <View style={{ flex: 1 }}>
                             <Text style={styles.FormText}>{element.name}:</Text>
                         </View>
+<<<<<<< HEAD
                         <View style={{ width: 150 }}>
                             <TextInput
                                 style={[styles.FormInput, { marginTop: -2 }]}
@@ -157,14 +230,16 @@ export class Expense extends React.Component {
                             />
                         </View>
 
+=======
+>>>>>>> c89a0de9576c8f36c9669dde8c93bf53f112f9ff
                         <View style={{ flex: 1 }}>
                             <CheckBox
                                 onClick={() => alert(element.id)}
-                                isChecked={expense.expenseDataMap.get(element.id).isPaid}
+                                isChecked={expense.expenseDataMap.get(element.id).isOwner}
                                 style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 50 }}
                             />
                         </View>
-                    </View>
+                    </View>   
                 );
             });
         }
@@ -175,6 +250,14 @@ export class Expense extends React.Component {
 
                     <Text style={this.state.standaardCss} >Amount to be divided: {this.state.AmountToDevide} {expense.expenseCurrency.name}</Text>
 
+                    {
+                    <TouchableHighlight onPress={() => this.toggleModalVisible()} style={styles.ButtonLayoutMain}>
+                        <View>
+                            {ownerButton}
+                        </View>
+                    </TouchableHighlight>
+                    }
+                    
                     <Dropdown
                         label='Divide method'
                         value='Custom'
@@ -184,7 +267,7 @@ export class Expense extends React.Component {
                         containerStyle={{ paddingLeft: 20, paddingRight: 20 }}
                         baseColor='rgba(0, 0, 0, 1)'
                         dropdownPosition={1}
-                        //editable={!this.state.isDevided}
+                    //editable={!this.state.isDevided}
                     />
                     <ScrollView contentContainer={{ paddingVertical: 20 }}>
                         {personList}
@@ -195,6 +278,19 @@ export class Expense extends React.Component {
                             <Text style={styles.ButtonText}>Save</Text>
                         </View>
                     </TouchableHighlight>
+
+                    <Modal
+                        animationType="slide"
+                        transparent={false}
+                        visible={this.state.modalVisible}
+                        onRequestClose={() => this.toggleModalVisible()}
+                    >
+                        <ScrollView contentContainer={{ paddingVertical: 20 }}>
+                            <Text>Select who paid for the expense:</Text>
+                            { ownerList }
+                        </ScrollView>
+                    </Modal>
+
                 </View>
             </View>
         );
