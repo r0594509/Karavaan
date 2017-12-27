@@ -20,21 +20,21 @@ export class Expense {
     /**
      * @param name cannot be empty and should contain at least 3 characters
      */
-    public static isValidExpenseName(name: string) : boolean {
+    public static isValidExpenseName(name: string): boolean {
         return !(name == null || name.length < 3);
     }
 
     /**
      * @param amnt cannot be empty and should be a value greater than 0
      */
-    public static isValidExpenseAmount(amnt: number) : boolean {
+    public static isValidExpenseAmount(amnt: number): boolean {
         return !(amnt == null || amnt < 0);
     }
-    
+
     /**
      * @param date 
      */
-    public static isValidExpenseDate(date: Date) : boolean {
+    public static isValidExpenseDate(date: Date): boolean {
         return !(date == null);
     }
 
@@ -47,49 +47,61 @@ export class Expense {
         this.description = description;
         this.category = category;
         this.amount = amount;
-        this.date  = date;
+        this.date = date;
         this.expenseCurrency = expenseCurrency;
         this.isDevided = isDevided;
         this.expenseDataMap = new Map<number, PersonExpenseData>();
     }
-    
-    public isAmountPayed(payed:Array<number>){
+
+    public isAmountPayed(payed: Array<number>) {
         var toPayAmount = this.makeAmountDivisible();
         var payedAmount = 0;
 
-        for (let i = 0; i < payed.length; i++){
+        for (let i = 0; i < payed.length; i++) {
             payedAmount = (payedAmount * 10 + payed[i] * 10) / 10;
         }
 
-        var result =  payedAmount.toFixed(2);
+        var result = payedAmount.toFixed(2);
 
-        if(toPayAmount - Number(result) == 0){
+        if (toPayAmount - Number(result) == 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
-        
+
     }
 
-    public AmountLeftToPay(){
+    public AmountLeftToPay() {
         var subTotal = 0;
         var toPayAmount = this.makeAmountDivisible();
-        
-        for(let key of Array.from( this.expenseDataMap.keys()) ) {
+
+        /**
+         * tsc compiler issue fix
+         */
+        this.expenseDataMap.forEach((element, key) => {
             subTotal = (subTotal * 10 + this.expenseDataMap.get(key).amount * 10) / 10;
-         }
+        });
 
         var result = (toPayAmount - subTotal).toFixed(2);
         return Number(result);
-    } 
+    }
 
-    public devideAmountEqualy(){
+    /**
+     * Devinde amount among people who are NOT owners
+     */
+    public devideAmountEqualy() {
+        let size: number = 0;
+
+        this.expenseDataMap.forEach(element => {
+            if (!element.isOwner) size++;
+        });
+
         var ToPayAmount = this.makeAmountDivisible();
-        var result = (ToPayAmount/this.expenseDataMap.size).toFixed(2);
+        var result = (ToPayAmount / (size==0?1:size)).toFixed(2);
         return Number(result);
     }
 
-    public makeAmountDivisible(){
+    public makeAmountDivisible() {
         var toPayAmount = this.amount;
         //if(this.amount % this.expenseDataMap.size != 0){
         //    toPayAmount = toPayAmount - 0.01;
@@ -97,7 +109,6 @@ export class Expense {
         var result = toPayAmount.toFixed(2)
         return Number(result);
     }
-
 }
 
 /**

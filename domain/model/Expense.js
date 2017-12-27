@@ -48,18 +48,29 @@ var Expense = /** @class */ (function () {
         }
     };
     Expense.prototype.AmountLeftToPay = function () {
+        var _this = this;
         var subTotal = 0;
         var toPayAmount = this.makeAmountDivisible();
-        for (var _i = 0, _a = Array.from(this.expenseDataMap.keys()); _i < _a.length; _i++) {
-            var key = _a[_i];
-            subTotal = (subTotal * 10 + this.expenseDataMap.get(key).amount * 10) / 10;
-        }
+        /**
+         * tsc compiler issue fix
+         */
+        this.expenseDataMap.forEach(function (element, key) {
+            subTotal = (subTotal * 10 + _this.expenseDataMap.get(key).amount * 10) / 10;
+        });
         var result = (toPayAmount - subTotal).toFixed(2);
         return Number(result);
     };
+    /**
+     * Devinde amount among people who are NOT owners
+     */
     Expense.prototype.devideAmountEqualy = function () {
+        var size = 0;
+        this.expenseDataMap.forEach(function (element) {
+            if (!element.isOwner)
+                size++;
+        });
         var ToPayAmount = this.makeAmountDivisible();
-        var result = (ToPayAmount / this.expenseDataMap.size).toFixed(2);
+        var result = (ToPayAmount / (size == 0 ? 1 : size)).toFixed(2);
         return Number(result);
     };
     Expense.prototype.makeAmountDivisible = function () {

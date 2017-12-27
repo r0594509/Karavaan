@@ -63,7 +63,13 @@ export class Expense extends React.Component {
             typedAmount = amount;
         }
 
-        this.listOfPayedAmounts[id] = typedAmount;
+        console.log(this.state.currentExpense.expenseDataMap.get(id).isOwner);
+
+        if (!this.state.currentExpense.expenseDataMap.get(id).isOwner) {
+            this.listOfPayedAmounts[id] = typedAmount;
+        } else {
+            this.listOfPayedAmounts[id] = Number(0);
+        }
 
         for (var k in this.listOfPayedAmounts) {
             if (this.listOfPayedAmounts.hasOwnProperty(k)) {
@@ -108,7 +114,7 @@ export class Expense extends React.Component {
         return amounts;
     }
 
-    toggleHasPayedHisPart(id){
+    toggleHasPayedHisPart(id) {
         this.state.currentExpense.expenseDataMap.get(id).isPaid = !this.state.currentExpense.expenseDataMap.get(id).isPaid;
         //console.log(this.state.currentExpense.expenseDataMap.get(id).isPaid);
     }
@@ -118,7 +124,7 @@ export class Expense extends React.Component {
     }
 
     render() {
-        console.log(this.state.AmountToDevide);
+        
         const { params } = this.props.navigation.state;
 
         let data = [{
@@ -139,20 +145,27 @@ export class Expense extends React.Component {
 
         if (expensePersonArray != null) {
             let tmp = "";
-            let bool = false;
+            let personAmnt = 0;
             expensePersonArray.forEach(element => {
                 if (expense.expenseDataMap.get(element.id).isOwner) {
-                    tmp += element.name + ", ";
-                    bool = true;
+                    if (personAmnt != 0) tmp += ", "
+                    tmp += element.name;
+                    personAmnt++;
                 }
             });
-            if (bool) {
-                ownerButton.push(
-                    <Text key='whopays' style={styles.ButtonText}>paid by {tmp}</Text>
-                );
+            if (personAmnt > 0) {
+                if (personAmnt < 3) {
+                    ownerButton.push(
+                        <Text key='whopays' style={styles.ButtonText}>{this.state.currentExpense.expenseCurrency.symbol_native}{this.state.currentExpense.amount} paid in advance by {tmp}</Text>
+                    );
+                } else {
+                    ownerButton.push(
+                        <Text key='whopays' style={styles.ButtonText}>{this.state.currentExpense.expenseCurrency.symbol_native}{this.state.currentExpense.amount} paid in advance by {personAmnt} persons</Text>
+                    );
+                }
             } else {
                 ownerButton.push(
-                    <Text key='whopays' style={styles.ButtonText}>paid by NOONE</Text>
+                    <Text key='whopays' style={styles.ButtonText}>{this.state.currentExpense.expenseCurrency.symbol_native}{this.state.currentExpense.amount} paid in advanceby no one</Text>
                 );
             }
         }
@@ -171,7 +184,7 @@ export class Expense extends React.Component {
             />
             );
 
-            saveButton.push(                    
+            saveButton.push(
                 <TouchableHighlight key='001' onPress={() => this.saveExpenseForm()} style={styles.ButtonLayoutMain}>
                     <View>
                         <Text style={styles.ButtonText}>Save</Text>
@@ -202,7 +215,7 @@ export class Expense extends React.Component {
                                     keyboardType='numeric'
                                     editable={!this.state.isDevided}
                                     //defaultValue={expense.expenseDataMap.get(element.id).amount + this.state.standaardValue}
-                                    defaultValue={expense.expenseDataMap.get(element.id).amount == 0 ? '' + this.state.standaardValue : expense.expenseDataMap.get(element.id).amount + ''}                                    
+                                    defaultValue={expense.expenseDataMap.get(element.id).amount == 0 ? '' + this.state.standaardValue : expense.expenseDataMap.get(element.id).amount + ''}
                                 />
                             </View>
                             <View style={{ flex: 1 }}>
@@ -239,7 +252,7 @@ export class Expense extends React.Component {
 
                         <View style={{ flex: 1 }}>
                             <CheckBox
-                                onClick={() => alert(element.id)}
+                                onClick={() => expense.expenseDataMap.get(element.id).isOwner = !expense.expenseDataMap.get(element.id).isOwner}
                                 isChecked={expense.expenseDataMap.get(element.id).isOwner}
                                 style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 50 }}
                             />
@@ -256,7 +269,7 @@ export class Expense extends React.Component {
                     <Text style={this.state.standaardCss} >Amount to be divided: {this.state.AmountToDevide} {expense.expenseCurrency.name}</Text>
 
                     {
-                        <TouchableHighlight onPress={() => this.toggleModalVisible()} style={[styles.ButtonLayoutMain, {marginLeft: 20, marginRight: 20, }]}>
+                        <TouchableHighlight onPress={() => this.toggleModalVisible()} style={[styles.ButtonLayoutMain, { marginLeft: 20, marginRight: 20, }]}>
                             <View>
                                 {ownerButton}
                             </View>
