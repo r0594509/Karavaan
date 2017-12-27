@@ -117,6 +117,20 @@ export class Expense extends React.Component {
     toggleHasPayedHisPart(id) {
         this.state.currentExpense.expenseDataMap.get(id).isPaid = !this.state.currentExpense.expenseDataMap.get(id).isPaid;
         //console.log(this.state.currentExpense.expenseDataMap.get(id).isPaid);
+
+        /** giant mess
+        let paidAmount = this.state.currentExpense.expenseDataMap.get(id).amount;
+        //person does not owe anything anymore
+        this.state.currentExpense.expenseDataMap.get(id).amount = 0;
+        let listOfOwners = [];
+        this.state.currentExpense.expenseDataMap.forEach((element, key) => {
+            listOfOwners.push(key);
+        });
+        let paidAmountPerOwner = paidAmount / listOfOwners.length==0 ? Number(0) : paidAmount/listOfOwners.length;
+        listOfOwners.forEach(element => {
+            this.state.currentExpense.expenseDataMap.get(element).amount -= paidAmountPerOwner;    
+        });
+        */
     }
 
     toggleModalVisible() {
@@ -125,6 +139,8 @@ export class Expense extends React.Component {
 
     render() {
         
+        console.log(this.state.currentExpense.expenseDataMap);
+
         const { params } = this.props.navigation.state;
 
         let data = [{
@@ -200,7 +216,7 @@ export class Expense extends React.Component {
                     personList.push(
                         <View style={styles.FormViewExpensePerson} key={'persondetails' + element.id}>
                             <View style={{ flex: 1 }}>
-                                <Text style={styles.FormText}>{element.name}:</Text>
+                                <Text style={styles.FormText}>{element.name} owes:</Text>
                             </View>
                             <View>
                                 <Text>
@@ -246,7 +262,7 @@ export class Expense extends React.Component {
                                 keyboardType='numeric'
                                 editable={!this.state.isDevided}
                                 //defaultValue={expense.expenseDataMap.get(element.id).amount + this.state.standaardValue}
-                                defaultValue={expense.expenseDataMap.get(element.id).amount == 0 ? '' + this.state.standaardValue : expense.expenseDataMap.get(element.id).amount + ''}
+                                defaultValue={expense.expenseDataMap.get(element.id).amount == 0 ? '' + Math.ceil(this.state.standaardValue/expensePersonArray.length) : expense.expenseDataMap.get(element.id).amount + ''}
                             />
                         </View>
 
