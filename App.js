@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, Button, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Button, StatusBar, Platform } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { Persons } from './pages/Persons';
 import { Trips } from './pages/Trips';
 import { Trip } from './pages/Trip';
+import { Expense } from './pages/Expense';
 import { Controller } from './domain/controller/Controller';
 
 //Start Punt van de App
@@ -24,14 +25,10 @@ export default class App extends React.Component {
   }
 }
 
-App.defaultProps = {
-  controller: new Controller()
-}
-
 //Maakt de TabBar navigatie onderaan 
 const MainNavigation = TabNavigator({
-  TabA: { screen: Trips},
-  TabB: { screen: Persons},
+  TabA: { screen: Trips },
+  TabB: { screen: Persons },
 }, {
     tabBarPosition: 'bottom'
 });
@@ -44,10 +41,17 @@ const StackNavigation = StackNavigator({
     navigationOptions: {
       //Title bovenaan
       //Voorlopig Static
-      title: 'Vacation Planner',
+      title: 'Karavaan expense manager',
     },
   },
   //Inhouds Pagina TRIP
   TripScreen: { screen: Trip },
+  ExpenseScreen: { screen: Expense },
   //TripScreen: {screen: Person },
-});
+  },
+  {
+  cardStyle: {
+      paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
+  }
+},
+{ headerMode: 'screen' });

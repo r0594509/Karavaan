@@ -50,12 +50,45 @@ import { StyleSheet } from 'react-native';
       margin: 10,
     },
 
+    FormTextInvalid: {
+      fontSize: 15,
+      fontWeight: "bold",
+      color: "red",
+      margin: 10,
+    },
+
     FormInput: {
       fontSize: 15,
       marginLeft: 10,
       marginRight: 10,
       height: 40,
     },
+
+    FormCheckBoxInput: {
+      flex: 1, 
+      padding: 10,
+    },
+
+    FormViewExpensePerson: {
+      flexDirection: 'row', 
+      marginTop: 10,
+      marginLeft: 20,
+      marginRight: 20, 
+      backgroundColor: 'white', 
+      borderColor: 'black',
+      borderRadius: 5,
+      borderWidth: 0.5, 
+    },
+
+    ModalFriends:{
+      backgroundColor: 'white',
+      borderColor: 'black',
+      borderRadius: 5,
+      borderWidth: 0.5,
+      padding: 20,
+      margin : 25,
+      flex: 1,
+    }
 
   });
 

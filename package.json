@@ -19,13 +19,21 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@expo/vector-icons": "^6.2.2",
     "babel-preset-react-native": "2.1.0",
     "expo": "^21.0.0",
     "react": "16.0.0-alpha.12",
     "react-native": "^0.48.4",
     "react-native-action-button": "^2.8.2",
+    "react-native-check-box": "^2.0.2",
+    "react-native-checkbox": "^2.0.0",
+    "react-native-elements": "^0.18.5",
+    "react-native-material-dropdown": "^0.6.1",
+    "react-native-modal-picker": "0.0.16",
+    "react-native-popup": "^0.6.1",
     "react-navigation": "^1.0.0-beta.15",
     "ts-loader": "^2.3.3",
+    "ts-money": "^0.4.4",
     "typescript": "^2.4.2"
   }
 }
