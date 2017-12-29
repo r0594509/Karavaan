@@ -7,6 +7,7 @@ import styles from '../styles/styles';
 import c from '../domain/controller/Controller';
 import Popup from 'react-native-popup';
 import { PersonExpenseData } from '../domain/model/PersonExpenseData';
+import { ExpenseModel } from '../domain/model/Expense';
 
 
 export class Expense extends React.Component {
@@ -25,10 +26,24 @@ export class Expense extends React.Component {
         modalVisible: false,
         AmountToDevide: c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).AmountLeftToPay(),
         isDevided: c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).isDevided,
+        expenseDate: this.formatDate(c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).date),
         standaardValue: '',
         standaardCss: [styles.titleText, { marginTop: 20 }],
         devideMethodSelected: 'Custom',
     }
+
+    formatDate(date) {
+        var monthNames = [
+          "January", "February", "March",
+          "April", "May", "June", "July",
+          "August", "September", "October",
+          "November", "December"
+        ];    
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+        return day + ' ' + monthNames[monthIndex] + ' ' + year;
+      }
 
     listOfPayedAmounts = {};
 
@@ -282,6 +297,7 @@ export class Expense extends React.Component {
             <View style={styles.mainViewLayout}>
                 <View style={{ flex: 1 }}>
 
+                    <Text style={this.state.standaardCss} >Expense date: {this.state.expenseDate}</Text>
                     <Text style={this.state.standaardCss} >Amount to be divided: {this.state.AmountToDevide} {expense.expenseCurrency.name}</Text>
 
                     {

@@ -47,6 +47,21 @@ export class Expense {
         return new Date(subStr[2] + "-" + subStr[1] + "-" + subStr[0]);
     }
 
+    public static formatDate(date: Date): string {
+        var monthNames = [
+          "January", "February", "March",
+          "April", "May", "June", "July",
+          "August", "September", "October",
+          "November", "December"
+        ];
+      
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+      
+        return day + ' ' + monthNames[monthIndex] + ' ' + year;
+      }
+
     /**
      * Creates a new Expense with said parameters
      */

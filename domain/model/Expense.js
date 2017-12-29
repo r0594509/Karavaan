@@ -41,6 +41,18 @@ var Expense = /** @class */ (function () {
         var subStr = dateInput.split("-");
         return new Date(subStr[2] + "-" + subStr[1] + "-" + subStr[0]);
     };
+    Expense.formatDate = function (date) {
+        var monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+        return day + ' ' + monthNames[monthIndex] + ' ' + year;
+    };
     Expense.prototype.isAmountPayed = function (payed) {
         var toPayAmount = this.makeAmountDivisible();
         var payedAmount = 0;
