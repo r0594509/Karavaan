@@ -39,6 +39,15 @@ export class Expense {
     }
 
     /**
+     * 
+     * @param dateInput Datepicker string (DD-MM-YYYY)
+     */
+    public static toDate(dateInput: string) : Date {
+        let subStr = dateInput.split("-");
+        return new Date(subStr[2] + "-" + subStr[1] + "-" + subStr[0]);
+    }
+
+    /**
      * Creates a new Expense with said parameters
      */
     constructor(tripId: number, description: string, category: Category, date: Date, amount: number, isDevided: boolean, expenseCurrency: Currency) {

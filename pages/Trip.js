@@ -8,6 +8,7 @@ import Popup from 'react-native-popup';
 import { Expense } from '../domain/model/Expense';
 import { Category } from '../domain/model/Category';
 import { Money, Currencies, Currency } from 'ts-money';
+import DatePicker from 'react-native-datepicker'
 
 export class Trip extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -83,7 +84,7 @@ export class Trip extends React.Component {
     //DEBUG
     if(false) {
       const { params } = this.props.navigation.state;
-      let expense = new Expense(params.id, "Debug expense", Category.Food, /*date=HARDCODED*/ new Date(2017, 12, 24, 0, 0, 0, 0), 133, /*idDevided=HARDCODED*/ false, Currencies.USD);
+      let expense = new Expense(params.id, "Debug expense", Category.Food, new Date(2017, 12, 24, 0, 0, 0, 0), 133, false, Currencies.USD);
       
       c.addExpense(expense);
       this.toggleModalVisible();
@@ -132,8 +133,7 @@ export class Trip extends React.Component {
 
     if (errors === 0) {
       const { params } = this.props.navigation.state;
-      let expense = new Expense(params.id, name, Category[category], /*date=HARDCODED*/ new Date(2017, 12, 24, 0, 0, 0, 0), Number(amnt), /*idDevided=HARDCODED*/ false, Currencies[currency]);
-      
+      let expense = new Expense(params.id, name, Category[category], Expense.toDate(date), Number(amnt), /*idDevided=HARDCODED*/ false, Currencies[currency]);
       c.addExpense(expense);
       this.toggleModalVisible();
       // clear state for next form
@@ -345,11 +345,18 @@ export class Trip extends React.Component {
                 </View>
                 <View style={{ width: 200, marginLeft: 8 }}>
                   {formDate}
-                  <TextInput
-                    style={[styles.FormInput, { marginTop: -2 }]}
+                                   
+                  <DatePicker
+                    //style={[styles.FormInput, { marginTop: -2 }]}
+                    date={this.state.expenseDate}
+                    mode="date"
                     placeholder="Expense Date"
-                    onChangeText={(expenseDate) => this.setState({ expenseDate })}
-                    keyboardType='numeric'
+                    format="DD-MM-YYYY"
+                    minDate="01-01-2000"
+                    maxDate="01-01-2999"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    onDateChange={(expenseDate) => this.setState({ expenseDate })}
                   />
                 </View>
                 </View>

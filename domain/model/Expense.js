@@ -33,6 +33,14 @@ var Expense = /** @class */ (function () {
     Expense.isValidExpenseDate = function (date) {
         return !(date == null);
     };
+    /**
+     *
+     * @param dateInput Datepicker string (DD-MM-YYYY)
+     */
+    Expense.toDate = function (dateInput) {
+        var subStr = dateInput.split("-");
+        return new Date(subStr[2] + "-" + subStr[1] + "-" + subStr[0]);
+    };
     Expense.prototype.isAmountPayed = function (payed) {
         var toPayAmount = this.makeAmountDivisible();
         var payedAmount = 0;

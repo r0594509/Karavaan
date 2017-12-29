@@ -139,7 +139,7 @@ export class Expense extends React.Component {
 
     render() {
         
-        console.log(this.state.currentExpense.expenseDataMap);
+        //console.log(this.state.currentExpense.expenseDataMap);
 
         const { params } = this.props.navigation.state;
 

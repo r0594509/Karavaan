@@ -27,6 +27,7 @@
     "react-native-action-button": "^2.8.2",
     "react-native-check-box": "^2.0.2",
     "react-native-checkbox": "^2.0.0",
+    "react-native-datepicker": "^1.6.0",
     "react-native-elements": "^0.18.5",
     "react-native-material-dropdown": "^0.6.1",
     "react-native-modal-picker": "0.0.16",
