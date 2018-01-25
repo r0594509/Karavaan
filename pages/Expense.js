@@ -75,7 +75,11 @@ export class Expense extends React.Component {
         var typedAmount = 0;
 
         if (amount != null) {
-            typedAmount = amount;
+            if (amount >= 0) {
+                typedAmount = amount;
+            } else {
+                return;
+            }
         }
 
         console.log(this.state.currentExpense.expenseDataMap.get(id).isOwner);
