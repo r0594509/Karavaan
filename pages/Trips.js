@@ -30,6 +30,7 @@ export class Trips extends React.Component {
     formDescIsValid: true,
     personIdList: [],
     personsInTripList: [],
+    currencyList: [],
   }
 
   handleOnSave_newTripForm() {
@@ -41,6 +42,8 @@ export class Trips extends React.Component {
     this.setState({ formNameIsValid: true });
     this.setState({ formDescIsValid: true });
     this.setState({ personIdList: [] });
+    this.setState({ currencyList: [] });
+    this.setState({ personsInTripList: [] });
     this.setState({ tripCurrencyIsValid: true });
     this.state.tripName = null;
     this.state.tripDesc = null;
@@ -75,7 +78,7 @@ export class Trips extends React.Component {
     }
 
     if (errors === 0) {
-      let trip = new Trip(name, desc, Currencies[currency], this.processPersonIds(this.state.personIdList));
+      let trip = new Trip(name, desc, Currencies[currency], this.processCurrencyCode(this.state.currencyList), this.processPersonIds(this.state.personIdList));
       //console.log(trip);
       c.addTrip(trip);
       this.toggleModalVisible();
@@ -93,6 +96,18 @@ export class Trips extends React.Component {
       personList.push(c.getPerson(element));
     });
     return personList;
+  }
+ 
+  processCurrencyCode(currenciesList) {
+    var tmp = []
+    currenciesList.forEach(element => {
+      for (var n in Currencies) {
+        if (Currencies[n].code == element.value) {
+          tmp.push(Currencies[n]);
+        }
+      }
+    });
+    return tmp;
   }
 
   //Zet de modal visible
@@ -168,11 +183,22 @@ export class Trips extends React.Component {
         personIdList: this.state.personIdList.splice(this.state.personIdList.indexOf(id) + 1, 1)
       });
     }
+    //console.log(this.state.personIdList);
   }
 
   toggleSelectedCurrency(currency) {
-    //TODO
+    if (this.state.currencyList.indexOf(currency) === -1) {
+      this.setState({
+        currencyList: this.state.currencyList.concat([currency])
+      });
+    } else {
+      this.setState({
+        currencyList: this.state.currencyList.splice(this.state.currencyList.indexOf(currency) + 1, 1)
+      });
+    }
+    //console.log(this.state.currencyList);
   }
+
   //Rendert het venster
   render() {
 
@@ -213,7 +239,7 @@ export class Trips extends React.Component {
           key={element.value}
           leftText={element.value}
           //checked={this.state.checked}
-          onClick={() => this.toggleSelectedCurrency(element.value)}
+          onClick={() => this.toggleSelectedCurrency(element)}
           isChecked={false}
           style={styles.FormCheckBoxInput}
         />
