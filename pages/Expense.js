@@ -131,7 +131,8 @@ export class Expense extends React.Component {
 
     toggleHasPayedHisPart(id) {
         //console.log(this.state.currentExpense.expenseDataMap.get(id).isPaid);
-        this.state.currentExpense.expenseDataMap.get(id).isPaid = !this.state.currentExpense.expenseDataMap.get(id).isPaid;
+        //this.state.currentExpense.expenseDataMap.get(id).isPaid = !this.state.currentExpense.expenseDataMap.get(id).isPaid;
+        this.state.currentExpense.expenseDataMap.get(id).toggleIsPaid();
         //console.log(this.state.currentExpense.expenseDataMap.get(id).isPaid);
 
         //expense.expenseDataMap.get(Number(k)).amount = this.listOfPayedAmounts[k];

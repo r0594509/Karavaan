@@ -28,10 +28,13 @@ export class PersonSummary extends React.Component {
         let output = 'The amount of this expense has not yet been devided';
         if(amount != 0 && c.getExpense(expenseId).expenseDataMap.get(this.state.personId).isPaid){
             let valuta = c.getTrip(c.getExpense(expenseId).tripId).defaultCurrency.name;
-            output = 'The PAID amount is ' + amount + ' ' + valuta;
+            let dateOfPayment = c.getExpense(expenseId).expenseDataMap.get(this.state.personId).dateOfPayment;
+            let string_dateOfPayment = dateOfPayment.getDate() + " / " +  (Number(dateOfPayment.getMonth()) + 1) + " / " + dateOfPayment.getFullYear();
+            console.log(string_dateOfPayment);
+            output = 'The PAID amount is ' + amount + ' ' + valuta  +  ' on ' + string_dateOfPayment;
         } else if (amount != 0) {
             let valuta = c.getTrip(c.getExpense(expenseId).tripId).defaultCurrency.name;
-            output = 'The TO PAY amount is ' + amount + ' ' + valuta +  ' on TEMPLATE DATE';
+            output = 'The TO PAY amount is ' + amount + ' ' + valuta;
         }
         return output;
     }
@@ -62,3 +65,4 @@ export class PersonSummary extends React.Component {
         );
     }
 }
+
