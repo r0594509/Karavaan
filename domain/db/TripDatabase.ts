@@ -208,15 +208,23 @@ export class TripDatabase {
                 element.expenses.forEach(element2 => {
                     let personExpData = element2.expenseDataMap.get(personId);
                     if (personExpData != null) {
+                        if (!personExpData.isPaid) {
+                            balance[1] += Number(element2.expenseDataMap.get(personId).amount);
+                        } else {
+                            balance[0] += Number(element2.expenseDataMap.get(personId).amount);
+                        }
+                        /*
                         if (personExpData.isOwner) {
                             balance[1] += Number(element2.expenseDataMap.get(personId).amount);
                         } else {
                             balance[0] += Number(element2.expenseDataMap.get(personId).amount);
                         }
+                        */
                     }
                 });
             });
         }
+        console.log(balance);
         return balance;
     }
 

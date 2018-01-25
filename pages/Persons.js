@@ -100,18 +100,21 @@ export class Persons extends React.Component {
 
     var personList = [];
 
+
     c.getPersons(this.state.tripSelected === "ALL" ? null : this.state.tripSelected).forEach(element => {
+      let owedAmount = Math.round(c.getPersonBalance(element.id, this.state.tripSelected)[0] * 100) / 100;
       personList.push(
         // elk element in een lus heeft blijkbaar een ID nodig
         <TouchableHighlight onPress={() => this.goToPersonSummary(element.id, this.state.tripSelected)} onLongPress={() => this.removeItem(element.id)} key={element.id} style={{ borderRadius: 5, margin: 5, }}>
           <View style={styles.cardLayout}>
             <Text style={styles.titleText}>{element.name}</Text>
-            <Text style={{ color: 'red' }}>Amount owed: {Math.round(c.getPersonBalance(element.id, this.state.tripSelected)[0] * 100) / 100}</Text>
-            <Text style={{ color: 'green' }}>Amount lend: {Math.round(c.getPersonBalance(element.id, this.state.tripSelected)[1] * 100) / 100}</Text>
+            <Text style={{ color: owedAmount == 0 ? 'green' : 'red' }}>Amount owed: {owedAmount}</Text>
           </View>
         </TouchableHighlight>
       )
     });
+
+    //<Text style={{ color: 'green' }}>Amount lend: {Math.round(c.getPersonBalance(element.id, this.state.tripSelected)[1] * 100) / 100}</Text>
 
     var formName = [];
 

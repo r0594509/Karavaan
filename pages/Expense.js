@@ -130,8 +130,11 @@ export class Expense extends React.Component {
     }
 
     toggleHasPayedHisPart(id) {
+        //console.log(this.state.currentExpense.expenseDataMap.get(id).isPaid);
         this.state.currentExpense.expenseDataMap.get(id).isPaid = !this.state.currentExpense.expenseDataMap.get(id).isPaid;
         //console.log(this.state.currentExpense.expenseDataMap.get(id).isPaid);
+
+        //expense.expenseDataMap.get(Number(k)).amount = this.listOfPayedAmounts[k];
 
         /** giant mess
         let paidAmount = this.state.currentExpense.expenseDataMap.get(id).amount;
@@ -301,11 +304,11 @@ export class Expense extends React.Component {
                     <Text style={this.state.standaardCss} >Amount to be divided: {this.state.AmountToDevide} {expense.expenseCurrency.name}</Text>
 
                     {
-                        <TouchableHighlight onPress={() => this.toggleModalVisible()} style={[styles.ButtonLayoutMain, { marginLeft: 20, marginRight: 20, }]}>
-                            <View>
-                                {ownerButton}
-                            </View>
-                        </TouchableHighlight>
+                    //    <TouchableHighlight onPress={() => this.toggleModalVisible()} style={[styles.ButtonLayoutMain, { marginLeft: 20, marginRight: 20, }]}>
+                    //        <View>
+                    //            {ownerButton}
+                    //        </View>
+                    //    </TouchableHighlight>
                     }
 
                     {dropDown}
