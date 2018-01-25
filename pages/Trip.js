@@ -23,7 +23,7 @@ export class Trip extends React.Component {
     formAmntIsValid: true,
     formDateIsValid: true,
     expenseCategory: null,
-    expenseCurrency: null,
+    expenseCurrency: c.getTrip(this.props.navigation.state.params.id).defaultCurrency,
     expenseCategorySelected: Category.All,
     categoryTitle: "Sort trips by category",
     categoryFormTitle: 'Select Category',
@@ -104,8 +104,10 @@ export class Trip extends React.Component {
       this.setState({ expenseCategoryIsValid: true});
     }
     if (currency == null) {
-      errors++;
-      this.setState({ expenseCurrencyIsValid: false});
+      
+      currency = c.getTrip(this.props.navigation.state.params.id).defaultCurrency.code;
+      //errors++;
+      //this.setState({ expenseCurrencyIsValid: false});
     } else {
       this.setState({ expenseCurrencyIsValid: true});
     }
@@ -179,7 +181,23 @@ export class Trip extends React.Component {
     //Do not allow users to create a new expense of caregoty "all"
     dataForm.shift();
 
-    let currenciesList = c.getTenMostPopularCurrencies();
+    //let currenciesList = c.getTenMostPopularCurrencies();
+
+    let currenciesList = [];
+    let isInList = false;
+
+    c.getTrip(this.props.navigation.state.params.id).relevantCurrencies.forEach(element => {
+      currenciesList.push({value: element.code})
+      if (element.code == c.getTrip(this.props.navigation.state.params.id).defaultCurrency.code) {
+          isInList = true;
+      }
+    });
+
+    if (!isInList) {
+      let m = c.getTrip(this.props.navigation.state.params.id).defaultCurrency;
+      currenciesList.push({value: m.code});
+    }
+
     //let currenciesList = [];
     //for (var n in Currencies) {
       //console.log(Currencies[n].code);
@@ -272,6 +290,7 @@ export class Trip extends React.Component {
         <Dropdown
                       key="currencydormdropdown"
                       label={this.state.currencyFormTitle}
+                      value={c.getTrip(this.props.navigation.state.params.id).defaultCurrency.code}
                       data={currenciesList}
                       onChangeText={(expenseCurrency) => this.setState({expenseCurrency: expenseCurrency})}
                       //fontSize={16}
@@ -396,3 +415,4 @@ export class Trip extends React.Component {
         );
   }
 }
+
