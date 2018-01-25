@@ -51,6 +51,12 @@ var Controller = /** @class */ (function () {
     Controller.prototype.getPersonBalance = function (personId, filter) {
         return this.db.getPersonBalance(personId, filter);
     };
+    Controller.prototype.getPersonExpenses = function (personId, filter) {
+        return this.db.getPersonExpenses(personId, filter);
+    };
+    Controller.prototype.getPersonPaidAmount = function (personId, expenseId) {
+        return this.db.getPersonPaidAmount(personId, expenseId);
+    };
     return Controller;
 }());
 exports.Controller = Controller;

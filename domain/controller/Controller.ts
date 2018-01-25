@@ -71,6 +71,15 @@ export class Controller {
     public getPersonBalance(personId: number, filter: string): number[] {
         return this.db.getPersonBalance(personId, filter);
     }
+
+    public getPersonExpenses(personId: number, filter: string): number[] {
+        return this.db.getPersonExpenses(personId, filter);
+    }
+
+     public getPersonPaidAmount(personId: number, expenseId: number): number{
+         return this.db.getPersonPaidAmount(personId, expenseId);
+    }
+
 }
 
 var c = new Controller();

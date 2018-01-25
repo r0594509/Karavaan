@@ -188,6 +188,22 @@ var TripDatabase = /** @class */ (function () {
         }
         return balance;
     };
+    TripDatabase.prototype.getPersonExpenses = function (personId, filter) {
+        var personTrips = this.getTripsOfPerson(personId, filter);
+        var expenses = new Array();
+        for (var i = 0; i < personTrips.length; i++) {
+            var Trip_2 = personTrips[i];
+            for (var i_1 = 0; i_1 < Trip_2.expenses.length; i_1++) {
+                var expense = Trip_2.expenses[i_1];
+                expenses.push(expense.id);
+            }
+        }
+        return expenses;
+    };
+    TripDatabase.prototype.getPersonPaidAmount = function (personId, expenseId) {
+        var expense = this.getExpense(expenseId);
+        return expense.expenseDataMap.get(personId).amount;
+    };
     /**
      * @param tripId is always a valid tripid in the triplist
      */
