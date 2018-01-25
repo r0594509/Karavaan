@@ -32,7 +32,6 @@ export class PersonSummary extends React.Component {
             <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }}>
               <View style={styles.cardLayout}>
                 <Text style={styles.titleText}>{element.description}</Text>
-                <Text>Amount: {c.getPersonPaidAmount(this.state.personId, element.id)}</Text>
               </View>
             </TouchableHighlight>
           )
@@ -41,12 +40,11 @@ export class PersonSummary extends React.Component {
             <View style={styles.mainViewLayout} >
                 <View style={{ flex: 1 }}>
                     <ScrollView contentContainer={{ paddingVertical: 20 }}>
-                        <View style={styles.cardLayout}>
                             {ExpenseList}
-                        </View>
                     </ScrollView>
                 </View>
             </View>
+            
         );
     }
 }
