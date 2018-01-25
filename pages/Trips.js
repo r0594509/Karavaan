@@ -170,14 +170,14 @@ export class Trips extends React.Component {
     }
   }
 
-  toggleSelectedCurrency(currency){
+  toggleSelectedCurrency(currency) {
     //TODO
   }
   //Rendert het venster
   render() {
 
     let currenciesList = c.getTenMostPopularCurrencies();
-  
+
     var tripList = [];
     var personList = [];
     var extraCurrencies = [];
@@ -206,7 +206,7 @@ export class Trips extends React.Component {
         />
       )
     });
-    
+
     currenciesList.forEach(element => {
       extraCurrencies.push(
         <CheckBox
@@ -310,20 +310,22 @@ export class Trips extends React.Component {
                 onChangeText={(tripDesc) => this.setState({ tripDesc })}
               />
 
-              <View style={{ width: 200, marginLeft: 8 }}>
+              <View style={{ width: 400, marginLeft: 8 }}>
                 {currencyFormDropDown}
               </View>
-              <Text style={styles.FormText}>EXTRA CURRENCIES</Text>
+              <View style={{ flex: 1}}>
+                <Text style={styles.FormText}>EXTRA CURRENCIES</Text>
 
-              <ScrollView contentContainer={{ paddingVertical: 20 }}>
-                {extraCurrencies}
-              </ScrollView>
+                <ScrollView style={{flex: 1}} contentContainer={{ paddingVertical: 20 }}>
+                  {extraCurrencies}
+                </ScrollView>
 
-              <Text style={styles.FormText}>TRIP FRIENDS</Text>
+                <Text style={styles.FormText}>TRIP FRIENDS</Text>
 
-              <ScrollView contentContainer={{ paddingVertical: 20 }}>
-                {personList}
-              </ScrollView>
+                <ScrollView style={{flex: 1}} contentContainer={{ paddingVertical: 20 }}>
+                  {personList}
+                </ScrollView>
+              </View>
             </View>
             <View>
               <TouchableHighlight onPress={() => this.handleOnSave_newTripForm()} style={styles.ButtonLayoutMain}>
