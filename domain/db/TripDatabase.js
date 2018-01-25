@@ -103,13 +103,23 @@ var TripDatabase = /** @class */ (function () {
         });
     };
     TripDatabase.prototype.getExpense = function (expenseId) {
-        this.getTrips().forEach(function (element) {
-            element.expenses.forEach(function (element2) {
-                if (element2.id === expenseId)
-                    return element2;
-            });
-        });
+        var trips = this.getTrips();
+        for (var i = 0; i < trips.length; i++) {
+            var trip = trips[i];
+            for (var i_1 = 0; i_1 < trip.expenses.length; i_1++) {
+                if (trip.expenses[i_1].id === expenseId) {
+                    return trip.expenses[i_1];
+                }
+            }
+        }
         return null;
+        //    this.getTrips().forEach(element => {
+        //        element.expenses.forEach(element2 => {
+        //            if (element2.id === expenseId)
+        //                return element2;
+        //        });
+        //    });
+        //    return null;
     };
     TripDatabase.prototype.getExpenseInTrip = function (tripId, expenseId) {
         for (var i = 0; i < this.getTrip(tripId).expenses.length; i++) {
@@ -193,8 +203,8 @@ var TripDatabase = /** @class */ (function () {
         var expenses = new Array();
         for (var i = 0; i < personTrips.length; i++) {
             var Trip_2 = personTrips[i];
-            for (var i_1 = 0; i_1 < Trip_2.expenses.length; i_1++) {
-                var expense = Trip_2.expenses[i_1];
+            for (var i_2 = 0; i_2 < Trip_2.expenses.length; i_2++) {
+                var expense = Trip_2.expenses[i_2];
                 expenses.push(expense);
             }
         }
@@ -202,7 +212,9 @@ var TripDatabase = /** @class */ (function () {
     };
     TripDatabase.prototype.getPersonPaidAmount = function (personId, expenseId) {
         var expense = this.getExpense(expenseId);
+        //console.log(expense);
         return expense.expenseDataMap.get(personId).amount;
+        //return 5;
     };
     /**
      * @param tripId is always a valid tripid in the triplist

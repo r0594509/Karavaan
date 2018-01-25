@@ -117,13 +117,24 @@ export class TripDatabase {
     }
 
     public getExpense(expenseId: number): Expense {
-        this.getTrips().forEach(element => {
-            element.expenses.forEach(element2 => {
-                if (element2.id === expenseId)
-                    return element2;
-            });
-        });
+        let trips = this.getTrips();
+        for (let i = 0; i < trips.length; i++) {
+            let trip = trips[i];
+            for (let i = 0; i < trip.expenses.length; i++) {
+                if(trip.expenses[i].id === expenseId){
+                    return trip.expenses[i];
+                }
+            }
+        }
+
         return null;
+    //    this.getTrips().forEach(element => {
+    //        element.expenses.forEach(element2 => {
+    //            if (element2.id === expenseId)
+    //                return element2;
+    //        });
+    //    });
+    //    return null;
     }
 
     public getExpenseInTrip(tripId: number, expenseId: number): Expense {
@@ -226,7 +237,9 @@ export class TripDatabase {
 
     public getPersonPaidAmount(personId: number, expenseId: number): number{
         let expense = this.getExpense(expenseId);
+        //console.log(expense);
         return expense.expenseDataMap.get(personId).amount;
+        //return 5;
     }
 
     /**
