@@ -186,16 +186,24 @@ var TripDatabase = /** @class */ (function () {
                 element.expenses.forEach(function (element2) {
                     var personExpData = element2.expenseDataMap.get(personId);
                     if (personExpData != null) {
-                        if (personExpData.isOwner) {
+                        if (personExpData.isPaid) {
                             balance[1] += Number(element2.expenseDataMap.get(personId).amount);
                         }
                         else {
                             balance[0] += Number(element2.expenseDataMap.get(personId).amount);
                         }
+                        /*
+                        if (personExpData.isOwner) {
+                            balance[1] += Number(element2.expenseDataMap.get(personId).amount);
+                        } else {
+                            balance[0] += Number(element2.expenseDataMap.get(personId).amount);
+                        }
+                        */
                     }
                 });
             });
         }
+        //console.log(balance);
         return balance;
     };
     TripDatabase.prototype.getPersonExpenses = function (personId, filter) {
