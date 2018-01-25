@@ -8,6 +8,7 @@ export class Trip {
     name: string;
     description: string;
     defaultCurrency: Currency;
+    relevantCurrencies: Array<Currency>;
     expenses: Array<Expense>;
     persons: Array<Person>;
 
@@ -33,14 +34,16 @@ export class Trip {
         return true;
     }
 
-    constructor(name: string, description: string, defaultCurrency: Currency, persons : Array<Person>) {
+    constructor(name: string, description: string, defaultCurrency: Currency, relevantCurrencies: Array<Currency>, persons : Array<Person>) {
         this.persons = new Array();
         this.expenses = new Array();
+        this.relevantCurrencies = new Array();
 
         this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));
         this.name = name;
         this.description = description;
         this.defaultCurrency = defaultCurrency;
+        this.relevantCurrencies = relevantCurrencies;
         this.persons = persons;
     }
 

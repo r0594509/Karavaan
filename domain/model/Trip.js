@@ -1,13 +1,15 @@
 "use strict";
 exports.__esModule = true;
 var Trip = /** @class */ (function () {
-    function Trip(name, description, defaultCurrency, persons) {
+    function Trip(name, description, defaultCurrency, relevantCurrencies, persons) {
         this.persons = new Array();
         this.expenses = new Array();
+        this.relevantCurrencies = new Array();
         this.id = parseInt(Date.now() + "" + (Math.floor(Math.random() * 90000) + 10000));
         this.name = name;
         this.description = description;
         this.defaultCurrency = defaultCurrency;
+        this.relevantCurrencies = relevantCurrencies;
         this.persons = persons;
     }
     /**

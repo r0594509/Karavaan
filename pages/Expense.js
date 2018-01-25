@@ -82,7 +82,7 @@ export class Expense extends React.Component {
             }
         }
 
-        console.log(this.state.currentExpense.expenseDataMap.get(id).isOwner);
+        //console.log(this.state.currentExpense.expenseDataMap.get(id).isOwner);
 
         if (!this.state.currentExpense.expenseDataMap.get(id).isOwner) {
             this.listOfPayedAmounts[id] = typedAmount;
