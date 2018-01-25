@@ -303,6 +303,30 @@ export class Trips extends React.Component {
               <View style={{ width: 200, marginLeft: 8 }}>
                 {currencyFormDropDown}
               </View>
+              <Text style={styles.FormText}>EXTRA CURRENCIES</Text>
+
+              <ScrollView contentContainer={{ paddingVertical: 20 }}>
+                <CheckBox
+                  leftText= 'EUR'
+                  //onClick={() => this.toggleSelectedPerson(element.id)}
+                  isChecked={false}
+                  style={styles.FormCheckBoxInput}
+                />
+
+                <CheckBox
+                  leftText='DOL'
+                  //onClick={() => this.toggleSelectedPerson(element.id)}
+                  isChecked={false}
+                  style={styles.FormCheckBoxInput}
+                />
+
+                <CheckBox
+                  leftText='PND'
+                  //onClick={() => this.toggleSelectedPerson(element.id)}
+                  isChecked={false}
+                  style={styles.FormCheckBoxInput}
+                />
+              </ScrollView>
 
               <Text style={styles.FormText}>TRIP FRIENDS</Text>
 
