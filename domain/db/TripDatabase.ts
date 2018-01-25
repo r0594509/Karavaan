@@ -209,26 +209,6 @@ export class TripDatabase {
         return balance;
     }
 
-    public getPersonExpenses(personId: number, filter: string): Expense[] {
-        let personTrips = this.getTripsOfPerson(personId, filter);
-        var expenses: Expense[] = new Array();
-
-        for (let i = 0; i < personTrips.length; i++) {
-            let Trip = personTrips[i];
-            for (let i = 0; i < Trip.expenses.length; i++) {
-                let expense = Trip.expenses[i];
-                expenses.push(expense);
-            }
-        }
-
-        return expenses;
-    }
-
-    public getPersonPaidAmount(personId: number, expenseId: number): number{
-        let expense = this.getExpense(expenseId);
-        return expense.expenseDataMap.get(personId).amount;
-    }
-
     /**
      * @param tripId is always a valid tripid in the triplist
      */

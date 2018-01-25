@@ -32,7 +32,9 @@ export class PersonSummary extends React.Component {
             <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }}>
               <View style={styles.cardLayout}>
                 <Text style={styles.titleText}>{element.description}</Text>
+
                 <Text>{c.getPersonPaidAmount(this.state.personId, element.id)}</Text>
+
               </View>
             </TouchableHighlight>
           )
