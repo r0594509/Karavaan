@@ -5,7 +5,17 @@ var PersonExpenseData = /** @class */ (function () {
         this.amount = amount;
         this.isPaid = isPaid;
         this.isOwner = false;
+        this.dateOfPayment = null;
     }
+    PersonExpenseData.prototype.toggleIsPaid = function () {
+        if (!this.isPaid) {
+            this.dateOfPayment = new Date();
+        }
+        else {
+            this.dateOfPayment = null;
+        }
+        this.isPaid = !this.isPaid;
+    };
     return PersonExpenseData;
 }());
 exports.PersonExpenseData = PersonExpenseData;
