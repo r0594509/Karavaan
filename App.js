@@ -6,6 +6,7 @@ import { Trips } from './pages/Trips';
 import { Trip } from './pages/Trip';
 import { Expense } from './pages/Expense';
 import { Controller } from './domain/controller/Controller';
+import { PersonSummary } from './pages/PersonSummary';
 
 //Start Punt van de App
 //PLEAS DO NOT TOUCH!
@@ -47,7 +48,7 @@ const StackNavigation = StackNavigator({
   //Inhouds Pagina TRIP
   TripScreen: { screen: Trip },
   ExpenseScreen: { screen: Expense },
-  //TripScreen: {screen: Person },
+  PersonSummaryScreen: {screen: PersonSummary },
   },
   {
   cardStyle: {

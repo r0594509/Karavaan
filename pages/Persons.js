@@ -6,7 +6,6 @@ import { Dropdown } from 'react-native-material-dropdown';
 import Popup from 'react-native-popup';
 import { Person } from '../domain/model/Person';
 import styles from '../styles/styles';
-//global var c = controller instance
 import c from '../domain/controller/Controller';
 
 export class Persons extends React.Component {
@@ -22,6 +21,10 @@ export class Persons extends React.Component {
     formDescIsValid: true,
     tripSelected: "ALL",
     tripsDDTitle: "Sort contacts by trips", //tripsDropDownTitle
+  }
+
+  goToPersonSummary(id, filter) {
+    this.props.navigation.navigate('PersonSummaryScreen', { id: id, filter: filter });
   }
 
   removeItem(id) {
@@ -100,7 +103,7 @@ export class Persons extends React.Component {
     c.getPersons(this.state.tripSelected === "ALL" ? null : this.state.tripSelected).forEach(element => {
       personList.push(
         // elk element in een lus heeft blijkbaar een ID nodig
-        <TouchableHighlight onPress={() => alert("clicked on " + element.name)} onLongPress={() => this.removeItem(element.id)} key={element.id} style={{ borderRadius: 5, margin: 5, }}>
+        <TouchableHighlight onPress={() => this.goToPersonSummary(element.id, this.state.tripSelected)} onLongPress={() => this.removeItem(element.id)} key={element.id} style={{ borderRadius: 5, margin: 5, }}>
           <View style={styles.cardLayout}>
             <Text style={styles.titleText}>{element.name}</Text>
             <Text style={{ color: 'red' }}>Amount owed: {Math.round(c.getPersonBalance(element.id, this.state.tripSelected)[0] * 100) / 100}</Text>
