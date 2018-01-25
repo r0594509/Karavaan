@@ -209,15 +209,15 @@ export class TripDatabase {
         return balance;
     }
 
-    public getPersonExpenses(personId: number, filter: string): number[] {
+    public getPersonExpenses(personId: number, filter: string): Expense[] {
         let personTrips = this.getTripsOfPerson(personId, filter);
-        var expenses: number[] = new Array();
+        var expenses: Expense[] = new Array();
 
         for (let i = 0; i < personTrips.length; i++) {
             let Trip = personTrips[i];
             for (let i = 0; i < Trip.expenses.length; i++) {
                 let expense = Trip.expenses[i];
-                expenses.push(expense.id);
+                expenses.push(expense);
             }
         }
 

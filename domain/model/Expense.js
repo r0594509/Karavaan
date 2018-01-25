@@ -67,6 +67,21 @@ var Expense = /** @class */ (function () {
             return false;
         }
     };
+    Expense.prototype.owedPerson_AmountToPay = function () {
+        var _this = this;
+        var subTotal = 0;
+        var toPayAmount = this.makeAmountDivisible();
+        /**
+         * tsc compiler issue fix
+         */
+        this.expenseDataMap.forEach(function (element, key) {
+            if (!_this.expenseDataMap.get(key).isOwner) {
+                subTotal = (subTotal * 10 + _this.expenseDataMap.get(key).amount * 10) / 10;
+            }
+        });
+        var result = (toPayAmount - subTotal).toFixed(2);
+        return Number(result);
+    };
     Expense.prototype.AmountLeftToPay = function () {
         var _this = this;
         var subTotal = 0;

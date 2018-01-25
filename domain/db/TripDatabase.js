@@ -195,7 +195,7 @@ var TripDatabase = /** @class */ (function () {
             var Trip_2 = personTrips[i];
             for (var i_1 = 0; i_1 < Trip_2.expenses.length; i_1++) {
                 var expense = Trip_2.expenses[i_1];
-                expenses.push(expense.id);
+                expenses.push(expense);
             }
         }
         return expenses;
