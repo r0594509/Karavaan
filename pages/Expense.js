@@ -95,9 +95,9 @@ export class Expense extends React.Component {
         }
 
         newAmount = divisibleAmountToPay - payedAmount;
-        newAmount = +newAmount.toFixed(2);
+        newAmount =+ newAmount.toFixed(2);
 
-        this.setState({ AmountToDevide: newAmount });
+        this.setState({ AmountToDevide : newAmount });
     }
 
     saveExpenseForm() {

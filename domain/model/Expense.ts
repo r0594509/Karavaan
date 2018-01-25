@@ -95,6 +95,23 @@ export class Expense {
 
     }
 
+    public owedPerson_AmountToPay() {
+        var subTotal = 0;
+        var toPayAmount = this.makeAmountDivisible();
+
+        /**
+         * tsc compiler issue fix
+         */
+        this.expenseDataMap.forEach((element, key) => {
+            if (!this.expenseDataMap.get(key).isOwner) {
+                subTotal = (subTotal * 10 + this.expenseDataMap.get(key).amount * 10) / 10;
+            }
+        });
+
+        var result = (toPayAmount - subTotal).toFixed(2);
+        return Number(result);
+    }
+
     public AmountLeftToPay() {
         var subTotal = 0;
         var toPayAmount = this.makeAmountDivisible();
