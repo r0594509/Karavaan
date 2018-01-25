@@ -170,20 +170,17 @@ export class Trips extends React.Component {
     }
   }
 
-
+  toggleSelectedCurrency(currency){
+    //TODO
+  }
   //Rendert het venster
   render() {
 
-    let currenciesList = [];
-    for (var n in Currencies) {
-      //console.log(Currencies[n].code);
-      if (Currencies[n].code != "ALL") {
-        currenciesList.push({ value: n });
-      }
-    }
-
+    let currenciesList = c.getTenMostPopularCurrencies();
+  
     var tripList = [];
     var personList = [];
+    var extraCurrencies = [];
 
     c.getTrips().forEach(element => {
       tripList.push(
@@ -204,6 +201,19 @@ export class Trips extends React.Component {
           leftText={element.name}
           //checked={this.state.checked}
           onClick={() => this.toggleSelectedPerson(element.id)}
+          isChecked={false}
+          style={styles.FormCheckBoxInput}
+        />
+      )
+    });
+    
+    currenciesList.forEach(element => {
+      extraCurrencies.push(
+        <CheckBox
+          key={element.value}
+          leftText={element.value}
+          //checked={this.state.checked}
+          onClick={() => this.toggleSelectedCurrency(element.value)}
           isChecked={false}
           style={styles.FormCheckBoxInput}
         />
@@ -306,26 +316,7 @@ export class Trips extends React.Component {
               <Text style={styles.FormText}>EXTRA CURRENCIES</Text>
 
               <ScrollView contentContainer={{ paddingVertical: 20 }}>
-                <CheckBox
-                  leftText= 'EUR'
-                  //onClick={() => this.toggleSelectedPerson(element.id)}
-                  isChecked={false}
-                  style={styles.FormCheckBoxInput}
-                />
-
-                <CheckBox
-                  leftText='DOL'
-                  //onClick={() => this.toggleSelectedPerson(element.id)}
-                  isChecked={false}
-                  style={styles.FormCheckBoxInput}
-                />
-
-                <CheckBox
-                  leftText='PND'
-                  //onClick={() => this.toggleSelectedPerson(element.id)}
-                  isChecked={false}
-                  style={styles.FormCheckBoxInput}
-                />
+                {extraCurrencies}
               </ScrollView>
 
               <Text style={styles.FormText}>TRIP FRIENDS</Text>

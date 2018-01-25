@@ -3,6 +3,7 @@ import { Person } from "../model/Person";
 import { Trip } from "../model/Trip";
 import { Expense } from "../model/Expense";
 import { Category } from '../model/Category';
+import { Money, Currencies, Currency } from 'ts-money';
 
 export class Controller {
 
@@ -76,9 +77,27 @@ export class Controller {
         return this.db.getPersonExpenses(personId, filter);
     }
 
-     public getPersonPaidAmount(personId: number, expenseId: number): number{
+    public getPersonPaidAmount(personId: number, expenseId: number): number{
          return this.db.getPersonPaidAmount(personId, expenseId);
     }
+
+    public getTenMostPopularCurrencies(){
+        let currenciesList = [];
+        let counter = 0;
+        for (var n in Currencies) {
+          if (Currencies[n].code != "ALL") {
+            currenciesList.push({value: n});
+          }
+
+          counter++;
+
+          if(counter == 10){
+              return currenciesList;
+          }
+
+        }
+    }
+
 
 }
 

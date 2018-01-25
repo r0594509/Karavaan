@@ -179,13 +179,14 @@ export class Trip extends React.Component {
     //Do not allow users to create a new expense of caregoty "all"
     dataForm.shift();
 
-    let currenciesList = [];
-    for (var n in Currencies) {
+    let currenciesList = c.getTenMostPopularCurrencies();
+    //let currenciesList = [];
+    //for (var n in Currencies) {
       //console.log(Currencies[n].code);
-      if (Currencies[n].code != "ALL") {
-        currenciesList.push({value: n});
-      }
-    }
+    //  if (Currencies[n].code != "ALL") {
+    //    currenciesList.push({value: n});
+    //  }
+    //}
 
     var textLoop = [];
     c.getExpensesForTrip(params.id, this.state.expenseCategorySelected).forEach(element => {

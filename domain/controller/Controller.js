@@ -1,6 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var TripDatabase_1 = require("../db/TripDatabase");
+var ts_money_1 = require("ts-money");
 var Controller = /** @class */ (function () {
     function Controller() {
         this.db = TripDatabase_1.TripDatabase.getInstance();
@@ -56,6 +57,19 @@ var Controller = /** @class */ (function () {
     };
     Controller.prototype.getPersonPaidAmount = function (personId, expenseId) {
         return this.db.getPersonPaidAmount(personId, expenseId);
+    };
+    Controller.prototype.getTenMostPopularCurrencies = function () {
+        var currenciesList = [];
+        var counter = 0;
+        for (var n in ts_money_1.Currencies) {
+            if (ts_money_1.Currencies[n].code != "ALL") {
+                currenciesList.push({ value: n });
+            }
+            counter++;
+            if (counter == 10) {
+                return currenciesList;
+            }
+        }
     };
     return Controller;
 }());
