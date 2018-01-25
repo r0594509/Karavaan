@@ -23,6 +23,19 @@ export class PersonSummary extends React.Component {
         filter: this.props.navigation.state.params.filter,
     }
 
+    getAmountToString(expenseId){
+        let amount = c.getPersonPaidAmount(this.state.personId, expenseId);
+        let output = 'The amount of this expense has not yet been devided';
+        if(amount != 0 && c.getExpense(expenseId).expenseDataMap.get(this.state.personId).isPaid){
+            let valuta = c.getTrip(c.getExpense(expenseId).tripId).defaultCurrency.name;
+            output = 'The PAID amount is ' + amount + ' ' + valuta;
+        } else if (amount != 0) {
+            let valuta = c.getTrip(c.getExpense(expenseId).tripId).defaultCurrency.name;
+            output = 'The TO PAY amount is ' + amount + ' ' + valuta +  ' on TEMPLATE DATE';
+        }
+        return output;
+    }
+
     render() {
         var ExpenseList = [];
 
@@ -32,7 +45,7 @@ export class PersonSummary extends React.Component {
             <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }}>
               <View style={styles.cardLayout}>
                 <Text style={styles.titleText}>{element.description}</Text>
-                <Text>Amount: {c.getPersonPaidAmount(this.state.personId, element.id)}</Text>
+                <Text>{this.getAmountToString(element.id)}</Text>
               </View>
             </TouchableHighlight>
           )
