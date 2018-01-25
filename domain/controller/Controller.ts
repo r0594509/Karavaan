@@ -72,7 +72,7 @@ export class Controller {
         return this.db.getPersonBalance(personId, filter);
     }
 
-    public getPersonExpenses(personId: number, filter: string): number[] {
+    public getPersonExpenses(personId: number, filter: string): Expense[] {
         return this.db.getPersonExpenses(personId, filter);
     }
 
