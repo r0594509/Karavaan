@@ -8,6 +8,8 @@ import { Expense } from './pages/Expense';
 import { Controller } from './domain/controller/Controller';
 import { PersonSummary } from './pages/PersonSummary';
 
+import { TripsTest } from './pages/TripsTest';
+
 //Start Punt van de App
 //PLEAS DO NOT TOUCH!
 export default class App extends React.Component {
@@ -28,7 +30,7 @@ export default class App extends React.Component {
 
 //Maakt de TabBar navigatie onderaan 
 const MainNavigation = TabNavigator({
-  TabA: { screen: Trips },
+  TabA: { screen: TripsTest },
   TabB: { screen: Persons },
 }, {
     tabBarPosition: 'bottom'
