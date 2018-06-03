@@ -30,7 +30,7 @@ export default class App extends React.Component {
 
 //Maakt de TabBar navigatie onderaan 
 const MainNavigation = TabNavigator({
-  TabA: { screen: TripsTest },
+  TabA: { screen: Trips },
   TabB: { screen: Persons },
 }, {
     tabBarPosition: 'bottom'

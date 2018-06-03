@@ -97,7 +97,7 @@ export class TripForm extends React.Component {
                     </View>
                     <View style={{ flex: 1}}>
                         <CheckList
-                            type={'def'}
+                            type={'person'}
                             title={'trip friends'}
                             itemList={c.getPersons()}
                             onClick={this.onClickCheckList}

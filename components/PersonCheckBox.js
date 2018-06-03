@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styles from '../styles/styles';
 
 import CheckBox from 'react-native-check-box';
-import { ScrollView, View, Text } from 'react-native';
 
 export class PersonCheckBox extends React.Component {
 

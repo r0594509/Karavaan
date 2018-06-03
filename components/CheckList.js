@@ -38,7 +38,6 @@ export class CheckList extends React.Component {
                 />
             );
         });
-
         return itemRender;
     }
 
@@ -61,7 +60,7 @@ export class CheckList extends React.Component {
 
     render() {
         const { type, title, itemList } = this.props;
-        alert(this.createPersonList(itemList))
+        var RenderList = this.createRenderList(type, itemList);
 
         return (
             <View>
@@ -70,7 +69,7 @@ export class CheckList extends React.Component {
                     style={{ flex: 1 }}
                     contentContainer={{ paddingVertical: 20 }}
                 >
-                    {this.createPersonList(itemList)}
+                    {RenderList}
                 </ScrollView>
             </View>
         );
