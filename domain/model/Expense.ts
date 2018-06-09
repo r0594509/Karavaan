@@ -15,7 +15,7 @@ export class Expense {
     id: number;
     expenseCurrency: Currency;
     isDevided: boolean;
-    expenseDataMap: Map<number, PersonExpenseData>
+    expenseDataMap: Map<number, PersonExpenseData>;
 
     /**
      * @param name cannot be empty and should contain at least 3 characters
