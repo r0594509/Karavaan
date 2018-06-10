@@ -73,11 +73,13 @@ export class Expense extends React.Component {
         var divisibleAmountToPay = this.state.currentExpense.makeAmountDivisible();
         var payedAmount = 0;
         var typedAmount = 0;
+        // && amount.match(/^\d+(\.\d+)*$/g)
 
         if (amount != null) {
             if (amount >= 0) {
                 typedAmount = amount;
             } else {
+                // alert('Can only contain number or dot!');
                 return;
             }
         }

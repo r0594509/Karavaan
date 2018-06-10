@@ -5,6 +5,7 @@ import { Persons } from './pages/Persons';
 import { Trips } from './pages/Trips';
 import { Trip } from './pages/Trip';
 import { Expense } from './pages/Expense';
+import { ExpenseForm } from './expense_components/ExpenseForm';
 import { Controller } from './domain/controller/Controller';
 import { PersonSummary } from './pages/PersonSummary';
 
@@ -49,7 +50,7 @@ const StackNavigation = StackNavigator({
   },
   //Inhouds Pagina TRIP
   TripScreen: { screen: Trip },
-  ExpenseScreen: { screen: Expense },
+  ExpenseScreen: { screen: ExpenseForm },
   PersonSummaryScreen: {screen: PersonSummary },
   },
   {
