@@ -183,7 +183,26 @@ export class Expense extends React.Component {
         dropDown = [];
         saveButton = [];
 
+        if (expensePersonArray != null) {
+            let personName = "";
+            expensePersonArray.forEach( x => {
+                if (expense.expenseDataMap.get(x.id).isOwner) {
+                    personName = x.name;
+                }
+            })
 
+            if (personName !== "") {
+                ownerButton.push(
+                    <Text key='whopays' style={styles.ButtonText}>{this.state.currentExpense.expenseCurrency.symbol_native}{this.state.currentExpense.amount} paid in advance by {personName}</Text>
+                );
+            } else {
+                ownerButton.push(
+                    <Text key='whopays' style={styles.ButtonText}>{this.state.currentExpense.expenseCurrency.symbol_native}{this.state.currentExpense.amount} paid in advanceby no one</Text>
+                );
+            }
+        }
+
+        /*
         if (expensePersonArray != null) {
             let tmp = "";
             let personAmnt = 0;
@@ -210,6 +229,7 @@ export class Expense extends React.Component {
                 );
             }
         }
+        */
 
         if (this.state.currentExpense.isDevided == false) {
             dropDown.push(<Dropdown
@@ -279,21 +299,18 @@ export class Expense extends React.Component {
                         <View style={{ flex: 1 }}>
                             <Text style={styles.FormText}>{element.name}:</Text>
                         </View>
-                        <View style={{ width: 150 }}>
-                            <TextInput
-                                style={[styles.FormInput, { marginTop: -2 }]}
-                                placeholder="Amount due"
-                                onChangeText={(amount) => this.tempSaveAmount(element.id, amount)}
-                                keyboardType='numeric'
-                                editable={!this.state.isDevided}
-                                //defaultValue={expense.expenseDataMap.get(element.id).amount + this.state.standaardValue}
-                                defaultValue={expense.expenseDataMap.get(element.id).amount == 0 ? '' + Math.ceil(this.state.standaardValue/expensePersonArray.length) : expense.expenseDataMap.get(element.id).amount + ''}
-                            />
-                        </View>
 
                         <View style={{ flex: 1 }}>
                             <CheckBox
-                                onClick={() => expense.expenseDataMap.get(element.id).isOwner = !expense.expenseDataMap.get(element.id).isOwner}
+                                //onClick={() => expense.expenseDataMap.get(element.id).isOwner = !expense.expenseDataMap.get(element.id).isOwner}
+
+                                // I NEED TO RELOAD THE APP OR SOME SHIT.
+                                onClick={() => {
+                                    for (var i in expense.expenseDataMap.keys()) {
+                                        expense.expenseDataMap.get(i).isOwner = false;
+                                    }
+                                    expense.expenseDataMap.get(element.id).isOwner = !expense.expenseDataMap.get(element.id).isOwner;
+                                }}
                                 isChecked={expense.expenseDataMap.get(element.id).isOwner}
                                 style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 50 }}
                             />
@@ -311,11 +328,11 @@ export class Expense extends React.Component {
                     <Text style={this.state.standaardCss} >Amount to be divided: {this.state.AmountToDevide} {expense.expenseCurrency.name}</Text>
 
                     {
-                    //    <TouchableHighlight onPress={() => this.toggleModalVisible()} style={[styles.ButtonLayoutMain, { marginLeft: 20, marginRight: 20, }]}>
-                    //        <View>
-                    //            {ownerButton}
-                    //        </View>
-                    //    </TouchableHighlight>
+                        <TouchableHighlight onPress={() => this.toggleModalVisible()} style={[styles.ButtonLayoutMain, { marginLeft: 20, marginRight: 20, }]}>
+                            <View>
+                                {ownerButton}
+                            </View>
+                        </TouchableHighlight>
                     }
 
                     {dropDown}
@@ -332,7 +349,7 @@ export class Expense extends React.Component {
                         onRequestClose={() => this.toggleModalVisible()}
                     >
                         <ScrollView contentContainer={{ paddingVertical: 20 }}>
-                            <Text>Select who paid for the expense:</Text>
+                            <Text>Select the expense owner:</Text>
                             {ownerList}
                         </ScrollView>
                     </Modal>
