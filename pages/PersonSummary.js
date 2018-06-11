@@ -39,13 +39,19 @@ export class PersonSummary extends React.Component {
         return output;
     }
 
+    goToExpense(expenseId) {
+        var tripId = c.getExpense(expenseId).tripId;
+        this.props.navigation.navigate('ExpenseScreen', { tripId: tripId, expenseId: expenseId });
+    }
+
     render() {
         var ExpenseList = [];
-
+        const { params } = this.props.navigation.state;
+    
         c.getPersonExpenses(this.state.personId, this.state.filter ).forEach(element => {
             ExpenseList.push(
             // elk element in een lus heeft blijkbaar een ID nodig
-            <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }}>
+            <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToExpense(element.id)}>
               <View style={styles.cardLayout}>
                 <Text style={styles.titleText}>{element.description}</Text>
                 <Text>{this.getAmountToString(element.id)}</Text>
