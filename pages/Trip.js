@@ -72,6 +72,21 @@ export class Trip extends React.Component {
     });
   }
 
+  isExpenceValid(amount) {
+    var re = new RegExp('^[0-9]{1,3}(?:\.[0-9]{2})*$');
+
+    if (amount === null){
+      return false;
+    } else if (amount.match(re)) {
+      if( amount < 0){
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return false; ;
+  }
+  
   saveNewExpense() {
     let name = this.state.expenseName;
     let amnt = this.state.expenseAmnt;
@@ -119,7 +134,7 @@ export class Trip extends React.Component {
       this.setState({ formNameIsValid: true });
     }
 
-    if (!Expense.isValidExpenseAmount(amnt)) {
+    if (!this.isExpenceValid(amnt)) {
       errors++;
       this.setState({ formAmntIsValid: false })
     } else {

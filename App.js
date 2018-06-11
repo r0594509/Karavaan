@@ -50,7 +50,7 @@ const StackNavigation = StackNavigator({
   },
   //Inhouds Pagina TRIP
   TripScreen: { screen: Trip },
-  ExpenseScreen: { screen: ExpenseForm },
+  ExpenseScreen: { screen: Expense },
   PersonSummaryScreen: {screen: PersonSummary },
   },
   {

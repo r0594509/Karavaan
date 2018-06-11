@@ -67,7 +67,6 @@ import { StyleSheet } from 'react-native';
     FormCheckBoxInput: {
       flex: 1, 
       padding: 10,
-      borderColor: 'green',
       borderWidth: 0.5, 
     },
 

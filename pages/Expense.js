@@ -34,16 +34,31 @@ export class Expense extends React.Component {
 
     formatDate(date) {
         var monthNames = [
-          "January", "February", "March",
-          "April", "May", "June", "July",
-          "August", "September", "October",
-          "November", "December"
-        ];    
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
         var day = date.getDate();
         var monthIndex = date.getMonth();
         var year = date.getFullYear();
         return day + ' ' + monthNames[monthIndex] + ' ' + year;
-      }
+    }
+
+    isGivenAmountValid(amount) {
+        var re = new RegExp('^[0-9]{1,3}(?:\.(?:[0-9]{1,2})*)*$');
+
+        if (amount === null) {
+            return false;
+        } else if (amount.match(re)) {
+            if (amount < 0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;;
+    }
 
     listOfPayedAmounts = {};
 
@@ -73,18 +88,13 @@ export class Expense extends React.Component {
         var divisibleAmountToPay = this.state.currentExpense.makeAmountDivisible();
         var payedAmount = 0;
         var typedAmount = 0;
-        // && amount.match(/^\d+(\.\d+)*$/g)
 
-        if (amount != null) {
-            if (amount >= 0) {
-                typedAmount = amount;
-            } else {
-                // alert('Can only contain number or dot!');
-                return;
-            }
+        if (this.isGivenAmountValid(amount)) {
+            typedAmount = amount;
+        } else {
+            alert('Must only contain a valid amount!');
+            return;
         }
-
-        //console.log(this.state.currentExpense.expenseDataMap.get(id).isOwner);
 
         if (!this.state.currentExpense.expenseDataMap.get(id).isOwner) {
             this.listOfPayedAmounts[id] = typedAmount;
@@ -101,9 +111,9 @@ export class Expense extends React.Component {
         }
 
         newAmount = divisibleAmountToPay - payedAmount;
-        newAmount =+ newAmount.toFixed(2);
+        newAmount = + newAmount.toFixed(2);
 
-        this.setState({ AmountToDevide : newAmount });
+        this.setState({ AmountToDevide: newAmount });
     }
 
     saveExpenseForm() {
@@ -163,7 +173,7 @@ export class Expense extends React.Component {
     }
 
     render() {
-        
+
         //console.log(this.state.currentExpense.expenseDataMap);
 
         const { params } = this.props.navigation.state;
@@ -185,7 +195,7 @@ export class Expense extends React.Component {
 
         if (expensePersonArray != null) {
             let personName = "";
-            expensePersonArray.forEach( x => {
+            expensePersonArray.forEach(x => {
                 if (expense.expenseDataMap.get(x.id).isOwner) {
                     personName = x.name;
                 }
