@@ -19,6 +19,8 @@ export class Expense extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.isGivenAmountValid = this.isGivenAmountValid.bind(this);
     }
 
     state = {
@@ -57,7 +59,7 @@ export class Expense extends React.Component {
                 return true;
             }
         }
-        return false;;
+        return false;
     }
 
     listOfPayedAmounts = {};
@@ -88,12 +90,15 @@ export class Expense extends React.Component {
         var divisibleAmountToPay = this.state.currentExpense.makeAmountDivisible();
         var payedAmount = 0;
         var typedAmount = 0;
-
-        if (this.isGivenAmountValid(amount)) {
-            typedAmount = amount;
+        if (this.state.devideMethodSelected != 'Equal') {
+            if (this.isGivenAmountValid(amount)) {
+                typedAmount = amount;
+            } else {
+                alert('Must only contain a valid amount!');
+                return;
+            }
         } else {
-            alert('Must only contain a valid amount!');
-            return;
+            typedAmount = amount;
         }
 
         if (!this.state.currentExpense.expenseDataMap.get(id).isOwner) {
