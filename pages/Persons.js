@@ -106,9 +106,9 @@ export class Persons extends React.Component {
       personList.push(
         // elk element in een lus heeft blijkbaar een ID nodig
         <TouchableHighlight onPress={() => this.goToPersonSummary(element.id, this.state.tripSelected)} onLongPress={() => this.removeItem(element.id)} key={element.id} style={{ borderRadius: 5, margin: 5, }}>
-          <View style={styles.cardLayout}>
+          <View style={styles.cardLayoutMini}>
             <Text style={styles.titleText}>{element.name}</Text>
-            <Text style={{ color: owedAmount == 0 ? 'green' : 'red' }}>Amount owed: {owedAmount}</Text>
+            {/*<Text style={{ color: owedAmount == 0 ? 'green' : 'red' }}>Amount owed: {owedAmount}</Text>*/}
           </View>
         </TouchableHighlight>
       )

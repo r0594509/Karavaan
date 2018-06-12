@@ -59,7 +59,7 @@ export class PersonSummary extends React.Component {
             ExpenseList.push(
                 // elk element in een lus heeft blijkbaar een ID nodig
                 <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToExpense(element.id)}>
-                    <View style={styles.cardLayout}>
+                    <View style={styles.cardLayoutMini}>
                         <Text style={styles.titleText}>{element.description}</Text>
                         <Text>{this.getAmountToString(element.id)}</Text>
                     </View>
@@ -82,24 +82,23 @@ export class PersonSummary extends React.Component {
                     />
                     <View style={styles.amountsWrapper}>
                         <View style={[styles.amountSquare, { backgroundColor: '#ff8080' }]}>
-                            <Text>{'To Pay: '}</Text>
-                            <Text style={{ color: 'red' }}>{c.getPersonToPayAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                            <Text style={[styles.amountSquareText, {color: 'red'}]}>{'To Pay'}</Text>
+                            <Text style={[styles.amountSquareText, {color: 'red'}]}>{c.getPersonToPayAmountFilterd(this.state.personId, this.state.filter)}</Text>
                         </View>
                         <View style={[styles.amountSquare, { backgroundColor: '#99e699' }]}>
-                            <Text>{'Paid: '}</Text>
-                            <Text style={{ color: 'green' }}>{c.getPersonPaidAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                            <Text style={[styles.amountSquareText, {color: 'green'}]}>{'Paid'}</Text>
+                            <Text style={[styles.amountSquareText, {color: 'green'}]}>{c.getPersonPaidAmountFilterd(this.state.personId, this.state.filter)}</Text>
                         </View>
                         <View style={[styles.amountSquare, { backgroundColor: '#ffcc66' }]}>
-                            <Text>{'Owed: '}</Text>
-                            <Text style={{ color: 'yellow' }}>{c.getPersonOwedAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                            <Text style={[styles.amountSquareText, {color: 'orangered'}]}>{'Owed'}</Text>
+                            <Text style={[styles.amountSquareText, {color: 'orangered'}]}>{c.getPersonOwedAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                        </View>
+                        <View style={[styles.amountSquare, { backgroundColor: '#80b3ff' }]}>
+                            <Text style={[styles.amountSquareText, {color: 'blue'}]}>{'Spend'}</Text>
+                            <Text style={[styles.amountSquareText, {color: 'blue'}]}>{c.getPersonTotalAmountFilterd(this.state.personId, this.state.filter)}</Text>
                         </View>
                     </View>
-                    <View style={{ flex: 1 }}> 
-                        <View style={[styles.amountBlock, { backgroundColor: '#80b3ff' }]}>
-                            <Text>{'Total amount spend: '}</Text>
-                            <Text>{c.getPersonTotalAmountFilterd(this.state.personId, this.state.filter)}</Text>
-                        </View>
-                    </View>
+
 
                     <ScrollView contentContainer={{ paddingVertical: 20 }}>
                         {ExpenseList}

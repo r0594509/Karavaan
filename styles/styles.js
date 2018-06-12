@@ -105,24 +105,30 @@ import { StyleSheet } from 'react-native';
     borderWidth: 0.5,
     borderColor: 'black',
     flexDirection: "column",
-    height: 100,
-    width: 100,
-    padding: 20,
+    height: 60,
+    width: 60,
+    padding: 5,
     margin: 15,
     backgroundColor: "white",
+    alignItems: 'center',
   },
 
-  amountBlock: {
-    flex: 1,
+  cardLayoutMini: {
     borderRadius: 5,
     borderWidth: 0.5,
     borderColor: 'black',
     flexDirection: "column",
-    height: 100,
-    padding: 20,
-    margin: 15,
+    height: 60,
+    padding: 5,
+    margin: 5,
     backgroundColor: "white",
+    alignItems: 'center',
   },
+
+  amountSquareText: {
+    fontSize: 15,
+    fontWeight: "bold",
+  }
 
   });
 
