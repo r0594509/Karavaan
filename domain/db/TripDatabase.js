@@ -266,7 +266,7 @@ var TripDatabase = /** @class */ (function () {
         for (var i = 0; i < expenses.length; i++) {
             var personDataMap = expenses[i].expenseDataMap.get(personId);
             if (personDataMap.isPaid === false) {
-                amount = amount + personDataMap.amount;
+                amount = parseFloat(amount.toString()) + parseFloat(personDataMap.amount.toString());
             }
         }
         Math.round(amount * 100) / 100;
@@ -278,7 +278,7 @@ var TripDatabase = /** @class */ (function () {
         for (var i = 0; i < expenses.length; i++) {
             var personDataMap = expenses[i].expenseDataMap.get(personId);
             if (personDataMap.isOwner === true) {
-                amount = amount + personDataMap.amount;
+                amount = parseFloat(amount.toString()) + parseFloat(personDataMap.amount.toString());
             }
         }
         Math.round(amount * 100) / 100;
@@ -290,7 +290,7 @@ var TripDatabase = /** @class */ (function () {
         for (var i = 0; i < expenses.length; i++) {
             var personDataMap = expenses[i].expenseDataMap.get(personId);
             if (personDataMap.isPaid === true) {
-                amount = amount + personDataMap.amount;
+                amount = parseFloat(amount.toString()) + parseFloat(personDataMap.amount.toString());
             }
         }
         Math.round(amount * 100) / 100;
@@ -299,7 +299,7 @@ var TripDatabase = /** @class */ (function () {
     TripDatabase.prototype.getPersonTotalAmountFilterd = function (personId, filter) {
         var toPay = this.getPersonToPayAmountFilterd(personId, filter);
         var paid = this.getPersonPaidAmountFilterd(personId, filter);
-        var total = toPay + paid;
+        var total = parseFloat(toPay.toString()) + parseFloat(paid.toExponential());
         Math.round(total * 100) / 100;
         return total;
     };

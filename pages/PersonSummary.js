@@ -81,19 +81,26 @@ export class PersonSummary extends React.Component {
                         dropdownPosition={1}
                     />
                     <View style={styles.amountsWrapper}>
-                        <Text style={styles.FormText}>{'To Pay: '}
-                            <Text style={{color: 'red'}}>{c.getPersonToPayAmountFilterd(this.state.personId, this.state.filter)}</Text>
-                        </Text>
-                        <Text style={styles.FormText}>{'Paid: '}
-                            <Text style={{color: 'green'}}>{c.getPersonPaidAmountFilterd(this.state.personId, this.state.filter)}</Text>
-                        </Text>
-                        <Text style={styles.FormText}>{'Owed: '}
-                            <Text style={{color: 'yellow'}}>{c.getPersonOwedAmountFilterd(this.state.personId, this.state.filter)}</Text>
-                        </Text>
-                        <Text style={styles.FormText}>{'Total amount spend: '}
-                            <Text>{c.getPersonTotalAmountFilterd(this.state.personId, this.state.filter)}</Text>
-                        </Text>
+                        <View style={[styles.amountSquare, { backgroundColor: '#ff8080' }]}>
+                            <Text>{'To Pay: '}</Text>
+                            <Text style={{ color: 'red' }}>{c.getPersonToPayAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                        </View>
+                        <View style={[styles.amountSquare, { backgroundColor: '#99e699' }]}>
+                            <Text>{'Paid: '}</Text>
+                            <Text style={{ color: 'green' }}>{c.getPersonPaidAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                        </View>
+                        <View style={[styles.amountSquare, { backgroundColor: '#ffcc66' }]}>
+                            <Text>{'Owed: '}</Text>
+                            <Text style={{ color: 'yellow' }}>{c.getPersonOwedAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                        </View>
                     </View>
+                    <View style={{ flex: 1 }}> 
+                        <View style={[styles.amountBlock, { backgroundColor: '#80b3ff' }]}>
+                            <Text>{'Total amount spend: '}</Text>
+                            <Text>{c.getPersonTotalAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                        </View>
+                    </View>
+
                     <ScrollView contentContainer={{ paddingVertical: 20 }}>
                         {ExpenseList}
                     </ScrollView>

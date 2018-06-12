@@ -95,6 +95,33 @@ import { StyleSheet } from 'react-native';
       flexWrap: 'wrap', 
       alignItems: 'flex-start',
       flexDirection:'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+  },
+
+  amountSquare: {
+    flex: 1,
+    borderRadius: 5,
+    borderWidth: 0.5,
+    borderColor: 'black',
+    flexDirection: "column",
+    height: 100,
+    width: 100,
+    padding: 20,
+    margin: 15,
+    backgroundColor: "white",
+  },
+
+  amountBlock: {
+    flex: 1,
+    borderRadius: 5,
+    borderWidth: 0.5,
+    borderColor: 'black',
+    flexDirection: "column",
+    height: 100,
+    padding: 20,
+    margin: 15,
+    backgroundColor: "white",
   },
 
   });
