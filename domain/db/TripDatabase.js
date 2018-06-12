@@ -270,7 +270,7 @@ var TripDatabase = /** @class */ (function () {
             }
         }
         Math.round(amount * 100) / 100;
-        return amount;
+        return parseFloat(amount.toString());
     };
     TripDatabase.prototype.getPersonOwedAmountFilterd = function (personId, filter) {
         var expenses = this.getPersonExpenses(personId, filter);
@@ -282,7 +282,7 @@ var TripDatabase = /** @class */ (function () {
             }
         }
         Math.round(amount * 100) / 100;
-        return amount;
+        return parseFloat(amount.toString());
     };
     TripDatabase.prototype.getPersonPaidAmountFilterd = function (personId, filter) {
         var expenses = this.getPersonExpenses(personId, filter);
@@ -294,14 +294,14 @@ var TripDatabase = /** @class */ (function () {
             }
         }
         Math.round(amount * 100) / 100;
-        return amount;
+        return parseFloat(amount.toString());
     };
     TripDatabase.prototype.getPersonTotalAmountFilterd = function (personId, filter) {
         var toPay = this.getPersonToPayAmountFilterd(personId, filter);
         var paid = this.getPersonPaidAmountFilterd(personId, filter);
         var total = parseFloat(toPay.toString()) + parseFloat(paid.toExponential());
         Math.round(total * 100) / 100;
-        return total;
+        return parseFloat(total.toString());
     };
     return TripDatabase;
 }());

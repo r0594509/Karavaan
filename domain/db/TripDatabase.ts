@@ -298,7 +298,7 @@ export class TripDatabase {
             }
         }
         Math.round(amount * 100) / 100
-        return amount ;
+        return parseFloat(amount.toString());
     }
 
     public getPersonOwedAmountFilterd(personId: number, filter: string): number {
@@ -311,7 +311,7 @@ export class TripDatabase {
             }
         }
         Math.round(amount * 100) / 100
-        return amount as number;
+        return parseFloat(amount.toString());
     }
 
     public getPersonPaidAmountFilterd(personId: number, filter: string): number {
@@ -324,7 +324,7 @@ export class TripDatabase {
             }
         }
         Math.round(amount * 100) / 100
-        return amount as number;
+        return parseFloat(amount.toString());
     }
 
     public getPersonTotalAmountFilterd(personId: number, filter: string): any {
@@ -334,6 +334,6 @@ export class TripDatabase {
         var total = parseFloat(toPay.toString()) + parseFloat(paid.toExponential());
         Math.round(total * 100) / 100
 
-        return total;
+        return parseFloat(total.toString());
     }
 }

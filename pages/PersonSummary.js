@@ -39,9 +39,17 @@ export class PersonSummary extends React.Component {
         return output;
     }
 
+    refresh(){
+        this.forceUpdate();
+    }
+
     goToExpense(expenseId) {
         var tripId = c.getExpense(expenseId).tripId;
-        this.props.navigation.navigate('ExpenseScreen', { tripId: tripId, expenseId: expenseId });
+        this.props.navigation.navigate('ExpenseScreen', { 
+            tripId: tripId, 
+            expenseId: expenseId,
+            onGoBack: () => this.refresh(), 
+        });
     }
 
     render() {

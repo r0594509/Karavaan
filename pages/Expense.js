@@ -135,6 +135,9 @@ export class Expense extends React.Component {
             this.setState({ isDevided: true });
             this.setState({ standaardCss: [styles.titleText, { marginTop: 20, color: 'black' }] });
             this.forceUpdate();
+            if (this.props.navigation.state.params.onGoBack !== undefined){
+                this.props.navigation.state.params.onGoBack();
+            }
         } else if (this.state.isDevided == false) {
             this.setState({ standaardCss: [styles.titleText, { marginTop: 20, color: 'red' }] });
         }
