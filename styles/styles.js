@@ -89,7 +89,13 @@ import { StyleSheet } from 'react-native';
       padding: 20,
       margin : 25,
       flex: 1,
-    }
+    },
+
+    amountsWrapper:{
+      flexWrap: 'wrap', 
+      alignItems: 'flex-start',
+      flexDirection:'row',
+  },
 
   });
 

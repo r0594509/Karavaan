@@ -80,10 +80,19 @@ export class PersonSummary extends React.Component {
                         baseColor='rgba(0, 0, 0, 1)'
                         dropdownPosition={1}
                     />
-                    <View>
-                        <Text>{'To Pay: ' + c.getPersonToPayAmountFilterd(this.state.personId, this.state.filter)}</Text>
-                        <Text>{'Paid: ' + c.getPersonPaidAmountFilterd(this.state.personId, this.state.filter)}</Text>
-                        <Text>{'Owed: ' + c.getPersonOwedAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                    <View style={styles.amountsWrapper}>
+                        <Text style={styles.FormText}>{'To Pay: '}
+                            <Text style={{color: 'red'}}>{c.getPersonToPayAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                        </Text>
+                        <Text style={styles.FormText}>{'Paid: '}
+                            <Text style={{color: 'green'}}>{c.getPersonPaidAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                        </Text>
+                        <Text style={styles.FormText}>{'Owed: '}
+                            <Text style={{color: 'yellow'}}>{c.getPersonOwedAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                        </Text>
+                        <Text style={styles.FormText}>{'Total amount spend: '}
+                            <Text>{c.getPersonTotalAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                        </Text>
                     </View>
                     <ScrollView contentContainer={{ paddingVertical: 20 }}>
                         {ExpenseList}

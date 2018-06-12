@@ -296,6 +296,13 @@ var TripDatabase = /** @class */ (function () {
         Math.round(amount * 100) / 100;
         return amount;
     };
+    TripDatabase.prototype.getPersonTotalAmountFilterd = function (personId, filter) {
+        var toPay = this.getPersonToPayAmountFilterd(personId, filter);
+        var paid = this.getPersonPaidAmountFilterd(personId, filter);
+        var total = toPay + paid;
+        Math.round(total * 100) / 100;
+        return total;
+    };
     return TripDatabase;
 }());
 exports.TripDatabase = TripDatabase;

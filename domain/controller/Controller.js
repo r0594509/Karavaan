@@ -67,6 +67,9 @@ var Controller = /** @class */ (function () {
     Controller.prototype.getPersonPaidAmountFilterd = function (personId, filter) {
         return this.db.getPersonPaidAmountFilterd(personId, filter);
     };
+    Controller.prototype.getPersonTotalAmountFilterd = function (personId, filter) {
+        return this.db.getPersonTotalAmountFilterd(personId, filter);
+    };
     Controller.prototype.getTenMostPopularCurrencies = function () {
         var currenciesList = [];
         var counter = 0;

@@ -93,6 +93,10 @@ export class Controller {
         return this.db.getPersonPaidAmountFilterd(personId, filter);
     }
 
+    public getPersonTotalAmountFilterd(personId: number, filter: string) {
+        return this.db.getPersonTotalAmountFilterd(personId, filter);
+    }
+
     public getTenMostPopularCurrencies(){
         let currenciesList = [];
         let counter = 0;

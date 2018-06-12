@@ -35,10 +35,10 @@ export class TripDatabase {
         this.addPerson(person_1);
         this.addPerson(person_2);
         this.addPerson(person_3);
-        
+
         this.addTrip(trip_1);
         this.addTrip(trip_2);
-        
+
         this.addExpense(expense_1);
         this.addExpense(expense_2);
         this.addExpense(expense_3);
@@ -121,20 +121,20 @@ export class TripDatabase {
         for (let i = 0; i < trips.length; i++) {
             let trip = trips[i];
             for (let i = 0; i < trip.expenses.length; i++) {
-                if(trip.expenses[i].id === expenseId){
+                if (trip.expenses[i].id === expenseId) {
                     return trip.expenses[i];
                 }
             }
         }
 
         return null;
-    //    this.getTrips().forEach(element => {
-    //        element.expenses.forEach(element2 => {
-    //            if (element2.id === expenseId)
-    //                return element2;
-    //        });
-    //    });
-    //    return null;
+        //    this.getTrips().forEach(element => {
+        //        element.expenses.forEach(element2 => {
+        //            if (element2.id === expenseId)
+        //                return element2;
+        //        });
+        //    });
+        //    return null;
     }
 
     public getExpenseInTrip(tripId: number, expenseId: number): Expense {
@@ -243,7 +243,7 @@ export class TripDatabase {
         return expenses;
     }
 
-    public getPersonPaidAmount(personId: number, expenseId: number): number{
+    public getPersonPaidAmount(personId: number, expenseId: number): number {
         let expense = this.getExpense(expenseId);
         //console.log(expense);
         return expense.expenseDataMap.get(personId).amount;
@@ -288,42 +288,52 @@ export class TripDatabase {
         */
     }
 
-    public getPersonToPayAmountFilterd(personId: number, filter: string) {
+    public getPersonToPayAmountFilterd(personId: number, filter: string): number {
         var expenses = this.getPersonExpenses(personId, filter);
-        var amount = 0;
+        var amount: number = 0;
         for (let i = 0; i < expenses.length; i++) {
             var personDataMap = expenses[i].expenseDataMap.get(personId);
-               if (personDataMap.isPaid === false) {
-                   amount = amount + personDataMap.amount;
-               }
+            if (personDataMap.isPaid === false) {
+                amount = (amount as number) + (personDataMap.amount as number);
+            }
         }
         Math.round(amount * 100) / 100
-        return amount;
-    }
-    
-    public getPersonOwedAmountFilterd(personId: number, filter: string) {
-        var expenses = this.getPersonExpenses(personId, filter);
-        var amount = 0;
-        for (let i = 0; i < expenses.length; i++) {
-            var personDataMap = expenses[i].expenseDataMap.get(personId);
-               if (personDataMap.isOwner === true) {
-                   amount = amount + personDataMap.amount;
-               }
-        }
-        Math.round(amount * 100) / 100
-        return amount;
+        return amount as number;
     }
 
-    public getPersonPaidAmountFilterd(personId: number, filter: string) {
+    public getPersonOwedAmountFilterd(personId: number, filter: string): number {
         var expenses = this.getPersonExpenses(personId, filter);
-        var amount = 0;
+        var amount: number = 0;
         for (let i = 0; i < expenses.length; i++) {
             var personDataMap = expenses[i].expenseDataMap.get(personId);
-               if (personDataMap.isPaid === true) {
-                   amount = amount + personDataMap.amount;
-               }
+            if (personDataMap.isOwner === true) {
+                amount = (amount as number) + (personDataMap.amount as number);
+            }
         }
         Math.round(amount * 100) / 100
-        return amount;
+        return amount as number;
+    }
+
+    public getPersonPaidAmountFilterd(personId: number, filter: string): number {
+        var expenses = this.getPersonExpenses(personId, filter);
+        var amount: number = 0;
+        for (let i = 0; i < expenses.length; i++) {
+            var personDataMap = expenses[i].expenseDataMap.get(personId);
+            if (personDataMap.isPaid === true) {
+                amount = (amount as number) + (personDataMap.amount as number);
+            }
+        }
+        Math.round(amount * 100) / 100
+        return amount as number;
+    }
+
+    public getPersonTotalAmountFilterd(personId: number, filter: string): number {
+        var toPay: number = this.getPersonToPayAmountFilterd(personId, filter);
+        var paid: number = this.getPersonPaidAmountFilterd(personId, filter);
+
+        var total: number = (toPay as number) + (paid as number);
+        Math.round(total * 100) / 100
+
+        return total as number;
     }
 }
