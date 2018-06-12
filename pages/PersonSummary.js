@@ -11,7 +11,7 @@ import c from '../domain/controller/Controller';
 export class PersonSummary extends React.Component {
 
     static navigationOptions = ({ navigation }) => ({
-        title: 'Name: ' + c.getPerson(navigation.state.params.id).name + '      Filter: ' + navigation.state.params.filter,
+        title: 'Name: ' + c.getPerson(navigation.state.params.id).name,
     });
 
     constructor(props) {
@@ -23,15 +23,15 @@ export class PersonSummary extends React.Component {
         filter: this.props.navigation.state.params.filter,
     }
 
-    getAmountToString(expenseId){
+    getAmountToString(expenseId) {
         let amount = c.getPersonPaidAmount(this.state.personId, expenseId);
         let output = 'The amount of this expense has not yet been devided';
-        if(amount != 0 && c.getExpense(expenseId).expenseDataMap.get(this.state.personId).isPaid){
+        if (amount != 0 && c.getExpense(expenseId).expenseDataMap.get(this.state.personId).isPaid) {
             let valuta = c.getTrip(c.getExpense(expenseId).tripId).defaultCurrency.name;
             let dateOfPayment = c.getExpense(expenseId).expenseDataMap.get(this.state.personId).dateOfPayment;
-            let string_dateOfPayment = dateOfPayment.getDate() + " / " +  (Number(dateOfPayment.getMonth()) + 1) + " / " + dateOfPayment.getFullYear();
+            let string_dateOfPayment = dateOfPayment.getDate() + " / " + (Number(dateOfPayment.getMonth()) + 1) + " / " + dateOfPayment.getFullYear();
             console.log(string_dateOfPayment);
-            output = 'The PAID amount is ' + amount + ' ' + valuta  +  ' on ' + string_dateOfPayment;
+            output = 'The PAID amount is ' + amount + ' ' + valuta + ' on ' + string_dateOfPayment;
         } else if (amount != 0) {
             let valuta = c.getTrip(c.getExpense(expenseId).tripId).defaultCurrency.name;
             output = 'The TO PAY amount is ' + amount + ' ' + valuta;
@@ -47,24 +47,41 @@ export class PersonSummary extends React.Component {
     render() {
         var ExpenseList = [];
         const { params } = this.props.navigation.state;
+        var dropDownData = [];
+
+        dropDownData.push({ value: "ALL" });
+        c.getTrips().forEach(element => {
+          dropDownData.push({ value: element.name });
+        });
     
-        c.getPersonExpenses(this.state.personId, this.state.filter ).forEach(element => {
+
+        c.getPersonExpenses(this.state.personId, this.state.filter).forEach(element => {
             ExpenseList.push(
-            // elk element in een lus heeft blijkbaar een ID nodig
-            <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToExpense(element.id)}>
-              <View style={styles.cardLayout}>
-                <Text style={styles.titleText}>{element.description}</Text>
-                <Text>{this.getAmountToString(element.id)}</Text>
-              </View>
-            </TouchableHighlight>
-          )
+                // elk element in een lus heeft blijkbaar een ID nodig
+                <TouchableHighlight key={element.id} style={{ borderRadius: 5, margin: 5, }} onPress={() => this.goToExpense(element.id)}>
+                    <View style={styles.cardLayout}>
+                        <Text style={styles.titleText}>{element.description}</Text>
+                        <Text>{this.getAmountToString(element.id)}</Text>
+                    </View>
+                </TouchableHighlight>
+            )
 
         });
         return (
             <View style={styles.mainViewLayout} >
                 <View style={{ flex: 1 }}>
+                    <Dropdown
+                        label='Sort expenses by trips'
+                        data={dropDownData}
+                        value={this.state.filter}
+                        onChangeText={(filter) => this.setState({ filter: filter })}
+                        fontSize={20}
+                        containerStyle={{ paddingLeft: 15, paddingRight: 15 }}
+                        baseColor='rgba(0, 0, 0, 1)'
+                        dropdownPosition={1}
+                    />
                     <ScrollView contentContainer={{ paddingVertical: 20 }}>
-                            {ExpenseList}
+                        {ExpenseList}
                     </ScrollView>
                 </View>
             </View>
