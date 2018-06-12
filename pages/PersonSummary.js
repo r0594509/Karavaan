@@ -51,9 +51,9 @@ export class PersonSummary extends React.Component {
 
         dropDownData.push({ value: "ALL" });
         c.getTrips().forEach(element => {
-          dropDownData.push({ value: element.name });
+            dropDownData.push({ value: element.name });
         });
-    
+
 
         c.getPersonExpenses(this.state.personId, this.state.filter).forEach(element => {
             ExpenseList.push(
@@ -80,6 +80,11 @@ export class PersonSummary extends React.Component {
                         baseColor='rgba(0, 0, 0, 1)'
                         dropdownPosition={1}
                     />
+                    <View>
+                        <Text>{'To Pay: ' + c.getPersonToPayAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                        <Text>{'Paid: ' + c.getPersonPaidAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                        <Text>{'Owed: ' + c.getPersonOwedAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                    </View>
                     <ScrollView contentContainer={{ paddingVertical: 20 }}>
                         {ExpenseList}
                     </ScrollView>

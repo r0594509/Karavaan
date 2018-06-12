@@ -260,6 +260,42 @@ var TripDatabase = /** @class */ (function () {
         // Remove person from trip's expenses ?
         */
     };
+    TripDatabase.prototype.getPersonToPayAmountFilterd = function (personId, filter) {
+        var expenses = this.getPersonExpenses(personId, filter);
+        var amount = 0;
+        for (var i = 0; i < expenses.length; i++) {
+            var personDataMap = expenses[i].expenseDataMap.get(personId);
+            if (personDataMap.isPaid === false) {
+                amount = amount + personDataMap.amount;
+            }
+        }
+        Math.round(amount * 100) / 100;
+        return amount;
+    };
+    TripDatabase.prototype.getPersonOwedAmountFilterd = function (personId, filter) {
+        var expenses = this.getPersonExpenses(personId, filter);
+        var amount = 0;
+        for (var i = 0; i < expenses.length; i++) {
+            var personDataMap = expenses[i].expenseDataMap.get(personId);
+            if (personDataMap.isOwner === true) {
+                amount = amount + personDataMap.amount;
+            }
+        }
+        Math.round(amount * 100) / 100;
+        return amount;
+    };
+    TripDatabase.prototype.getPersonPaidAmountFilterd = function (personId, filter) {
+        var expenses = this.getPersonExpenses(personId, filter);
+        var amount = 0;
+        for (var i = 0; i < expenses.length; i++) {
+            var personDataMap = expenses[i].expenseDataMap.get(personId);
+            if (personDataMap.isPaid === true) {
+                amount = amount + personDataMap.amount;
+            }
+        }
+        Math.round(amount * 100) / 100;
+        return amount;
+    };
     return TripDatabase;
 }());
 exports.TripDatabase = TripDatabase;

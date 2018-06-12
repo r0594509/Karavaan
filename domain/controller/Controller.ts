@@ -81,6 +81,18 @@ export class Controller {
          return this.db.getPersonPaidAmount(personId, expenseId);
     }
 
+    public getPersonToPayAmountFilterd(personId: number, filter: string): number{
+        return this.db.getPersonToPayAmountFilterd(personId, filter);
+    }
+
+    public getPersonOwedAmountFilterd(personId: number, filter: string): number{
+        return this.db.getPersonOwedAmountFilterd(personId, filter);
+    }
+
+    public getPersonPaidAmountFilterd(personId: number, filter: string): number{
+        return this.db.getPersonPaidAmountFilterd(personId, filter);
+    }
+
     public getTenMostPopularCurrencies(){
         let currenciesList = [];
         let counter = 0;

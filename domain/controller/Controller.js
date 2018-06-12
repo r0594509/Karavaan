@@ -58,6 +58,15 @@ var Controller = /** @class */ (function () {
     Controller.prototype.getPersonPaidAmount = function (personId, expenseId) {
         return this.db.getPersonPaidAmount(personId, expenseId);
     };
+    Controller.prototype.getPersonToPayAmountFilterd = function (personId, filter) {
+        return this.db.getPersonToPayAmountFilterd(personId, filter);
+    };
+    Controller.prototype.getPersonOwedAmountFilterd = function (personId, filter) {
+        return this.db.getPersonOwedAmountFilterd(personId, filter);
+    };
+    Controller.prototype.getPersonPaidAmountFilterd = function (personId, filter) {
+        return this.db.getPersonPaidAmountFilterd(personId, filter);
+    };
     Controller.prototype.getTenMostPopularCurrencies = function () {
         var currenciesList = [];
         var counter = 0;

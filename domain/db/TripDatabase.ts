@@ -287,4 +287,43 @@ export class TripDatabase {
         // Remove person from trip's expenses ?
         */
     }
+
+    public getPersonToPayAmountFilterd(personId: number, filter: string) {
+        var expenses = this.getPersonExpenses(personId, filter);
+        var amount = 0;
+        for (let i = 0; i < expenses.length; i++) {
+            var personDataMap = expenses[i].expenseDataMap.get(personId);
+               if (personDataMap.isPaid === false) {
+                   amount = amount + personDataMap.amount;
+               }
+        }
+        Math.round(amount * 100) / 100
+        return amount;
+    }
+    
+    public getPersonOwedAmountFilterd(personId: number, filter: string) {
+        var expenses = this.getPersonExpenses(personId, filter);
+        var amount = 0;
+        for (let i = 0; i < expenses.length; i++) {
+            var personDataMap = expenses[i].expenseDataMap.get(personId);
+               if (personDataMap.isOwner === true) {
+                   amount = amount + personDataMap.amount;
+               }
+        }
+        Math.round(amount * 100) / 100
+        return amount;
+    }
+
+    public getPersonPaidAmountFilterd(personId: number, filter: string) {
+        var expenses = this.getPersonExpenses(personId, filter);
+        var amount = 0;
+        for (let i = 0; i < expenses.length; i++) {
+            var personDataMap = expenses[i].expenseDataMap.get(personId);
+               if (personDataMap.isPaid === true) {
+                   amount = amount + personDataMap.amount;
+               }
+        }
+        Math.round(amount * 100) / 100
+        return amount;
+    }
 }
