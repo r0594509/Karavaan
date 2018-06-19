@@ -220,35 +220,6 @@ export class Expense extends React.Component {
             }
         }
 
-        /*
-        if (expensePersonArray != null) {
-            let tmp = "";
-            let personAmnt = 0;
-            expensePersonArray.forEach(element => {
-                if (expense.expenseDataMap.get(element.id).isOwner) {
-                    if (personAmnt != 0) tmp += ", "
-                    tmp += element.name;
-                    personAmnt++;
-                }
-            });
-            if (personAmnt > 0) {
-                if (personAmnt < 3) {
-                    ownerButton.push(
-                        <Text key='whopays' style={styles.ButtonText}>{this.state.currentExpense.expenseCurrency.symbol_native}{this.state.currentExpense.amount} paid in advance by {tmp}</Text>
-                    );
-                } else {
-                    ownerButton.push(
-                        <Text key='whopays' style={styles.ButtonText}>{this.state.currentExpense.expenseCurrency.symbol_native}{this.state.currentExpense.amount} paid in advance by {personAmnt} persons</Text>
-                    );
-                }
-            } else {
-                ownerButton.push(
-                    <Text key='whopays' style={styles.ButtonText}>{this.state.currentExpense.expenseCurrency.symbol_native}{this.state.currentExpense.amount} paid in advanceby no one</Text>
-                );
-            }
-        }
-        */
-
         if (this.state.currentExpense.isDevided == false) {
             dropDown.push(<Dropdown
                 key='001'
@@ -320,14 +291,11 @@ export class Expense extends React.Component {
 
                         <View style={{ flex: 1 }}>
                             <CheckBox
-                                //onClick={() => expense.expenseDataMap.get(element.id).isOwner = !expense.expenseDataMap.get(element.id).isOwner}
-
-                                // I NEED TO RELOAD THE APP OR SOME SHIT.
                                 onClick={() => {
-                                    for (var i in expense.expenseDataMap.keys()) {
-                                        expense.expenseDataMap.get(i).isOwner = false;
-                                    }
-                                    expense.expenseDataMap.get(element.id).isOwner = !expense.expenseDataMap.get(element.id).isOwner;
+                                    expense.expenseDataMap.forEach( (value, key) => {
+                                        value.isOwner = (key == element.id) ? !value.isOwner : false;
+                                    });
+                                    this.toggleModalVisible();
                                 }}
                                 isChecked={expense.expenseDataMap.get(element.id).isOwner}
                                 style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 50 }}
