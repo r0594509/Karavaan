@@ -180,6 +180,10 @@ export class Trip extends React.Component {
     this.setState({ modalVisible: !this.state.modalVisible });
   }
 
+  goSettings(id) {
+    this.props.navigation.navigate('RatesScreen', { id: id });
+  }
+
   //Rendert het venster
   render() {
     const { params } = this.props.navigation.state;
@@ -354,6 +358,11 @@ export class Trip extends React.Component {
                 <Text style={styles.ButtonText}>Add Expense</Text>
               </View>
             </TouchableHighlight>
+            <TouchableHighlight onPress={() => this.goSettings(111)} style={styles.ButtonLayoutMain}>
+                  <View>
+                    <Text style={styles.ButtonText}>Settings</Text>
+                  </View>
+                </TouchableHighlight>
           </View>
 
           {/* Formulier Venster voor een Trip aan te maken 
@@ -416,7 +425,6 @@ export class Trip extends React.Component {
                     <Text style={styles.ButtonText}>Save</Text>
                   </View>
                 </TouchableHighlight>
-
               </View>
 
           </Modal>

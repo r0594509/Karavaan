@@ -5,6 +5,7 @@ import { Persons } from './pages/Persons';
 import { Trips } from './pages/Trips';
 import { Trip } from './pages/Trip';
 import { Expense } from './pages/Expense';
+import { Rates } from './pages/Rates';
 import { ExpenseForm } from './expense_components/ExpenseForm';
 import { Controller } from './domain/controller/Controller';
 import { PersonSummary } from './pages/PersonSummary';
@@ -52,6 +53,7 @@ const StackNavigation = StackNavigator({
   TripScreen: { screen: Trip },
   ExpenseScreen: { screen: Expense },
   PersonSummaryScreen: {screen: PersonSummary },
+  RatesScreen: { screen: Rates },
   },
   {
   cardStyle: {
