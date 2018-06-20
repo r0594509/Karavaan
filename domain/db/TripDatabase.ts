@@ -307,7 +307,9 @@ export class TripDatabase {
         for (let i = 0; i < expenses.length; i++) {
             var personDataMap = expenses[i].expenseDataMap.get(personId);
             if (personDataMap.isOwner === true) {
-                amount = parseFloat(amount.toString()) + parseFloat(personDataMap.amount.toString());
+                // Works with one owner
+                // Full expense price - spent amount = owed amount
+                amount = parseFloat(expenses[i].amount.toString()) - parseFloat(personDataMap.amount.toString());
             }
         }
         Math.round(amount * 100) / 100

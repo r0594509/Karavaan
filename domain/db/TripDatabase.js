@@ -278,7 +278,7 @@ var TripDatabase = /** @class */ (function () {
         for (var i = 0; i < expenses.length; i++) {
             var personDataMap = expenses[i].expenseDataMap.get(personId);
             if (personDataMap.isOwner === true) {
-                amount = parseFloat(amount.toString()) + parseFloat(personDataMap.amount.toString());
+                amount = parseFloat(expenses[i].amount.toString()) - parseFloat(personDataMap.amount.toString());
             }
         }
         Math.round(amount * 100) / 100;
