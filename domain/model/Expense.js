@@ -75,9 +75,9 @@ var Expense = /** @class */ (function () {
          * tsc compiler issue fix
          */
         this.expenseDataMap.forEach(function (element, key) {
-            if (!_this.expenseDataMap.get(key).isOwner) {
-                subTotal = (subTotal * 10 + _this.expenseDataMap.get(key).amount * 10) / 10;
-            }
+            //if (!this.expenseDataMap.get(key).isOwner) {
+            subTotal = (subTotal * 10 + _this.expenseDataMap.get(key).amount * 10) / 10;
+            //}
         });
         var result = (toPayAmount - subTotal).toFixed(2);
         return Number(result);
@@ -101,8 +101,7 @@ var Expense = /** @class */ (function () {
     Expense.prototype.devideAmountEqualy = function () {
         var size = 0;
         this.expenseDataMap.forEach(function (element) {
-            if (!element.isOwner)
-                size++;
+            /*if (!element.isOwner)*/ size++;
         });
         var ToPayAmount = this.makeAmountDivisible();
         var result = (ToPayAmount / (size == 0 ? 1 : size)).toFixed(2);
