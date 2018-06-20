@@ -194,8 +194,14 @@ export class Expense extends React.Component {
             value: 'Equal',
         }];
 
+        let parent = c.getTrip(params.tripId);
         let expense = c.getExpenseInTrip(params.tripId, params.expenseId);
         let expensePersonArray = c.getTrip(expense.tripId).persons;
+
+        currencyList = [];
+        parent.relevantCurrencies.forEach(c => {
+            currencyList.push({value: c.code});
+        });
 
         ownerButton = [];
         personList = [];
@@ -313,8 +319,9 @@ export class Expense extends React.Component {
                 <View style={{ flex: 1 }}>
 
                     <Text style={this.state.standaardCss} >Expense date: {this.state.expenseDate}</Text>
-                    <Text style={this.state.standaardCss} >Amount to be divided: {this.state.AmountToDevide} {expense.expenseCurrency.name}</Text>
-
+                    {(!this.state.currentExpense.isDevided) &&
+                        <Text style={this.state.standaardCss} >Amount to be divided: {this.state.AmountToDevide} {expense.expenseCurrency.name}</Text>
+                    }           
                     {
                         <TouchableHighlight onPress={() => this.toggleModalVisible()} style={[styles.ButtonLayoutMain, { marginLeft: 20, marginRight: 20, }]}>
                             <View>
@@ -322,6 +329,19 @@ export class Expense extends React.Component {
                             </View>
                         </TouchableHighlight>
                     }
+
+                    {(this.state.currentExpense.isDevided) &&
+                        <Dropdown
+                            label='Currency'
+                            data={currencyList}
+                            value={expense.expenseCurrency.code}
+                            onChangeText={(filter) => this.setState({ currency: filter })}
+                            fontSize={20}
+                            containerStyle={{ paddingLeft: 15, paddingRight: 15 }}
+                            baseColor='rgba(0, 0, 0, 1)'
+                            dropdownPosition={1}
+                        />
+                    }    
 
                     {dropDown}
                     <ScrollView contentContainer={{ paddingVertical: 20 }}>
