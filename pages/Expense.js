@@ -69,27 +69,17 @@ export class Expense extends React.Component {
         this.setState({ devideMethodSelected: devideMethodSelected });
         friends = c.getTrip(this.props.navigation.state.params.tripId).persons;
 
-        const map = c.getExpenseInTrip(
-            this.props.navigation.state.params.tripId,
-            this.props.navigation.state.params.expenseId
-        )
-        .expenseDataMap;
-
         if (devideMethodSelected == 'Equal') {
             equalyDevidedAmount = this.state.currentExpense.devideAmountEqualy();
             
             friends.forEach(person => {
-                //if (!map.get(person.id).isOwner) {
                     this.tempSaveAmount(person.id, equalyDevidedAmount);
-                //}
             })
             this.setState({ standaardValue: equalyDevidedAmount + '' });
             //this.setState({ isDevided: true });
         } else if (this.state.currentExpense.isDevided == false) {
             friends.forEach(person => {
-                if (!map.get(person.id).isOwner) {
-                    this.tempSaveAmount(person.id, 0);
-                }
+                this.tempSaveAmount(person.id, 0);
             })
             this.setState({ standaardValue: '' });
             this.setState({ isDevided: false });
