@@ -101,11 +101,11 @@ export class Expense extends React.Component {
             typedAmount = amount;
         }
 
-        if (!this.state.currentExpense.expenseDataMap.get(id).isOwner) {
+        //if (!this.state.currentExpense.expenseDataMap.get(id).isOwner) {
             this.listOfPayedAmounts[id] = typedAmount;
-        } else {
-            this.listOfPayedAmounts[id] = Number(0);
-        }
+        //} else {
+        //    this.listOfPayedAmounts[id] = Number(0);
+        //}
 
         for (var k in this.listOfPayedAmounts) {
             if (this.listOfPayedAmounts.hasOwnProperty(k)) {
@@ -245,7 +245,7 @@ export class Expense extends React.Component {
         if (expensePersonArray != null) {
             expensePersonArray.forEach(element => {
                 //Owners do not have to contribute to the amount left to be payed.
-                if (!expense.expenseDataMap.get(element.id).isOwner) {
+                //if (!expense.expenseDataMap.get(element.id).isOwner) {
                     //console.log(element);
                     personList.push(
                         <View style={styles.FormViewExpensePerson} key={'persondetails' + element.id}>
@@ -277,7 +277,7 @@ export class Expense extends React.Component {
                             </View>
                         </View>
                     );
-                }
+                //}
             });
         }
 
