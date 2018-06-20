@@ -358,7 +358,7 @@ export class Trip extends React.Component {
                 <Text style={styles.ButtonText}>Add Expense</Text>
               </View>
             </TouchableHighlight>
-            <TouchableHighlight onPress={() => this.goSettings(111)} style={styles.ButtonLayoutMain}>
+            <TouchableHighlight onPress={() => this.goSettings(this.props.navigation.state.params.id)} style={styles.ButtonLayoutMain}>
                   <View>
                     <Text style={styles.ButtonText}>Settings</Text>
                   </View>
