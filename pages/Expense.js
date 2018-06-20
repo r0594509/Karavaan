@@ -50,7 +50,7 @@ export class Expense extends React.Component {
     isGivenAmountValid(amount) {
         const re = new RegExp('^[0-9]{1,3}(?:\.(?:[0-9]{1,2})*)*$');
 
-        if (amount === null) {
+        if (!amount) {
             return false;
         } else if (amount.match(re)) {
             if (amount < 0) {
@@ -69,17 +69,27 @@ export class Expense extends React.Component {
         this.setState({ devideMethodSelected: devideMethodSelected });
         friends = c.getTrip(this.props.navigation.state.params.tripId).persons;
 
+        const map = c.getExpenseInTrip(
+            this.props.navigation.state.params.tripId,
+            this.props.navigation.state.params.expenseId
+        )
+        .expenseDataMap;
 
         if (devideMethodSelected == 'Equal') {
             equalyDevidedAmount = this.state.currentExpense.devideAmountEqualy();
+            
             friends.forEach(person => {
-                this.tempSaveAmount(person.id, equalyDevidedAmount);
+                //if (!map.get(person.id).isOwner) {
+                    this.tempSaveAmount(person.id, equalyDevidedAmount);
+                //}
             })
             this.setState({ standaardValue: equalyDevidedAmount + '' });
             //this.setState({ isDevided: true });
         } else if (this.state.currentExpense.isDevided == false) {
             friends.forEach(person => {
-                this.tempSaveAmount(person.id, 0);
+                if (!map.get(person.id).isOwner) {
+                    this.tempSaveAmount(person.id, 0);
+                }
             })
             this.setState({ standaardValue: '' });
             this.setState({ isDevided: false });
@@ -156,26 +166,7 @@ export class Expense extends React.Component {
     }
 
     toggleHasPayedHisPart(id) {
-        //console.log(this.state.currentExpense.expenseDataMap.get(id).isPaid);
-        //this.state.currentExpense.expenseDataMap.get(id).isPaid = !this.state.currentExpense.expenseDataMap.get(id).isPaid;
         this.state.currentExpense.expenseDataMap.get(id).toggleIsPaid();
-        //console.log(this.state.currentExpense.expenseDataMap.get(id).isPaid);
-
-        //expense.expenseDataMap.get(Number(k)).amount = this.listOfPayedAmounts[k];
-
-        /** giant mess
-        let paidAmount = this.state.currentExpense.expenseDataMap.get(id).amount;
-        //person does not owe anything anymore
-        this.state.currentExpense.expenseDataMap.get(id).amount = 0;
-        let listOfOwners = [];
-        this.state.currentExpense.expenseDataMap.forEach((element, key) => {
-            listOfOwners.push(key);
-        });
-        let paidAmountPerOwner = paidAmount / listOfOwners.length==0 ? Number(0) : paidAmount/listOfOwners.length;
-        listOfOwners.forEach(element => {
-            this.state.currentExpense.expenseDataMap.get(element).amount -= paidAmountPerOwner;    
-        });
-        */
     }
 
     toggleModalVisible() {
@@ -183,9 +174,6 @@ export class Expense extends React.Component {
     }
 
     render() {
-
-        //console.log(this.state.currentExpense.expenseDataMap);
-
         const { params } = this.props.navigation.state;
 
         let data = [{

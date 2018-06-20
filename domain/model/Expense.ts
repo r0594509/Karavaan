@@ -103,9 +103,9 @@ export class Expense {
          * tsc compiler issue fix
          */
         this.expenseDataMap.forEach((element, key) => {
-            if (!this.expenseDataMap.get(key).isOwner) {
+            //if (!this.expenseDataMap.get(key).isOwner) {
                 subTotal = (subTotal * 10 + this.expenseDataMap.get(key).amount * 10) / 10;
-            }
+            //}
         });
 
         var result = (toPayAmount - subTotal).toFixed(2);
@@ -134,7 +134,7 @@ export class Expense {
         let size: number = 0;
 
         this.expenseDataMap.forEach(element => {
-            if (!element.isOwner) size++;
+            /*if (!element.isOwner)*/ size++;
         });
 
         var ToPayAmount = this.makeAmountDivisible();
