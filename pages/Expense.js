@@ -48,7 +48,7 @@ export class Expense extends React.Component {
     }
 
     isGivenAmountValid(amount) {
-        var re = new RegExp('^[0-9]{1,3}(?:\.(?:[0-9]{1,2})*)*$');
+        const re = new RegExp('^[0-9]{1,3}(?:\.(?:[0-9]{1,2})*)*$');
 
         if (amount === null) {
             return false;
@@ -87,12 +87,14 @@ export class Expense extends React.Component {
     }
 
     tempSaveAmount(id, amount) {
-        var divisibleAmountToPay = this.state.currentExpense.makeAmountDivisible();
+        const divisibleAmountToPay = this.state.currentExpense.makeAmountDivisible();
         var payedAmount = 0;
         var typedAmount = 0;
         if (this.state.devideMethodSelected != 'Equal') {
             if (this.isGivenAmountValid(amount)) {
                 typedAmount = amount;
+            } else if (!amount) {
+                typedAmount = 0;
             } else {
                 alert('Must only contain a valid amount!');
                 return;
