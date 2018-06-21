@@ -2,8 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, TouchableOpacity, TextInput } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import styles from '../styles/styles';
-
 import { Dropdown } from 'react-native-material-dropdown';
+//'../../node_modules/money-js/index'
+import * as fx from 'money-js';
 
 import c from '../domain/controller/Controller';
 
@@ -25,7 +26,9 @@ export class Rates extends React.Component {
 
         c.getTrip(this.props.navigation.state.params.id).relevantCurrencies.forEach(element => {
             editCurrencyDropdown.push({value: element.code})
-            if (element.code == c.getTrip(this.props.navigation.state.params.id).defaultCurrency.code) {
+            if (element.code == c.getTrip(
+                this.props.navigation.state.params.id).defaultCurrency.code
+            ) {
                 isInList = true;
             }
         }); 
@@ -35,17 +38,16 @@ export class Rates extends React.Component {
             editCurrencyDropdown.push({value: m.code});
         }
 
-
         if (this.state.currency) {
 
             c.getTrip(this.props.navigation.state.params.id).relevantCurrencies.forEach( element => {
 
                 if ( element.code != this.state.currency) {
-                    
+
                     currencyOptions.push(
                         <View style={styles.FormViewExpensePerson} key={'currency' + element.code}>
                             <View style={{ flex: 1 }}>
-                                <Text style={styles.FormText}> {this.state.currency} </Text>
+                                <Text style={styles.FormText}> 1 {this.state.currency} = </Text>
                             </View>
                             
                             <View style={{ width: 150 }}>
@@ -86,7 +88,6 @@ export class Rates extends React.Component {
                     data={editCurrencyDropdown}
                     onChangeText={(x) => {
                             this.setState({currency: x});
-                            //this.forceUpdate();
                         }
                     }
                     fontSize={20}
