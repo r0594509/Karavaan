@@ -1,13 +1,11 @@
-"use strict";
-exports.__esModule = true;
-var PersonExpenseData = /** @class */ (function () {
-    function PersonExpenseData(amount, isPaid) {
+export class PersonExpenseData {
+    constructor(amount, isPaid) {
         this.amount = amount;
         this.isPaid = isPaid;
         this.isOwner = false;
         this.dateOfPayment = null;
     }
-    PersonExpenseData.prototype.toggleIsPaid = function () {
+    toggleIsPaid() {
         if (!this.isPaid) {
             this.dateOfPayment = new Date();
         }
@@ -15,7 +13,6 @@ var PersonExpenseData = /** @class */ (function () {
             this.dateOfPayment = null;
         }
         this.isPaid = !this.isPaid;
-    };
-    return PersonExpenseData;
-}());
-exports.PersonExpenseData = PersonExpenseData;
+    }
+}
+//# sourceMappingURL=PersonExpenseData.js.map

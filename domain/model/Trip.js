@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var Trip = /** @class */ (function () {
     function Trip(name, description, defaultCurrency, relevantCurrencies, persons) {
         this.persons = new Array();
@@ -47,7 +47,7 @@ var Trip = /** @class */ (function () {
             "AFN": 83.22,
             "AMD": 560.45,
             "ARS": 31.99,
-            "AUD": 1.57,
+            "AUD": 1.57
         };
     };
     return Trip;

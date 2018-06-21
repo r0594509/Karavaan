@@ -1,6 +1,4 @@
-"use strict";
-exports.__esModule = true;
-var Category;
+export var Category;
 (function (Category) {
     Category["All"] = "All";
     Category["Transport"] = "Transport";
@@ -8,4 +6,5 @@ var Category;
     Category["Food"] = "Food";
     Category["Misc"] = "Miscellaneous";
     Category["OvernightStay"] = "Overnight stay";
-})(Category = exports.Category || (exports.Category = {}));
+})(Category || (Category = {}));
+//# sourceMappingURL=Category.js.map
