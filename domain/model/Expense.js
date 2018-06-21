@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var Expense = /** @class */ (function () {
     /**
      * Creates a new Expense with said parameters

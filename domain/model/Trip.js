@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var Trip = /** @class */ (function () {
     function Trip(name, description, defaultCurrency, relevantCurrencies, persons) {
         this.persons = new Array();
@@ -11,6 +11,7 @@ var Trip = /** @class */ (function () {
         this.defaultCurrency = defaultCurrency;
         this.relevantCurrencies = relevantCurrencies;
         this.persons = persons;
+        this.setupRates();
     }
     /**
      *
@@ -34,6 +35,20 @@ var Trip = /** @class */ (function () {
     };
     Trip.prototype.addExpense = function (expense) {
         this.expenses.push(expense);
+    };
+    Trip.prototype.setupRates = function () {
+        // with BASE = euro
+        this.rates = {
+            "EUR": 1,
+            "USD": 1.16,
+            "CAD": 1.54,
+            "BTC": 0.00017,
+            "AED": 4.27,
+            "AFN": 83.22,
+            "AMD": 560.45,
+            "ARS": 31.99,
+            "AUD": 1.57,
+        };
     };
     return Trip;
 }());

@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var TripDatabase_1 = require("../db/TripDatabase");
 var ts_money_1 = require("ts-money");
 var Controller = /** @class */ (function () {
@@ -87,4 +87,4 @@ var Controller = /** @class */ (function () {
 }());
 exports.Controller = Controller;
 var c = new Controller();
-exports["default"] = c;
+exports.default = c;

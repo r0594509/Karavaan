@@ -11,6 +11,7 @@ export class Trip {
     relevantCurrencies: Array<Currency>;
     expenses: Array<Expense>;
     persons: Array<Person>;
+    rates: {};
 
     /**
      * 
@@ -45,9 +46,25 @@ export class Trip {
         this.defaultCurrency = defaultCurrency;
         this.relevantCurrencies = relevantCurrencies;
         this.persons = persons;
+        this.setupRates();
     }
 
     public addExpense(expense: Expense) {
         this.expenses.push(expense);
+    }
+
+    private setupRates() {
+        // with BASE = euro
+        this.rates = {
+            "EUR": 1,
+            "USD": 1.16,
+            "CAD": 1.54,
+            "BTC": 0.00017,
+            "AED": 4.27,
+            "AFN": 83.22,
+            "AMD": 560.45,
+            "ARS": 31.99,
+            "AUD": 1.57,
+        }
     }
 }
