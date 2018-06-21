@@ -10,8 +10,8 @@ import { PersonExpenseData } from '../domain/model/PersonExpenseData';
 import { ExpenseModel } from '../domain/model/Expense';
 import { Money, Currencies, Currency } from 'ts-money';
 
-
 export class Expense extends React.Component {
+
 
     static navigationOptions = ({ navigation }) => ({
         title: c.getExpenseInTrip(navigation.state.params.tripId, navigation.state.params.expenseId).description,
@@ -167,18 +167,23 @@ export class Expense extends React.Component {
 
     calculatedValutaAmount(amount){
         let expense = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId);
+        var tripValueCode = expense.expenseCurrency.code;
+        var selectedValuta = this.state.currency;
+        var tempAmount = parseFloat(amount);
 
-        alert(Money.convert(amount, {
-            from: expense.expenseCurrency.code,
-            to: this.state.currency,
+        if(selectedValuta !== tripValueCode) {
+            temp = tempAmount * 1.10;
+            temp = Math.round(temp * 100) / 100
+            return temp + '';
         }
-        ));
+
+        return amount;
     }
 
     render() {
         const { params } = this.props.navigation.state;
 
-        // this.calculatedValutaAmount("50.00");
+        // this.calculatedValutaAmount(50.00);
 
         let data = [{
             value: 'Custom',
@@ -265,7 +270,7 @@ export class Expense extends React.Component {
                                     keyboardType='numeric'
                                     editable={!this.state.isDevided}
                                     //defaultValue={expense.expenseDataMap.get(element.id).amount + this.state.standaardValue}
-                                    defaultValue={expense.expenseDataMap.get(element.id).amount == 0 ? '' + this.state.standaardValue : expense.expenseDataMap.get(element.id).amount + ''}
+                                    defaultValue={this.calculatedValutaAmount(expense.expenseDataMap.get(element.id).amount == 0 ? '' + this.state.standaardValue : expense.expenseDataMap.get(element.id).amount + '')}
                                 />
                             </View>
                             <View style={{ flex: 1 }}>
