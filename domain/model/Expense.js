@@ -115,6 +115,23 @@ var Expense = /** @class */ (function () {
         var result = toPayAmount.toFixed(2);
         return Number(result);
     };
+    Expense.prototype.isThereAnOwner = function () {
+        var tempList = Array.from(this.expenseDataMap.values());
+        for (var i = 0; i < tempList.length; i++) {
+            if (tempList[i].isOwner) {
+                return true;
+            }
+        }
+        return false;
+    };
+    Expense.prototype.getOwner = function () {
+        var tempList = Array.from(this.expenseDataMap.entries());
+        for (var i = 0; i < tempList.length; i++) {
+            if (tempList[i]["1"].isOwner) {
+                return tempList[i]["0"];
+            }
+        }
+    };
     return Expense;
 }());
 exports.Expense = Expense;

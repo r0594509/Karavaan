@@ -42,25 +42,25 @@ export class Expense {
      * 
      * @param dateInput Datepicker string (DD-MM-YYYY)
      */
-    public static toDate(dateInput: string) : Date {
+    public static toDate(dateInput: string): Date {
         let subStr = dateInput.split("-");
         return new Date(subStr[2] + "-" + subStr[1] + "-" + subStr[0]);
     }
 
     public static formatDate(date: Date): string {
         var monthNames = [
-          "January", "February", "March",
-          "April", "May", "June", "July",
-          "August", "September", "October",
-          "November", "December"
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
         ];
-      
+
         var day = date.getDate();
         var monthIndex = date.getMonth();
         var year = date.getFullYear();
-      
+
         return day + ' ' + monthNames[monthIndex] + ' ' + year;
-      }
+    }
 
     /**
      * Creates a new Expense with said parameters
@@ -104,7 +104,7 @@ export class Expense {
          */
         this.expenseDataMap.forEach((element, key) => {
             //if (!this.expenseDataMap.get(key).isOwner) {
-                subTotal = (subTotal * 10 + this.expenseDataMap.get(key).amount * 10) / 10;
+            subTotal = (subTotal * 10 + this.expenseDataMap.get(key).amount * 10) / 10;
             //}
         });
 
@@ -138,7 +138,7 @@ export class Expense {
         });
 
         var ToPayAmount = this.makeAmountDivisible();
-        var result = (ToPayAmount / (size==0?1:size)).toFixed(2);
+        var result = (ToPayAmount / (size == 0 ? 1 : size)).toFixed(2);
         return Number(result);
     }
 
@@ -149,6 +149,25 @@ export class Expense {
         //}
         var result = toPayAmount.toFixed(2)
         return Number(result);
+    }
+
+    public isThereAnOwner() {
+        var tempList = Array.from(this.expenseDataMap.values());
+        for (let i = 0; i < tempList.length; i++) {
+            if (tempList[i].isOwner) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public getOwner() {
+        var tempList = Array.from(this.expenseDataMap.entries());
+        for (let i = 0; i < tempList.length; i++) {
+            if (tempList[i]["1"].isOwner) {
+                return tempList[i]["0"];
+            }
+        }
     }
 }
 

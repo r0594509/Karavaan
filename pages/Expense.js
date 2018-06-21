@@ -326,12 +326,15 @@ export class Expense extends React.Component {
                     {(!this.state.currentExpense.isDevided) &&
                         <Text style={this.state.standaardCss} >Amount to be divided: {this.state.AmountToDevide} {expense.expenseCurrency.name}</Text>
                     }           
-                    {(!this.state.currentExpense.isDevided) &&
+                    {(!expense.isThereAnOwner()) &&
                         <TouchableHighlight onPress={() => this.toggleModalVisible()} style={[styles.ButtonLayoutMain, { marginLeft: 20, marginRight: 20, }]}>
                             <View>
                                 {ownerButton}
                             </View>
                         </TouchableHighlight>
+                    }
+                    {(expense.isThereAnOwner()) &&
+                        <Text style={this.state.standaardCss} >Owner: {c.getPerson(expense.getOwner()).name}</Text>
                     }
 
                     {(this.state.currentExpense.isDevided) &&
