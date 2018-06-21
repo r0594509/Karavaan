@@ -50,7 +50,7 @@ export class Expense extends React.Component {
     }
 
     isGivenAmountValid(amount) {
-        const re = new RegExp('^[0-9]{1,3}(?:\.(?:[0-9]{1,2})*)*$');
+        const re = new RegExp('^[0-9]{1,3}(?:\.(?:[0-9]{1,2})+)*$');
 
         if (!amount) {
             return false;

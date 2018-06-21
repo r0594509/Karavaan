@@ -10,10 +10,49 @@ export class Rates extends React.Component {
 
     state = {
         currency: null,
+        rates: {},
     }
 
     constructor(props) {
         super(props);
+        this.state.rates = c.getTrip(this.props.navigation.state.params.id).rates;
+    }
+
+    editCurrency(currency, amount) {
+        if (
+            amount &&
+            amount.match(new RegExp('^[0-9]{1,3}(?:\.(?:[0-9]{1,2})+)*$')) &&
+            Number(amount) > 0 &&
+            Number(amount) != 1
+        ) {
+            var fx = require("money");
+            fx.base = "EUR";
+            fx.rates = c.getTrip(
+                this.props.navigation.state.params.id
+            ).rates;
+
+            if (this.state.currency != fx.base) {
+                this.state.rates = {
+                    ...this.state.rates,
+                    ...{[this.state.currency]: Number(
+                            fx(1)
+                            .from(currency)
+                            .to(fx.base)
+                        ) * 1/amount,
+                    },
+                };
+            } else {
+                this.state.rates = {
+                    ...this.state.rates,
+                    ...{[currency]: Number(amount)},
+                };
+            }
+        }
+    }
+
+    saveCurrencies() {
+        //TODO some validation
+        c.getTrip(this.props.navigation.state.params.id).rates = this.state.rates;
     }
 
     render() {
@@ -38,20 +77,26 @@ export class Rates extends React.Component {
 
         if (this.state.currency) {
 
+            var fx = require("money");
+            fx.base = "EUR";
+            fx.rates = c.getTrip(this.props.navigation.state.params.id).rates;
+            var i = 0;
             c.getTrip(this.props.navigation.state.params.id).relevantCurrencies.forEach( element => {
 
                 if ( element.code != this.state.currency) {
 
-                    var fx = require("money");
-                    fx.base = "EUR";
-                    fx.rates = c.getTrip(this.props.navigation.state.params.id).rates;
-                    
-                    console.log(
-                        fx.convert(1, {from: this.state.currency, to: element.code }
-                    ));
+                    let rate = String(
+                        fx(1)
+                        .from(this.state.currency)
+                        .to(element.code)
+                    );
+                    rate = rate.slice(
+                        0, 
+                        rate.length > 13 ? 13 - rate.length : rate.length
+                    );
 
                     currencyOptions.push(
-                        <View style={styles.FormViewExpensePerson} key={'currency' + element.code}>
+                        <View style={styles.FormViewExpensePerson} key={'currency' + element.code + i++}>
                             <View style={{ flex: 1 }}>
                                 <Text style={styles.FormText}> 1 {this.state.currency} = </Text>
                             </View>
@@ -59,18 +104,10 @@ export class Rates extends React.Component {
                             <View style={{ width: 150 }}>
                                 <TextInput
                                     style={[styles.FormInput, { marginTop: -2 }]}
-                                    placeholder="rate"
-                                    onChangeText={(x) => console.log(x)}
+                                    placeholder={rate}
+                                    onChangeText={(x) => this.editCurrency(element.code, x)}
                                     keyboardType='numeric'
-                                    //defaultValue={1}
-                                    //editable='True'
-                                    /*defaultValue={fx.convert(1, {
-                                            from: this.state.currency,
-                                            to: element.code
-                                            }
-                                        )
-                                    }
-                                    */
+                                    defaultValue={rate}
                                 ></TextInput>
                             </View>
                             
@@ -83,9 +120,9 @@ export class Rates extends React.Component {
             });
 
             currencyOptions.push(
-                <TouchableHighlight key='002' onPress={() => console.log("XXX")} style={styles.ButtonLayoutMain}>
+                <TouchableHighlight key='002' onPress={() => saveCurrencies()} style={styles.ButtonLayoutMain}>
                     <View>
-                        <Text style={styles.ButtonText}>SAVE</Text>
+                        <Text style={styles.ButtonText}>SAVE RATES</Text>
                     </View>
                 </TouchableHighlight>
             );
