@@ -28,6 +28,13 @@ export class Rates extends React.Component {
 
     editCurrency(currency, amount) {
         if (this.isValidRate(amount)) {
+            
+            let index = this.state.invalid.indexOf(currency);
+            if( index > -1 ) {
+                this.state.invalid.splice(index, 1);
+                this.forceUpdate();
+            }
+
             var fx = require("money");
             fx.base = "EUR";
             fx.rates = c.getTrip(
@@ -51,14 +58,22 @@ export class Rates extends React.Component {
                 };
             }
         } else {
-            this.state.invalid.push(currency);
+            if (this.state.invalid.indexOf(currency) == -1) {
+                this.state.invalid.push(currency);
+            }
             this.forceUpdate();
         }
     }
 
     saveCurrencies() {
-        //TODO some validation
-        c.getTrip(this.props.navigation.state.params.id).rates = this.state.rates;
+        if (this.state.invalid.length > 0) {
+            alert("Invalid rate values in form!");
+        } else {
+            c.getTrip(
+                this.props.navigation.state.params.id
+            )
+            .rates = this.state.rates;
+        }
     }
 
     render() {
@@ -101,37 +116,62 @@ export class Rates extends React.Component {
                         rate.length > 13 ? 13 - rate.length : rate.length
                     );
 
-                    currencyOptions.push(
-                        <View 
-                            style={ !(element.code in this.state.invalid) ?
-                                styles.FormViewExpensePerson: styles.FormViewExpensePersonInvalid
-                            }
-                            key={'currency' + i++}
-                            >
-                            <View style={{ flex: 1 }}>
-                                <Text style={styles.FormText}> 1 {this.state.currency} = </Text>
+                    if ((this.state.invalid.indexOf(element.code) === -1)) {
+                        currencyOptions.push(
+                            <View 
+                                style={styles.FormViewExpensePerson}
+                                key={'currency' + i++}
+                                >
+                                <View style={{ flex: 1 }}>
+                                    <Text style={styles.FormText}> 1 {this.state.currency} = </Text>
+                                </View>
+                                
+                                <View style={{ width: 150 }}>
+                                    <TextInput
+                                        style={[styles.FormInput, { marginTop: -2 }]}
+                                        placeholder={rate}
+                                        onChangeText={(x) => this.editCurrency(element.code, x)}
+                                        keyboardType='numeric'
+                                        defaultValue={rate}
+                                    ></TextInput>
+                                </View>
+                                
+                                <View style={{ flex: 1 }}>
+                                    <Text style={styles.FormText}> {element.code} </Text>
+                                </View>
                             </View>
-                            
-                            <View style={{ width: 150 }}>
-                                <TextInput
-                                    style={[styles.FormInput, { marginTop: -2 }]}
-                                    placeholder={rate}
-                                    onChangeText={(x) => this.editCurrency(element.code, x)}
-                                    keyboardType='numeric'
-                                    defaultValue={rate}
-                                ></TextInput>
+                        );
+                    } else {
+                        currencyOptions.push(
+                            <View 
+                                style={styles.FormViewExpensePersonInvalid}
+                                key={'currency' + i++}
+                                >
+                                <View style={{ flex: 1 }}>
+                                    <Text style={styles.FormText}> 1 {this.state.currency} = </Text>
+                                </View>
+                                
+                                <View style={{ width: 150 }}>
+                                    <TextInput
+                                        style={[styles.FormInput, { marginTop: -2 }]}
+                                        placeholder={rate}
+                                        onChangeText={(x) => this.editCurrency(element.code, x)}
+                                        keyboardType='numeric'
+                                        defaultValue={rate}
+                                    ></TextInput>
+                                </View>
+                                
+                                <View style={{ flex: 1 }}>
+                                    <Text style={styles.FormText}> {element.code} </Text>
+                                </View>
                             </View>
-                            
-                            <View style={{ flex: 1 }}>
-                                <Text style={styles.FormText}> {element.code} </Text>
-                            </View>
-                        </View>
-                    );
+                        );
+                    }
                 }
             });
 
             currencyOptions.push(
-                <TouchableHighlight key='002' onPress={() => saveCurrencies()} style={styles.ButtonLayoutMain}>
+                <TouchableHighlight key='002' onPress={() => this.saveCurrencies()} style={styles.ButtonLayoutMain}>
                     <View>
                         <Text style={styles.ButtonText}>SAVE RATES</Text>
                     </View>
