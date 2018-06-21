@@ -158,7 +158,9 @@ export class Expense extends React.Component {
     }
 
     toggleHasPayedHisPart(id) {
-        this.state.currentExpense.expenseDataMap.get(id).toggleIsPaid();
+       // if (!this.state.currentExpense.expenseDataMap.get(id).isOwner) {
+            this.state.currentExpense.expenseDataMap.get(id).toggleIsPaid();
+        //}
     }
 
     toggleModalVisible() {
@@ -305,7 +307,15 @@ export class Expense extends React.Component {
                             <CheckBox
                                 onClick={() => {
                                     expense.expenseDataMap.forEach( (value, key) => {
-                                        value.isOwner = (key == element.id) ? !value.isOwner : false;
+                                        //value.isOwner = (key == element.id) ? !value.isOwner : false;
+                                        if (key == element.id) {
+                                            this.toggleHasPayedHisPart(element.id);
+                                            value.isOwner = !value.isOwner;
+                                            this.forceUpdate();
+                                        } else {
+                                            value.isOwner = false;
+                                        }
+                                        //value.isPaid = (key == element.id) ? !value.isPaid : false;
                                     });
                                     this.toggleModalVisible();
                                 }}
