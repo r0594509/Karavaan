@@ -167,12 +167,19 @@ export class Expense extends React.Component {
 
     calculatedValutaAmount(amount){
         let expense = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId);
-        var tripValueCode = expense.expenseCurrency.code;
+
+        var expenseDefaultValueCode = expense.expenseCurrency.code;
         var selectedValuta = this.state.currency;
+
+        var fx = require('money');
+        fx.base = "EUR"
+        fx.rates = c.getTrip(this.props.navigation.state.params.tripId).rates;
+
         var tempAmount = parseFloat(amount);
 
-        if(selectedValuta !== tripValueCode) {
-            temp = tempAmount * 1.10;
+        if(selectedValuta !== expenseDefaultValueCode) {
+
+            temp = fx(tempAmount).from(expenseDefaultValueCode).to(selectedValuta);
             temp = Math.round(temp * 100) / 100
             return temp + '';
         }
