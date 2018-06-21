@@ -11,6 +11,7 @@ export class Rates extends React.Component {
     state = {
         currency: null,
         rates: {},
+        invalid: [],
     }
 
     constructor(props) {
@@ -18,13 +19,15 @@ export class Rates extends React.Component {
         this.state.rates = c.getTrip(this.props.navigation.state.params.id).rates;
     }
 
+    isValidRate(amount) {
+        return  amount &&
+                amount.match(new RegExp('^[0-9]{1,3}(?:\.(?:[0-9]{1,2})+)*$')) &&
+                Number(amount) > 0 &&
+                Number(amount) != 1;
+    }
+
     editCurrency(currency, amount) {
-        if (
-            amount &&
-            amount.match(new RegExp('^[0-9]{1,3}(?:\.(?:[0-9]{1,2})+)*$')) &&
-            Number(amount) > 0 &&
-            Number(amount) != 1
-        ) {
+        if (this.isValidRate(amount)) {
             var fx = require("money");
             fx.base = "EUR";
             fx.rates = c.getTrip(
@@ -47,6 +50,9 @@ export class Rates extends React.Component {
                     ...{[currency]: Number(amount)},
                 };
             }
+        } else {
+            this.state.invalid.push(currency);
+            this.forceUpdate();
         }
     }
 
@@ -96,7 +102,12 @@ export class Rates extends React.Component {
                     );
 
                     currencyOptions.push(
-                        <View style={styles.FormViewExpensePerson} key={'currency' + element.code + i++}>
+                        <View 
+                            style={ !(element.code in this.state.invalid) ?
+                                styles.FormViewExpensePerson: styles.FormViewExpensePersonInvalid
+                            }
+                            key={'currency' + i++}
+                            >
                             <View style={{ flex: 1 }}>
                                 <Text style={styles.FormText}> 1 {this.state.currency} = </Text>
                             </View>
@@ -134,7 +145,7 @@ export class Rates extends React.Component {
                 <Dropdown
                     key='001'
                     label='Select currency to edit:'
-                    value='None'
+                    value={this.state.currency || 'None' }
                     data={editCurrencyDropdown}
                     onChangeText={(x) => {
                             this.setState({currency: x});

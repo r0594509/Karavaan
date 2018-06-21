@@ -81,6 +81,17 @@ import { StyleSheet } from 'react-native';
       borderWidth: 0.5, 
     },
 
+    FormViewExpensePersonInvalid: {
+      flexDirection: 'row', 
+      marginTop: 8,
+      marginLeft: 20,
+      marginRight: 20, 
+      backgroundColor: 'white', 
+      borderColor: 'red',
+      borderRadius: 5,
+      borderWidth: 1.5, 
+    },
+
     ModalFriends:{
       backgroundColor: 'white',
       borderColor: 'black',
