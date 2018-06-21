@@ -3,8 +3,6 @@ import { StyleSheet, Text, View, ScrollView, Button, TouchableHighlight, Modal, 
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import styles from '../styles/styles';
 import { Dropdown } from 'react-native-material-dropdown';
-//'../../node_modules/money-js/index'
-import * as fx from 'money-js';
 
 import c from '../domain/controller/Controller';
 
@@ -16,6 +14,8 @@ export class Rates extends React.Component {
 
     constructor(props) {
         super(props);
+        
+        var fx = require("money");
     }
 
     render() {
@@ -44,6 +44,15 @@ export class Rates extends React.Component {
 
                 if ( element.code != this.state.currency) {
 
+                    fx.base = "EUR";
+                    fx.rates = {
+                        "EUR": 1,
+                        "USD": 2,
+                    };
+                    console.log(
+                        fx.convert(1, {from: this.state.currency, to: element.code }
+                    ));
+
                     currencyOptions.push(
                         <View style={styles.FormViewExpensePerson} key={'currency' + element.code}>
                             <View style={{ flex: 1 }}>
@@ -56,8 +65,15 @@ export class Rates extends React.Component {
                                     placeholder="rate"
                                     onChangeText={(x) => console.log(x)}
                                     keyboardType='numeric'
+                                    defaultValue={fxx(1000)}
                                     //editable='True'
-                                    defaultValue="test value"
+                                    /*defaultValue={fx.convert(1, {
+                                            from: this.state.currency,
+                                            to: element.code
+                                            }
+                                        )
+                                    }
+                                    */
                                 ></TextInput>
                             </View>
                             
