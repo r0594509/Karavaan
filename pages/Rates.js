@@ -14,8 +14,6 @@ export class Rates extends React.Component {
 
     constructor(props) {
         super(props);
-        
-        var fx = require("money");
     }
 
     render() {
@@ -44,11 +42,10 @@ export class Rates extends React.Component {
 
                 if ( element.code != this.state.currency) {
 
+                    var fx = require("money");
                     fx.base = "EUR";
-                    fx.rates = {
-                        "EUR": 1,
-                        "USD": 2,
-                    };
+                    fx.rates = c.getTrip(this.props.navigation.state.params.id).rates;
+                    
                     console.log(
                         fx.convert(1, {from: this.state.currency, to: element.code }
                     ));
@@ -65,7 +62,7 @@ export class Rates extends React.Component {
                                     placeholder="rate"
                                     onChangeText={(x) => console.log(x)}
                                     keyboardType='numeric'
-                                    defaultValue={fxx(1000)}
+                                    //defaultValue={1}
                                     //editable='True'
                                     /*defaultValue={fx.convert(1, {
                                             from: this.state.currency,

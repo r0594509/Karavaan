@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var Trip_1 = require("../model/Trip");
 var Person_1 = require("../model/Person");
 var Expense_1 = require("../model/Expense");
@@ -278,6 +278,8 @@ var TripDatabase = /** @class */ (function () {
         for (var i = 0; i < expenses.length; i++) {
             var personDataMap = expenses[i].expenseDataMap.get(personId);
             if (personDataMap.isOwner === true) {
+                // Works with one owner
+                // Full expense price - spent amount = owed amount
                 amount = parseFloat(expenses[i].amount.toString()) - parseFloat(personDataMap.amount.toString());
             }
         }

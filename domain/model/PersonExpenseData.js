@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var PersonExpenseData = /** @class */ (function () {
     function PersonExpenseData(amount, isPaid) {
         this.amount = amount;
