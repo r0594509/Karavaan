@@ -8,6 +8,7 @@ import c from '../domain/controller/Controller';
 import Popup from 'react-native-popup';
 import { PersonExpenseData } from '../domain/model/PersonExpenseData';
 import { ExpenseModel } from '../domain/model/Expense';
+import { Money, Currencies, Currency } from 'ts-money';
 
 
 export class Expense extends React.Component {
@@ -32,6 +33,7 @@ export class Expense extends React.Component {
         standaardValue: '',
         standaardCss: [styles.titleText, { marginTop: 20 }],
         devideMethodSelected: 'Custom',
+        currency: c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId).expenseCurrency.code,
     }
 
     formatDate(date) {
@@ -163,8 +165,20 @@ export class Expense extends React.Component {
         this.setState({ modalVisible: !this.state.modalVisible });
     }
 
+    calculatedValutaAmount(amount){
+        let expense = c.getExpenseInTrip(this.props.navigation.state.params.tripId, this.props.navigation.state.params.expenseId);
+
+        alert(Money.convert(amount, {
+            from: expense.expenseCurrency.code,
+            to: this.state.currency,
+        }
+        ));
+    }
+
     render() {
         const { params } = this.props.navigation.state;
+
+        // this.calculatedValutaAmount("50.00");
 
         let data = [{
             value: 'Custom',
