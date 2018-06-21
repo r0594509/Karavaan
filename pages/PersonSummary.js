@@ -52,6 +52,11 @@ export class PersonSummary extends React.Component {
         });
     }
 
+    roundAmount(amount) {
+        amount = Math.round(amount * 100) / 100;
+        return amount;
+    }
+
     render() {
         var ExpenseList = [];
         const { params } = this.props.navigation.state;
@@ -91,19 +96,19 @@ export class PersonSummary extends React.Component {
                     <View style={styles.amountsWrapper}>
                         <View style={[styles.amountSquare, { backgroundColor: '#ff8080' }]}>
                             <Text style={[styles.amountSquareText, {color: 'red'}]}>{'To Pay'}</Text>
-                            <Text style={[styles.amountSquareText, {color: 'red'}]}>{c.getPersonToPayAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                            <Text style={[styles.amountSquareText, {color: 'red'}]}>{this.roundAmount(c.getPersonToPayAmountFilterd(this.state.personId, this.state.filter))}</Text>
                         </View>
                         <View style={[styles.amountSquare, { backgroundColor: '#99e699' }]}>
                             <Text style={[styles.amountSquareText, {color: 'green'}]}>{'Paid'}</Text>
-                            <Text style={[styles.amountSquareText, {color: 'green'}]}>{c.getPersonPaidAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                            <Text style={[styles.amountSquareText, {color: 'green'}]}>{this.roundAmount(c.getPersonPaidAmountFilterd(this.state.personId, this.state.filter))}</Text>
                         </View>
                         <View style={[styles.amountSquare, { backgroundColor: '#ffcc66' }]}>
                             <Text style={[styles.amountSquareText, {color: 'orangered'}]}>{'Owed'}</Text>
-                            <Text style={[styles.amountSquareText, {color: 'orangered'}]}>{c.getPersonOwedAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                            <Text style={[styles.amountSquareText, {color: 'orangered'}]}>{this.roundAmount(c.getPersonOwedAmountFilterd(this.state.personId, this.state.filter))}</Text>
                         </View>
                         <View style={[styles.amountSquare, { backgroundColor: '#80b3ff' }]}>
                             <Text style={[styles.amountSquareText, {color: 'blue'}]}>{'Spend'}</Text>
-                            <Text style={[styles.amountSquareText, {color: 'blue'}]}>{c.getPersonTotalAmountFilterd(this.state.personId, this.state.filter)}</Text>
+                            <Text style={[styles.amountSquareText, {color: 'blue'}]}>{this.roundAmount(c.getPersonTotalAmountFilterd(this.state.personId, this.state.filter))}</Text>
                         </View>
                     </View>
 
